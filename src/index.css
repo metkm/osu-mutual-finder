@@ -1,0 +1,29 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-black;
+    @apply bg-opacity-75;
+    @apply w-full;
+    @apply h-full;
+  }
+
+  .page {
+    @apply h-full;
+    @apply w-full;
+    @apply p-2;
+    @apply bg-gray-900;
+  }
+
+  .form-element {
+    @apply p-2;
+    @apply bg-gray-800;
+    @apply outline-none;
+    @apply rounded;
+    @apply max-w-lg;
+    @apply w-full;
+  }
+}
