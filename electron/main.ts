@@ -7,6 +7,7 @@ const filter = {
 }
 function webReqHandler() {
   const ses = session.fromPartition("mutual-finder")
+
   ses.webRequest.onHeadersReceived(filter, (details, callback) => {
     if (!details.responseHeaders!["set-cookie"]) return;
 
@@ -17,14 +18,6 @@ function webReqHandler() {
 
     callback({ responseHeaders: details.responseHeaders });
   })
-
-  // session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
-  //   details.requestHeaders = {
-  //     ...details.requestHeaders,
-  //   }
-
-  //   callback({ requestHeaders: details.requestHeaders });
-  // })
 }
 
 async function main() {

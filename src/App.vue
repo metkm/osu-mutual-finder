@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import TitleBar from "./components/AppTitleBar.vue";
-import axios from "axios";
-
-
 </script>
 
 <template>

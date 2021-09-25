@@ -11,6 +11,10 @@
     @apply h-full;
   }
 
+  * {
+    @apply outline-none;
+  }
+
   .page {
     @apply h-full;
     @apply w-full;
@@ -21,7 +25,6 @@
   .form-element {
     @apply p-2;
     @apply bg-gray-800;
-    @apply outline-none;
     @apply rounded;
     @apply max-w-lg;
     @apply w-full;
