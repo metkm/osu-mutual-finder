@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import axios from "axios";
 import User from "../components/User.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { addFriend, delUser } from "../utils";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-
 const store = useStore();
 const router = useRouter();
+
 const countries = ["TR"];
 const startPage = 1;
 const endPage = 200;
-const friendIds = store.state.friends;
+const add = computed(() => store.state.addFriend);
+const friendIds = computed<number[]>(() => store.state.friends);
+const blacklistedIds = computed<number[]>(() => store.state.blacklistIds);
 
 const checking = ref(0);
 const checked = ref<number[]>([]);
@@ -36,7 +38,9 @@ onMounted(async () => {
         let userId = parseInt(userElement.getAttribute("data-user-id")!);
         checking.value = userId;
 
-        if (friendIds.includes(userId)) continue;
+        if (friendIds.value.includes(userId)) continue;
+        if (blacklistedIds.value.includes(userId)) continue;
+
         try {
           let friendList = await addFriend(userId);
           if (typeof friendList == "undefined") continue;
@@ -46,7 +50,10 @@ onMounted(async () => {
             if (!friend.mutual) {
               await delUser(userId);
               continue
-            };
+            } else if (!add.value) {
+              await delUser(userId);
+            }
+
             mutuals.value.push(userId);
           }
         } catch (error: any) {

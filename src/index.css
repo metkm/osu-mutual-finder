@@ -34,7 +34,32 @@
     @apply w-full;
   }
 
+  .input-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
   .form-tick {
-    background-image: url("./assets/tick.svg")
+    background-image: url("./assets/tick.svg");
+    @apply appearance-none;
+    @apply w-5;
+    @apply h-5;
+    @apply rounded;
+    @apply bg-white;
+    @apply checked:bg-green-500;
+    @apply transition-all;
+  }
+
+  .setting {
+    @apply bg-gray-900;
+    @apply rounded-lg;
+    @apply p-4;
+    @apply my-2;
+    @apply flex;
+    @apply flex-col;
+    @apply gap-2;
+  }
+
+  .setting-description {
+    @apply text-gray-500;
   }
 }
