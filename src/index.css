@@ -33,4 +33,8 @@
     @apply max-w-lg;
     @apply w-full;
   }
+
+  .form-tick {
+    background-image: url("./assets/tick.svg")
+  }
 }

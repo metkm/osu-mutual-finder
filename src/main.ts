@@ -5,6 +5,7 @@ import Store from "./store/index";
 import "./index.css";
 
 const app = createApp(App);
+
 app.directive("transition", {
   mounted(el: HTMLElement) {
     window.onresize = () => {

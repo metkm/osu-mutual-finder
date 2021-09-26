@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useStore } from "vuex";
 import { UserObject, UserObjectAdded } from "./types";
 
 export async function sleep(ms: number): Promise<void> {
@@ -15,11 +16,17 @@ export async function getUser(userId: number): Promise<UserObject> {
   return JSON.parse(responseDom.getElementById("json-user")!.innerText);
 }
 
-export async function getIdsOfFriends(): Promise<number[]> {
+export async function updateFriends(): Promise<void> {
+  const store = useStore();
+
   const response = await axios.get("https://osu.ppy.sh/home/friends");
   const dom = new DOMParser().parseFromString(response.data, "text/html");
-  let jsonUsers = JSON.parse(dom.getElementById("json-users")!.innerText) as UserObject[]
-  return jsonUsers.map(user => user.id)
+  let jsonUsers = JSON.parse(dom.getElementById("json-users")!.innerText) as UserObject[];
+  store.dispatch("setFriends", jsonUsers.map(user => user.id));
+
+  const token = dom.getElementsByName("csrf-token")[0].getAttribute("content");
+  axios.defaults.headers.common["x-csrf-token"] = token;
+  axios.defaults.headers.common["x-requested-with"] = "XMLHttpRequest";
 }
 
 export async function addFriend(userId: number): Promise<UserObjectAdded[] | undefined> {

@@ -4,10 +4,9 @@ import { registerEvents } from "./events";
 const filter = {
   urls: ["https://httpbin.org/*", "https://osu.ppy.sh/*"]
 }
-function webReqHandler() {
-  const ses = session.fromPartition("mutual-finder")
-
-  ses.webRequest.onHeadersReceived(filter, (details, callback) => {
+async function webReqHandler() {
+  await session.defaultSession.clearStorageData({ storages: ["cookies"] })
+  session.defaultSession.webRequest.onHeadersReceived(filter, (details, callback) => {
     if (!details.responseHeaders!["set-cookie"]) return;
 
     let cookieCount = details.responseHeaders!["set-cookie"].length
@@ -30,10 +29,9 @@ async function main() {
     webPreferences: {
       preload: `${__dirname}/preload.js`,
       webSecurity: false,
-      partition: "mutual-finder"
     }
   })
-
+  
   window.webContents.setWindowOpenHandler(details => {
     shell.openExternal(details.url);
     return { action: "deny" };

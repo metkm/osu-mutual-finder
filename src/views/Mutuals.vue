@@ -2,16 +2,24 @@
 import axios from "axios";
 import User from "../components/User.vue";
 import { ref, onMounted } from "vue";
-import { getIdsOfFriends, addFriend, delUser } from "../utils";
+import { addFriend, delUser } from "../utils";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
+const store = useStore();
+const router = useRouter();
 const countries = ["TR"];
 const startPage = 1;
 const endPage = 200;
-const friendIds = await getIdsOfFriends();
+const friendIds = store.state.friends;
 
 const checking = ref(0);
 const checked = ref<number[]>([]);
 const mutuals = ref<number[]>([]);
+
+const toSettings = () => {
+  router.push({ path: "/settings" })
+}
 
 onMounted(async () => {
   for (const country of countries) {
@@ -53,23 +61,29 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="mutuals" class="page grid grid-cols-2 gap-2">
+  <div id="mutuals" class="page flex flex-col gap-2">
 
-    <div class="flex flex-col overflow-hidden bg-gray-800 rounded-lg p-2">
-      <p class="font-semibold text-2xl">Found Mutuals</p>
-      <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">
-        <User v-for="userId in mutuals" :userId="userId" :key="userId" />
-      </transition-group>
-      
-      <p class="font-semibold">Checking {{ checking }}</p>
+    <div class="flex flex-grow w-full gap-2">
+      <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
+        <p class="font-semibold text-2xl">Found Mutuals</p>
+        <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">
+          <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+        </transition-group>
+        
+        <p class="font-semibold">Checking {{ checking }}</p>
+      </div>
+
+      <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
+        <p class="font-semibold text-2xl">Checked</p>
+        <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">
+          <User v-for="userId in checked" :userId="userId" :key="userId" />
+        </transition-group>
+      </div>
     </div>
 
-    <div class="flex flex-col overflow-hidden bg-gray-800 rounded-lg p-2">
-      <p class="font-semibold text-2xl">Checked</p>
-      <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">
-        <User v-for="userId in checked" :userId="userId" :key="userId" />
-      </transition-group>
-    </div>
+    <button class="col-span-2 bg-green-600 p-2 rounded-lg" @click="toSettings">
+      Settings
+    </button>
 
   </div>
 </template>

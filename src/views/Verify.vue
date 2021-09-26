@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import axios from "axios";
 import { ref } from "vue";
-import router from "../router";
+import { useRouter } from "vue-router";
+import { updateFriends } from "../utils";
 
-const verifyKey = ref(null);
+await updateFriends();
+const router = useRouter();
+const verificationKey = ref(null);
 const error = ref("");
-
-const resp = await axios.get("https://osu.ppy.sh/home/friends");
-const dom = new DOMParser().parseFromString(resp.data, "text/html");
-const token = dom.getElementsByName("csrf-token")[0].getAttribute("content");
-axios.defaults.headers.common["x-csrf-token"] = token;
-axios.defaults.headers.common["x-requested-with"] = "XMLHttpRequest";
-
 
 const verify = async () => {
   try {
     await axios.post("https://osu.ppy.sh/home/account/verify", {
-      verification_key: verifyKey.value
+      verification_key: verificationKey.value
     });
 
     router.push({ path: "/mutuals" })
@@ -25,9 +21,10 @@ const verify = async () => {
   }
 }
 </script>
+
 <template>
   <div id="login" class="page flex flex-col items-center justify-center gap-2">
-    <input v-model="verifyKey" type="text" placeholder="Verification Key" class="form-element">
+    <input v-model="verificationKey" type="text" placeholder="Verification Key" class="form-element">
     <button class="form-element bg-green-600" @click="verify">Login</button>
     <p v-if="error" class="font-semibold text-red-500"> {{ error }} </p>
   </div>

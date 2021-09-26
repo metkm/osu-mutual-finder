@@ -15,7 +15,8 @@
     "tailwindcss": "^2.2.15",
     "vue": "^3.2.19",
     "vue-router": "^4.0.11",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.0",
