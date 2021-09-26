@@ -27,7 +27,7 @@ const verify = async () => {
 </script>
 <template>
   <div id="login" class="page flex flex-col items-center justify-center gap-2">
-    <input v-model="verifyKey" type="text" placeholder="Verify Key" class="form-element">
+    <input v-model="verifyKey" type="text" placeholder="Verification Key" class="form-element">
     <button class="form-element bg-green-600" @click="verify">Login</button>
     <p v-if="error" class="font-semibold text-red-500"> {{ error }} </p>
   </div>

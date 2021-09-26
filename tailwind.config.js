@@ -8,6 +8,9 @@ module.exports = {
     extend: {
       colors: {
         gray: colors.trueGray
+      },
+      zIndex: {
+        "-10": "-10"
       }
     },
   },

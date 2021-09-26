@@ -1,6 +1,5 @@
-import { app, BrowserWindow, session } from "electron";
+import { app, BrowserWindow, session, shell } from "electron";
 import { registerEvents } from "./events";
-import { makeid } from "./utils";
 
 const filter = {
   urls: ["https://httpbin.org/*", "https://osu.ppy.sh/*"]
@@ -33,6 +32,11 @@ async function main() {
       webSecurity: false,
       partition: "mutual-finder"
     }
+  })
+
+  window.webContents.setWindowOpenHandler(details => {
+    shell.openExternal(details.url);
+    return { action: "deny" };
   })
 
   if (process.env.DEV) {

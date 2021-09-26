@@ -16,13 +16,14 @@ const getToken = async (): Promise<string> => {
 
 const login = async () => {
   const token = await getToken();
-  console.log(token)
+  
   await axios.post("https://osu.ppy.sh/session", {
     "_token": token,
     "username": username.value,
     "password": password.value,
   })
 
+  // fire verification
   axios.get("https://osu.ppy.sh/home/account/edit");
   router.push({ path: "/verify" });
 }

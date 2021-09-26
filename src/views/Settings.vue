@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import ReturnButton from "../components/AppReturn.vue"
 </script>
 
 <template>
   <div id="settings" class="page">
-    <ReturnButton />
+    <p>Settings</p>
   </div>
 </template>
 

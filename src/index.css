@@ -15,11 +15,15 @@
     @apply outline-none;
   }
 
+  div::-webkit-scrollbar {
+    display: none;
+  }
+
   .page {
     @apply h-full;
     @apply w-full;
     @apply p-2;
-    @apply bg-gray-900;
+    @apply overflow-hidden;
   }
 
   .form-element {
