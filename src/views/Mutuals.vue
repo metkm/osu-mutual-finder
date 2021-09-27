@@ -16,6 +16,7 @@ const friendIds = computed<number[]>(() => store.state.friends);
 const blacklistedIds = computed<number[]>(() => store.state.blacklistIds);
 
 const checking = ref(0);
+const currentPage = ref(1);
 const checked = ref<number[]>([]);
 const mutuals = ref<number[]>([]);
 
@@ -27,6 +28,7 @@ let stopped = false;
 async function start() {
   for (const country of countries.value) {
     for (let page = startPage.value; page < endPage.value; page++) {
+      currentPage.value = page
 
       let countryPage = await axios.get("https://osu.ppy.sh/rankings/osu/performance", {
         params: { country: country, page: page }
@@ -36,14 +38,15 @@ async function start() {
       let userElements = Array.from(countryDom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
 
       for (const userElement of userElements) {
-        let userId = parseInt(userElement.getAttribute("data-user-id")!);
-        checking.value = userId;
-
         if (stopped) {
           stopped=false;
           setTimeout(start, 100);
           return;
         };
+
+        let userId = parseInt(userElement.getAttribute("data-user-id")!);
+        checking.value = userId;
+        
         if (friendIds.value.includes(userId)) continue;
         if (blacklistedIds.value.includes(userId)) continue;
 
@@ -78,6 +81,7 @@ onDeactivated(() => {
 });
 onActivated(() => {
   console.log("active");
+  checked.value = [];
   stopped=true;
 })
 </script>
@@ -92,7 +96,7 @@ onActivated(() => {
           <User v-for="userId in mutuals" :userId="userId" :key="userId" />
         </transition-group>
         
-        <p class="font-semibold">Checking {{ checking }}</p>
+        <p class="font-semibold">Checking {{ checking }} - Page {{ currentPage }}</p>
       </div>
 
       <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">

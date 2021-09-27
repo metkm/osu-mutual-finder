@@ -1,5 +1,7 @@
 import { app, BrowserWindow, session, shell } from "electron";
+import { autoUpdater } from "electron-updater";
 import { registerEvents } from "./events";
+autoUpdater.checkForUpdatesAndNotify();
 
 const filter = {
   urls: ["https://httpbin.org/*", "https://osu.ppy.sh/*"]
@@ -18,6 +20,11 @@ async function webReqHandler() {
     }
 
     callback({ responseHeaders: details.responseHeaders });
+  })
+
+  session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+    details.requestHeaders["referer"] = "https://osu.ppy.sh";
+    callback({ requestHeaders: details.requestHeaders });
   })
 }
 

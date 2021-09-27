@@ -1,3 +1,5 @@
 node_modules
 *.js
 yarn.lock
+dist
+build
