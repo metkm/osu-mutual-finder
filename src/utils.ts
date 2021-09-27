@@ -30,7 +30,7 @@ export async function updateFriends(): Promise<void> {
 }
 
 export async function addFriend(userId: number): Promise<UserObjectAdded[] | undefined> {
-  await sleep(10000);
+  await sleep(5000);
   try {
     const response = await axios.post("https://osu.ppy.sh/home/friends", null, {
       params: {

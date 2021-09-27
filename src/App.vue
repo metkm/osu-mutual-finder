@@ -5,18 +5,23 @@ import TitleBar from "./components/AppTitleBar.vue";
 <template>
   <TitleBar />
   <div id="content" class="relative w-full flex-grow">
-    <router-view v-slot="{ Component }">
-      <transition name="page">
-        <suspense>
-          <template #default>
-            <component :is="Component"></component>
-          </template>
-          <template #fallback>
-            <p>Loading</p>
-          </template>
-        </suspense>
-      </transition>
-    </router-view>
+    <suspense>
+      <template #default>
+        <router-view v-slot="{ Component, route }">
+          <transition name="page">
+            <keep-alive>
+              <component 
+                :is="Component" 
+                :key="route.meta.usePathKey ? route.path : undefined" 
+              />
+            </keep-alive>
+          </transition>
+        </router-view>
+      </template>
+      <template #fallback>
+        <p>Loading...</p>
+      </template>
+    </suspense>
   </div>
 </template>
 
