@@ -9,8 +9,8 @@ const store = useStore();
 const router = useRouter();
 
 const countries = ["TR"];
-const startPage = 1;
-const endPage = 200;
+const startPage = computed(() => store.state.startPage);
+const endPage = computed(() => store.state.endPage);
 const add = computed(() => store.state.addFriend);
 const friendIds = computed<number[]>(() => store.state.friends);
 const blacklistedIds = computed<number[]>(() => store.state.blacklistIds);
@@ -25,7 +25,7 @@ const toSettings = () => {
 
 onMounted(async () => {
   for (const country of countries) {
-    for (let page = startPage; page < endPage; page++) {
+    for (let page = startPage.value; page < endPage; page++) {
 
       let countryPage = await axios.get("https://osu.ppy.sh/rankings/osu/performance", {
         params: { country: country, page: page }

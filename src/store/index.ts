@@ -6,6 +6,8 @@ export default createStore({
   state: {
     friends: [] as number[],
     blacklistIds: [] as number[],
+    startPage: 1,
+    endPage: 200,
     addFriend: false,
   },
   mutations: {
@@ -23,6 +25,14 @@ export default createStore({
       let index = state.blacklistIds.findIndex(id => id == userId);
       console.log(index);
       state.blacklistIds.splice(index, 1);
+    },
+    SET_STARTPAGE(state, num: number) {
+      if(num < 1 || num > 200) num = 1;
+      state.startPage = num;
+    },
+    SET_ENDPAGE(state, num: number) {
+      if (num > 200 || num < 1) num = 200;
+      state.endPage = num;
     }
   },
   actions: {
@@ -37,6 +47,12 @@ export default createStore({
     },
     removeBlacklist({ commit }, userId: number) {
       commit("REMOVE_BLACKLIST", userId);
+    },
+    setStartPage({ commit }, num: number) {
+      commit("SET_STARTPAGE", num);
+    },
+    setEndPage({ commit }, num: number) {
+      commit("SET_ENDPAGE", num);
     }
   },
 });

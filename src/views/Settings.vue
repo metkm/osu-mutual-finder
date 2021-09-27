@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 const store = useStore();
 const router = useRouter();
 const blacklistId = ref(null);
 
 const isToggled = computed(() => store.state.addFriend);
 const blacklistIds = computed(() => store.state.blacklistIds);
+const start = ref(store.state.startPage);
+const end = ref(store.state.endPage);
 
 const toggleAddFriend = () => {
-  store.dispatch("toggleAddFriend")
+  store.dispatch("toggleAddFriend");
 }
 const goBack = () => {
   router.push({ path: "/mutuals" })
@@ -21,6 +23,12 @@ const addToBlacklist = () => {
 const removeBlacklist = (userId: number) => {
   store.dispatch("removeBlacklist", userId)
 }
+watchEffect(() => {
+  store.dispatch("setStartPage", start.value);
+  store.dispatch("setEndPage", end.value);
+  start.value = store.state.startPage;
+  end.value = store.state.endPage;
+})
 
 </script>
 
@@ -63,6 +71,20 @@ const removeBlacklist = (userId: number) => {
           {{ id }}
           </p>
         </transition-group>
+      </div>
+    </div>
+
+    <div class="setting">
+      <p class="font-semibold">Page Limit</p>
+      <div class="flex gap-4">
+        <div>
+          <p>Start from</p>
+          <input v-model="start" type="number" min="0" max="200" class="form-element input-number">
+        </div>
+        <div>
+          <p>To</p>
+          <input v-model="end" type="number" min="0" max="200" class="form-element input-number">
+        </div>
       </div>
     </div>
 
