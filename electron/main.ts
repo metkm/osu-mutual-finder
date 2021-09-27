@@ -7,7 +7,10 @@ const filter = {
 async function webReqHandler() {
   await session.defaultSession.clearStorageData({ storages: ["cookies"] })
   session.defaultSession.webRequest.onHeadersReceived(filter, (details, callback) => {
-    if (!details.responseHeaders!["set-cookie"]) return;
+    if (!details.responseHeaders!["set-cookie"]) {
+      callback({ responseHeaders: details.responseHeaders });
+      return
+    };
 
     let cookieCount = details.responseHeaders!["set-cookie"].length
     for (let index = 0; index < cookieCount; index++) {

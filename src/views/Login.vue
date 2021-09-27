@@ -35,5 +35,12 @@ const login = async () => {
     <input v-model="username" type="text" placeholder="username" class="form-element">
     <input v-model="password" type="text" placeholder="password" class="form-element">
     <button class="form-element bg-green-600" @click="login">Login</button>
+    <div 
+    style="background-image: url('https://osu.ppy.sh/images/layout/avatar-guest.png');
+          background-color: white; background-size: contain; background-repeat: no-repeat;
+          background-position: 50%;"
+    class="w-14 h-14">
+
+    </div>
   </div>
 </template>
