@@ -9,6 +9,7 @@
     @apply bg-opacity-75;
     @apply w-full;
     @apply h-full;
+    @apply overflow-hidden;
   }
 
   * {
