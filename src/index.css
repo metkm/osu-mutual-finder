@@ -71,6 +71,15 @@
     @apply gap-2;
   }
 
+  .listbox {
+    @apply overflow-y-auto;
+    @apply relative;
+    @apply bg-gray-800;
+    @apply w-full;
+    @apply flex-1;
+    @apply rounded-lg;
+  }
+
   .setting-description {
     @apply text-gray-500;
   }

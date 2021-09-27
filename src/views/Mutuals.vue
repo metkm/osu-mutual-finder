@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import axios from "axios";
 import User from "../components/User.vue";
-import { ref, onMounted, computed } from "vue";
+import { ref, onActivated, onDeactivated, computed } from "vue";
 import { addFriend, delUser } from "../utils";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 const store = useStore();
 const router = useRouter();
 
-const countries = ["TR"];
+const countries = computed(() => store.state.countries);
 const startPage = computed(() => store.state.startPage);
 const endPage = computed(() => store.state.endPage);
 const add = computed(() => store.state.addFriend);
@@ -23,8 +23,9 @@ const toSettings = () => {
   router.push({ path: "/settings" })
 }
 
-onMounted(async () => {
-  for (const country of countries) {
+let stopped = false;
+async function start() {
+  for (const country of countries.value) {
     for (let page = startPage.value; page < endPage.value; page++) {
 
       let countryPage = await axios.get("https://osu.ppy.sh/rankings/osu/performance", {
@@ -38,6 +39,11 @@ onMounted(async () => {
         let userId = parseInt(userElement.getAttribute("data-user-id")!);
         checking.value = userId;
 
+        if (stopped) {
+          stopped=false;
+          setTimeout(start, 100);
+          return;
+        };
         if (friendIds.value.includes(userId)) continue;
         if (blacklistedIds.value.includes(userId)) continue;
 
@@ -64,13 +70,22 @@ onMounted(async () => {
       }
     }
   }
+}
+
+start();
+onDeactivated(() => {
+  console.log("deactivated");
+});
+onActivated(() => {
+  console.log("active");
+  stopped=true;
 })
 </script>
 
 <template>
   <div id="mutuals" class="page flex flex-col gap-2">
 
-    <div class="flex flex-grow w-full gap-2">
+    <div class="flex flex-grow w-full gap-2 overflow-hidden">
       <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
         <p class="font-semibold text-2xl">Found Mutuals</p>
         <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">

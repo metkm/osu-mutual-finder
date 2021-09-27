@@ -6,6 +6,7 @@ export default createStore({
   state: {
     friends: [] as number[],
     blacklistIds: [] as number[],
+    countries: [] as string[],
     startPage: 1,
     endPage: 200,
     addFriend: false,
@@ -23,7 +24,6 @@ export default createStore({
     },
     REMOVE_BLACKLIST(state, userId: number) {
       let index = state.blacklistIds.findIndex(id => id == userId);
-      console.log(index);
       state.blacklistIds.splice(index, 1);
     },
     SET_STARTPAGE(state, num: number) {
@@ -33,6 +33,14 @@ export default createStore({
     SET_ENDPAGE(state, num: number) {
       if (num > 200 || num < 1) num = 200;
       state.endPage = num;
+    },
+    ADD_COUNTRY(state, countryCode: string) {
+      if (state.countries.includes(countryCode)) return;
+      state.countries.push(countryCode);
+    },
+    REMOVE_COUNTRY(state, countryCode: string) {
+      let index = state.countries.findIndex(country => country == countryCode);
+      state.countries.splice(index, 1);
     }
   },
   actions: {
@@ -53,6 +61,12 @@ export default createStore({
     },
     setEndPage({ commit }, num: number) {
       commit("SET_ENDPAGE", num);
+    },
+    addCountry({ commit }, countryCode: string) {
+      commit("ADD_COUNTRY", countryCode);
+    },
+    removeCountry({ commit }, countryCode: string) {
+      commit("REMOVE_COUNTRY", countryCode);
     }
   },
 });

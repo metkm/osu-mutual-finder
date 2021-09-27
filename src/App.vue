@@ -4,8 +4,8 @@ import TitleBar from "./components/AppTitleBar.vue";
 
 <template>
   <TitleBar />
-  <div id="content" class="relative w-full flex-grow">
-    <Suspense>
+  <div class="relative flex-1 overflow-hidden">
+    <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
           <transition name="page">
@@ -21,7 +21,7 @@ import TitleBar from "./components/AppTitleBar.vue";
       <template #fallback>
         <p>Loading...</p>
       </template>
-    </Suspense>
+    </suspense>
   </div>
 </template>
 
