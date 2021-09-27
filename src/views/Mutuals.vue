@@ -25,7 +25,7 @@ const toSettings = () => {
 
 onMounted(async () => {
   for (const country of countries) {
-    for (let page = startPage.value; page < endPage; page++) {
+    for (let page = startPage.value; page < endPage.value; page++) {
 
       let countryPage = await axios.get("https://osu.ppy.sh/rankings/osu/performance", {
         params: { country: country, page: page }

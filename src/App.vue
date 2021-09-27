@@ -1,13 +1,5 @@
 <script setup lang="ts">
 import TitleBar from "./components/AppTitleBar.vue";
-
-import { useRouter } from "vue-router";
-const router = useRouter();
-
-setInterval(() => {
-  router.push({ path: "/settings" })
-}, 5000);
-
 </script>
 
 <template>
