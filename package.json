@@ -7,8 +7,9 @@
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "electron:start": "set DEV=TRUE && electron electron/main.js",
-    "electron:build": "electron-builder --dir -wl",
-    "electron:publish": "yarn build && electron-builder --dir -wl"
+    "electron:build": "electron-builder --dir -w",
+    "electron:test": "yarn build && electron-builder -w",
+    "electron:publish": "yarn build && electron-builder -p always -w"
   },
   "build": {
     "appId": "mutual-finder",
@@ -16,13 +17,23 @@
     "directories": {
       "output": "build"
     },
+    "win": {
+      "icon": "src/assets/icon.ico"
+    },
+    "linux": {
+      "icon": "src/assets/icon.ico"
+    },
     "files": [
       "electron/*.js",
+      "src/assets/icon.ico",
       {
         "from": "dist",
         "to": "./"
       }
     ]
+  },
+  "publish": {
+    "provider": "github"
   },
   "dependencies": {
     "axios": "^0.21.4",
