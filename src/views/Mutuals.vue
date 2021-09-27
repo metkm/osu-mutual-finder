@@ -88,7 +88,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <button class="col-span-2 bg-green-600 p-2 rounded-lg" @click="toSettings">
+    <button class="col-span-2 bg-green-600 p-2 rounded-lg transition-all font-semibold hover:bg-gray-800" @click="toSettings">
       Settings
     </button>
 

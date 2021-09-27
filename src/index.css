@@ -35,6 +35,17 @@
     @apply w-full;
   }
 
+  .form-button {
+    @apply max-w-lg;
+    @apply w-full;
+    @apply p-2;
+    @apply rounded;
+    @apply transition-all;
+    @apply bg-green-600;
+    @apply hover:bg-gray-800;
+    @apply font-semibold;
+  }
+
   .input-number::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }

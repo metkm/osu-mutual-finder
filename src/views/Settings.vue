@@ -6,8 +6,8 @@ const store = useStore();
 const router = useRouter();
 const blacklistId = ref(null);
 
-const isToggled = computed(() => store.state.addFriend);
 const blacklistIds = computed(() => store.state.blacklistIds);
+const isToggled = ref(store.state.addFriend);
 const start = ref(store.state.startPage);
 const end = ref(store.state.endPage);
 
@@ -34,9 +34,9 @@ watchEffect(() => {
 
 <template>
   <div id="settings" class="page">
-    <div class="p-2 w-24 bg-green-600 rounded-lg flex items-center group" @click="goBack">
+    <div class="p-2 w-24 bg-green-600 rounded-lg flex items-center group font-semibold" @click="goBack">
       <img src="../assets/back.svg" class="group-hover:-translate-x-1 transition-all">
-      <p>Back</p>
+      <p class="group-hover:-translate-x-1 transition-all">Back</p>
     </div>
 
     <div class="setting">
@@ -59,7 +59,7 @@ watchEffect(() => {
           <p class="font-semibold">Blacklist</p>
           <p class="setting-description">User IDs to skip automatically</p>
           <input type="number" placeholder="User id" class="form-element input-number" v-model="blacklistId">
-          <button class="form-element bg-green-500" @click="addToBlacklist">Add to Blacklist</button>
+          <button class="form-button" @click="addToBlacklist">Add to Blacklist</button>
         </div>
         <transition-group name="blacklist-ids" tag="div" class="overflow-y-auto relative bg-gray-800 w-full rounded-lg">
           <p 

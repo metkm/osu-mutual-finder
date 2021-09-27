@@ -32,8 +32,8 @@ const login = async () => {
 
 <template>
   <div id="login" class="page flex flex-col items-center justify-center gap-2">
-    <input v-model="username" type="text" placeholder="username" class="form-element">
-    <input v-model="password" type="text" placeholder="password" class="form-element">
-    <button class="form-element bg-green-600" @click="login">Login</button>
+    <input v-model="username" type="text" placeholder="Username" class="form-element">
+    <input v-model="password" type="text" placeholder="Password" class="form-element">
+    <button class="form-button" @click="login">Login</button>
   </div>
 </template>

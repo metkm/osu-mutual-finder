@@ -9,10 +9,12 @@ import TitleBar from "./components/AppTitleBar.vue";
       <template #default>
         <router-view v-slot="{ Component, route }">
           <transition name="page">
+            <keep-alive>
               <component 
                 :is="Component" 
                 :key="route.meta.usePathKey ? route.path : undefined" 
               />
+            </keep-alive>
           </transition>
         </router-view>
       </template>
