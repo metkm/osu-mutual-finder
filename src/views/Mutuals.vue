@@ -92,18 +92,18 @@ onActivated(() => {
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
       <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
         <p class="font-semibold text-2xl">Found Mutuals</p>
-        <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">
+        <div class="overflow-y-auto flex-1">
           <User v-for="userId in mutuals" :userId="userId" :key="userId" />
-        </transition-group>
+        </div>
         
         <p class="font-semibold">Checking {{ checking }} - Page {{ currentPage }}</p>
       </div>
 
       <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
-        <p class="font-semibold text-2xl">Checked</p>
-        <transition-group name="mutuals" tag="div" class="overflow-y-auto flex-1">
+        <p class="font-semibold text-2xl">Checked {{ checked.length }}</p>
+        <div class="overflow-y-auto flex-1">
           <User v-for="userId in checked" :userId="userId" :key="userId" />
-        </transition-group>
+        </div>
       </div>
     </div>
 
