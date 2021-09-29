@@ -24,8 +24,9 @@ const toSettings = () => {
   router.push({ path: "/settings" })
 }
 
-let stopped = false;
+let working = false;
 async function start() {
+  console.log("starting to check")
   for (const country of countries.value) {
     for (let page = startPage.value; page < endPage.value; page++) {
       currentPage.value = page
@@ -38,11 +39,11 @@ async function start() {
       let userElements = Array.from(countryDom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
 
       for (const userElement of userElements) {
-        if (stopped) {
-          stopped=false;
+        if (!working) {
           setTimeout(start, 100);
+          working = true;
           return;
-        };
+        }
 
         let userId = parseInt(userElement.getAttribute("data-user-id")!);
         checking.value = userId;
@@ -75,14 +76,21 @@ async function start() {
   }
 }
 
-start();
+// start();
 onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
   console.log("active");
-  checked.value = [];
-  stopped=true;
+  if (!working && countries.value.length > 0) {
+    // if function is not started yet.
+    start();
+    working = true;
+  } else {
+    // stop the function
+    working = false;
+    checked.value = [];
+  }
 })
 </script>
 

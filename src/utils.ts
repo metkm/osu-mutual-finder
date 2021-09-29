@@ -30,7 +30,7 @@ export async function updateFriends(): Promise<void> {
 }
 
 export async function addFriend(userId: number): Promise<UserObjectAdded[] | undefined> {
-  await sleep(5000);
+  await sleep(6000);
   try {
     const response = await axios.post("https://osu.ppy.sh/home/friends", null, {
       params: {
@@ -51,4 +51,16 @@ export async function addFriend(userId: number): Promise<UserObjectAdded[] | und
 
 export async function delUser(userId: number) {
   await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
+}
+
+interface country {
+  code: string,
+  name: string,
+  display: number
+}
+
+export async function getCountries(): Promise<country[]> {
+  const response = await axios.get("https://osu.ppy.sh/rankings/osu/country");
+  const dom = new DOMParser().parseFromString(response.data, "text/html");
+  return JSON.parse(dom.getElementById("json-countries")!.innerText);
 }

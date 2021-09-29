@@ -7,8 +7,7 @@
   html, body {
     @apply bg-black;
     @apply bg-opacity-75;
-    @apply w-full;
-    @apply h-full;
+    @apply w-full h-full;
     @apply overflow-hidden;
   }
 
@@ -21,8 +20,7 @@
   }
 
   .page {
-    @apply h-full;
-    @apply w-full;
+    @apply h-full w-full;
     @apply p-2;
     @apply overflow-hidden;
   }
@@ -36,14 +34,14 @@
   }
 
   .form-button {
-    @apply max-w-lg;
-    @apply w-full;
+    @apply max-w-lg w-full;
     @apply p-2;
     @apply rounded;
+    @apply font-semibold;
     @apply transition-all;
     @apply bg-green-600;
     @apply hover:bg-gray-800;
-    @apply font-semibold;
+    @apply disabled:opacity-25 disabled:bg-gray-800;
   }
 
   .input-number::-webkit-inner-spin-button {
@@ -53,8 +51,7 @@
   .form-tick {
     background-image: url("./assets/tick.svg");
     @apply appearance-none;
-    @apply w-5;
-    @apply h-5;
+    @apply w-5 h-5;
     @apply rounded;
     @apply bg-white;
     @apply checked:bg-green-500;
@@ -66,18 +63,19 @@
     @apply rounded-lg;
     @apply p-4;
     @apply my-2;
-    @apply flex;
-    @apply flex-col;
     @apply gap-2;
+    @apply flex flex-col;
   }
 
   .listbox {
     @apply overflow-y-auto;
     @apply relative;
-    @apply bg-gray-800;
-    @apply w-full;
-    @apply flex-1;
-    @apply rounded-lg;
+    @apply bg-gray-900;
+    @apply border;
+    @apply border-gray-800;
+
+    @apply w-full h-60;
+    @apply rounded;
   }
 
   .setting-description {

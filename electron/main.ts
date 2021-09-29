@@ -32,7 +32,9 @@ async function main() {
   await app.whenReady();
   const window = new BrowserWindow({
     width: 1000,
+    minWidth: 500,
     height: 800,
+    minHeight: 800,
     show: false,
     autoHideMenuBar: true,
     titleBarStyle: "hidden",

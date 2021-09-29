@@ -3,6 +3,7 @@ import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+const cooldown = ref(false);
 const username = ref(null);
 const password = ref(null);
 const router = useRouter();
@@ -14,7 +15,13 @@ const getToken = async (): Promise<string> => {
   return token!
 }
 
+router.push("/settings")
 const login = async () => {
+  cooldown.value = true;
+  setTimeout(() => {
+    cooldown.value = false;
+  }, 3000);
+  
   const token = await getToken();
   
   await axios.post("https://osu.ppy.sh/session", {
@@ -34,6 +41,6 @@ const login = async () => {
   <div id="login" class="page flex flex-col items-center justify-center gap-2">
     <input v-model="username" type="text" placeholder="Username" class="form-element">
     <input v-model="password" type="text" placeholder="Password" class="form-element">
-    <button class="form-button" @click="login">Login</button>
+    <button class="form-button" :disabled="cooldown" @click="login">Login</button>
   </div>
 </template>
