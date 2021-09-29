@@ -4,10 +4,19 @@ interface titleBar {
   event: (event: events) => void;
 }
 
+interface Message {
+  message: (callback: (message: string) => void) => void;
+}
+
 declare global {
   interface Window {
-    titleBar: titleBar
+    titleBar: titleBar,
+    ipc: Message
   }
+}
+
+export interface Notification {
+  message: string
 }
 
 export interface Country {

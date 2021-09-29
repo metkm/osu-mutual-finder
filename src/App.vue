@@ -8,7 +8,7 @@ router.push({ path: "/" })
 
 <template>
   <TitleBar />
-  <div class="relative flex-1 overflow-hidden">
+  <div id="app-inner" class="relative flex-1 overflow-hidden">
     <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
@@ -26,6 +26,8 @@ router.push({ path: "/" })
         <p>Loading...</p>
       </template>
     </suspense>
+
+    <Notification />
   </div>
 </template>
 

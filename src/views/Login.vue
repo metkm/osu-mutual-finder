@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from "axios";
-import { ref } from "vue";
+import { ref, } from "vue";
 import { useRouter } from "vue-router";
 
 const cooldown = ref(false);
@@ -15,7 +15,6 @@ const getToken = async (): Promise<string> => {
   return token!
 }
 
-router.push("/settings")
 const login = async () => {
   cooldown.value = true;
   setTimeout(() => {
@@ -23,7 +22,6 @@ const login = async () => {
   }, 3000);
   
   const token = await getToken();
-  
   await axios.post("https://osu.ppy.sh/session", {
     "_token": token,
     "username": username.value,

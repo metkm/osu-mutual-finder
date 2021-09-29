@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import Router from "./router/index";
 import Store from "./store/index";
+import Notification from "./plugin/notification";
 import "./index.css";
 
 const app = createApp(App);
@@ -29,4 +30,5 @@ app.directive("transition", {
 
 app.use(Router);
 app.use(Store);
+app.use(Notification);
 app.mount("#app");

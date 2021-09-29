@@ -1,7 +1,6 @@
-import { app, BrowserWindow, session, shell } from "electron";
+import { app, BrowserWindow, session, shell, ipcMain } from "electron";
 import { autoUpdater } from "electron-updater";
 import { registerEvents } from "./events";
-autoUpdater.checkForUpdatesAndNotify();
 
 const filter = {
   urls: ["https://httpbin.org/*", "https://osu.ppy.sh/*"]
@@ -42,6 +41,19 @@ async function main() {
       preload: `${__dirname}/preload.js`,
       webSecurity: false,
     }
+  })
+
+  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.once("update-available", (updateInfo) => {
+    window.webContents.send("message", 
+      `Update available. Starting to download Version: ${updateInfo.version}`
+    )
+  })
+
+  autoUpdater.once("update-downloaded", () => {
+    window.webContents.send("message", 
+      `Update downloaded. Will be installed on quit.`
+    )
   })
   
   window.webContents.setWindowOpenHandler(details => {
