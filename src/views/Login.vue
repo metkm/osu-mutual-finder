@@ -15,7 +15,6 @@ const getToken = async (): Promise<string> => {
   return token!
 }
 
-router.push({ path: "/settings" })
 const login = async () => {
   cooldown.value = true;
   setTimeout(() => {
