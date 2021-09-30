@@ -25,7 +25,7 @@ const goBack = () => {
     <suspense>
       <SettingsCountries />
       <template #fallback>
-        <p> Loading.. </p>
+        <img src="../assets/loading.svg" class="animate-spin w-10 h-10 mx-auto" >
       </template>
     </suspense>
   </div>
