@@ -16,7 +16,7 @@ const removeBlacklist = (userId: number) => {
 
 <template>
   <div class="setting">
-    <div class="flex h-44 max-h-44 gap-4">
+    <div class="flex gap-4">
       <div class="flex flex-col gap-2">
         <p class="font-semibold">Blacklist</p>
         <p class="setting-description">User IDs to skip automatically</p>
