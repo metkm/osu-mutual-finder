@@ -95,26 +95,25 @@ onActivated(() => {
 </script>
 
 <template>
-  <div id="mutuals" class="page flex flex-col gap-2">
+  <div id="mutuals" class="page flex flex-col gap-1">
 
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
-      <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
-        <p class="font-semibold text-2xl">Found Mutuals</p>
-        <div class="overflow-y-auto flex-1">
-          <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+      <div class="flex flex-col flex-1 overflow-hidden gap-1  rounded-lg p-2">
+        <p class="font-semibold text-2xl">Found mutuals</p>
+        <div class="overflow-y-auto flex-1 rounded-lg">
+          <User v-for="userId in checked" :userId="userId" :key="userId" />
         </div>
-        
-        <p class="font-semibold">Checking {{ checking }} - Page {{ currentPage }}</p>
       </div>
 
-      <div class="flex flex-col flex-1 overflow-hidden bg-gray-900 rounded-lg p-2">
+      <div class="flex flex-col flex-1 overflow-hidden gap-1  rounded-lg p-2">
         <p class="font-semibold text-2xl">Checked {{ checked.length }}</p>
-        <div class="overflow-y-auto flex-1">
+        <div class="overflow-y-auto flex-1 rounded-lg">
           <User v-for="userId in checked" :userId="userId" :key="userId" />
         </div>
       </div>
     </div>
 
+    <p class="font-semibold text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
     <button class="col-span-2 bg-green-600 p-2 rounded-lg transition-all font-semibold hover:bg-gray-800" @click="toSettings">
       Settings
     </button>
