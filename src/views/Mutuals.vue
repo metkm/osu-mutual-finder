@@ -28,7 +28,7 @@ let working = false;
 async function start() {
   console.log("starting to check")
   for (const country of countries.value) {
-    for (let page = startPage.value; page < endPage.value; page++) {
+    for (let page = startPage.value; page <= endPage.value; page++) {
       currentPage.value = page
 
       let countryPage = await axios.get("https://osu.ppy.sh/rankings/osu/performance", {
