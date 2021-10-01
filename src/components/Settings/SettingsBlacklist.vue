@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import axios from "axios";
 const store = useStore();
 
 const blacklistIds = computed(() => store.state.blacklistIds);
-const blacklistId = ref(null);
+const userId = ref(null);
 
 const addToBlacklist = () => {
-  store.dispatch("addBlacklist", blacklistId.value);
+  store.dispatch("addBlacklist", userId.value);
 };
 const removeBlacklist = (userId: number) => {
   store.dispatch("removeBlacklist", userId);
 };
+const removeFriend = () => {
+  axios.delete(`https://osu.ppy.sh/home/friends/${userId.value}`);
+  userId.value = null;
+}
 </script>
 
 <template>
@@ -20,8 +25,9 @@ const removeBlacklist = (userId: number) => {
       <div class="flex flex-col gap-2">
         <p class="font-semibold">Blacklist</p>
         <p class="setting-description">User IDs to skip automatically</p>
-        <input type="number" placeholder="User id" class="form-element input-number" v-model="blacklistId" />
+        <input type="number" placeholder="User id" class="form-element input-number" v-model="userId" />
         <button class="form-button" @click="addToBlacklist">Add to Blacklist</button>
+        <button class="form-button" @click="removeFriend">Remove Friend</button>
       </div>
       <transition-group name="array" tag="div" class="listbox">
         <p v-for="id in blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="hover:bg-gray-700 p-1">
