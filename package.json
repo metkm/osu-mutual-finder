@@ -1,6 +1,6 @@
 {
   "name": "mutual-finder",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "./electron/main.js",
   "scripts": {
     "dev": "vite",
