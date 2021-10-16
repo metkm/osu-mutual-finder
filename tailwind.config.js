@@ -12,10 +12,16 @@ module.exports = {
       zIndex: {
         "-10": "-10"
       },
+      backgroundPosition: {
+        "45%": "50% 45%",
+        "55%": "50% 55%"
+      }
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundSize: ["hover"]
+    },
   },
   plugins: [],
 }

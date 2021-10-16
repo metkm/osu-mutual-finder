@@ -24,6 +24,10 @@ export interface Country {
   name: string;
 }
 
+export interface WebCountry extends Country {
+  flag_url: string;
+}
+
 export interface Cover {
   custom_url: string;
   url: string;
