@@ -1,6 +1,7 @@
 node_modules
 *.js
 yarn.lock
+.yarn
 dist
 build
 electron-builder.env
