@@ -13,7 +13,10 @@ export async function sleep(ms: number): Promise<void> {
 export async function getUser(userId: number): Promise<UserObject> {
   const response = await axios.get(`https://osu.ppy.sh/users/${userId}`);
   const responseDom = new DOMParser().parseFromString(response.data, "text/html");
-  return JSON.parse(responseDom.getElementById("json-user")!.innerText);
+  let element = responseDom.getElementsByClassName("js-react--profile-page")[0]!;
+  let userJson = JSON.parse(element.getAttribute("data-initial-data")!);
+
+  return userJson.user
 }
 
 export async function updateFriends(): Promise<void> {
@@ -30,7 +33,7 @@ export async function updateFriends(): Promise<void> {
 }
 
 export async function addFriend(userId: number): Promise<UserObjectAdded[] | undefined> {
-  await sleep(6000);
+  await sleep(6500);
   try {
     const response = await axios.post("https://osu.ppy.sh/home/friends", null, {
       params: {
