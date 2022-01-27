@@ -1,5 +1,5 @@
 {
-  "name": "mutual-finder",
+  "name": "osu-mutual-finder",
   "version": "1.2.3",
   "main": "./electron/main.js",
   "scripts": {
