@@ -10,6 +10,7 @@ export default createStore({
     startPage: 1,
     endPage: 200,
     addFriend: false,
+    gamemode: 'osu'
   },
   mutations: {
     SET_FRIENDS(state, friendsList) {
@@ -41,6 +42,9 @@ export default createStore({
     REMOVE_COUNTRY(state, countryCode: string) {
       let index = state.countries.findIndex(country => country == countryCode);
       state.countries.splice(index, 1);
+    },
+    SET_GAMEMODE(state, mode: string) {
+      state.gamemode = mode;
     }
   },
   actions: {
@@ -67,6 +71,9 @@ export default createStore({
     },
     removeCountry({ commit }, countryCode: string) {
       commit("REMOVE_COUNTRY", countryCode);
+    },
+    setGamemode({ commit }, mode: string) {
+      commit("SET_GAMEMODE", mode);
     }
   },
 });

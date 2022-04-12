@@ -14,6 +14,7 @@ const endPage = computed(() => store.state.endPage);
 const add = computed(() => store.state.addFriend);
 const friendIds = computed<number[]>(() => store.state.friends);
 const blacklistedIds = computed<number[]>(() => store.state.blacklistIds);
+const gamemode = computed<string>(() => store.state.gamemode);
 
 const checking = ref(0);
 const currentPage = ref(1);
@@ -31,7 +32,7 @@ async function start() {
     for (let page = startPage.value; page <= endPage.value; page++) {
       currentPage.value = page
 
-      let countryPage = await axios.get("https://osu.ppy.sh/rankings/osu/performance", {
+      let countryPage = await axios.get(`https://osu.ppy.sh/rankings/${gamemode.value}/performance`, {
         params: { country: country, page: page }
       });
 
