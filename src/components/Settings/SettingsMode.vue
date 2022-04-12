@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import AppRadio from '../AppRadio.vue';
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useStore } from 'vuex';
 
-const gamemode = ref("osu");
+const store = useStore();
+
+const gamemode = ref(store.state.gamemode);
 const modes = ["osu", "taiko", "fruits", "mania"];
 
+watch(gamemode, mode => {
+  store.dispatch("setGamemode", mode);
+})
 </script>
 
 <template>
