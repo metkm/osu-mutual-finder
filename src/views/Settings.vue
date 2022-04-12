@@ -3,8 +3,8 @@ import SettingsAddFriend from "../components/Settings/SettingsAddFriend.vue";
 import SettingsBlacklist from "../components/Settings/SettingsBlacklist.vue";
 import SettingsPageLimit from "../components/Settings/SettingsPageLimit.vue";
 import SettingsCountries from "../components/Settings/SettingsCountries.vue";
-import { useRouter } from "vue-router";
 import SettingsMode from "../components/Settings/SettingsMode.vue";
+import { useRouter } from "vue-router";
 const router = useRouter();
 
 const goBack = () => {
