@@ -5,6 +5,7 @@ import { ref, onActivated, onDeactivated, computed } from "vue";
 import { addFriend, delUser } from "../utils";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import AppSide from "../components/AppSide.vue";
 const store = useStore();
 const router = useRouter();
 
@@ -104,19 +105,13 @@ onActivated(() => {
   <div id="mutuals" class="page flex flex-col gap-1">
 
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
-      <div class="flex flex-col flex-1 overflow-hidden gap-1  rounded-lg p-2">
-        <p class="font-semibold text-2xl">Found mutuals</p>
-        <div class="flex flex-col gap-3 overflow-y-auto flex-1 rounded-lg">
-          <User v-for="userId in mutuals" :userId="userId" :key="userId" />
-        </div>
-      </div>
+      <AppSide>
+        <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+      </AppSide>
 
-      <div class="flex flex-col flex-1 overflow-hidden gap-1  rounded-lg p-2">
-        <p class="font-semibold text-2xl">Checked {{ checked.length }}</p>
-        <div class="flex flex-col gap-3 overflow-y-auto flex-1 rounded-lg">
-          <User v-for="userId in checked" :userId="userId" :key="userId" />
-        </div>
-      </div>
+      <AppSide>
+        <User v-for="userId in checked" :userId="userId" :key="userId" />
+      </AppSide>
     </div>
 
     <p class="font-semibold text-center">Checking {{ checking }} - Page {{ currentPage }}</p>

@@ -12,7 +12,7 @@ const userDetails = await getUser(props.userId!);
   <a :href="`https://osu.ppy.sh/users/${userId}`" target="_blank" class="flex flex-col">
     <img :src="userDetails.cover.url" class="flex h-20 object-cover rounded-md" />
 
-    <div class="flex px-2" style="margin-top: -20px;">
+    <div class="flex px-2 gap-1" style="margin-top: -20px;">
       <img :src="userDetails.avatar_url" class="w-20 h-20 rounded-md" />
 
       <div class="flex flex-1 flex-col justify-end p-1">
