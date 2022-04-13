@@ -13,7 +13,7 @@ const userDetails = await getUser(props.userId!);
     target="_blank" 
     class="flex items-center h-16 gap-4 relative rounded-lg overflow-hidden group my-1"
   >
-    <img :src="userDetails.avatar_url" class="h-full z-10">
+    <img :src="userDetails.avatar_url" class="h-full z-10 w-16">
     <p class="font-semibold text-xl z-10">{{ userDetails.username }}</p>
 
     <div
