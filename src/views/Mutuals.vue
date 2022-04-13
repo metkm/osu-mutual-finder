@@ -25,9 +25,17 @@ const toSettings = () => {
   router.push({ path: "/settings" })
 }
 
-let working = false;
-async function start() {
-  console.log("starting to check")
+const randomNumber = (): number => {
+  return Math.floor(Math.random() * 500);
+}
+
+interface Threads {
+  [key: number]: boolean
+}
+
+const threads: Threads = {}
+
+async function start(id: number) {
   for (const country of countries.value) {
     for (let page = startPage.value; page <= endPage.value; page++) {
       currentPage.value = page
@@ -40,9 +48,7 @@ async function start() {
       let userElements = Array.from(countryDom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
 
       for (const userElement of userElements) {
-        if (!working) {
-          setTimeout(start, 100);
-          working = true;
+        if (!threads[id]) {
           return;
         }
 
@@ -82,16 +88,15 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  console.log("active");
-  if (!working && countries.value.length > 0) {
-    // if function is not started yet.
-    start();
-    working = true;
-  } else {
-    // stop the function
-    working = false;
-    checked.value = [];
+  // Disable all threads
+  for (const item in threads) {
+    threads[item] = false;
   }
+
+  let id = randomNumber();
+  threads[id] = true;
+
+  start(id);
 })
 </script>
 
