@@ -105,11 +105,11 @@ onActivated(() => {
   <div id="mutuals" class="page flex flex-col gap-1">
 
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
-      <AppSide>
+      <AppSide :title="'Found Mutuals'">
         <User v-for="userId in mutuals" :userId="userId" :key="userId" />
       </AppSide>
 
-      <AppSide>
+      <AppSide :title="'Checked'">
         <User v-for="userId in checked" :userId="userId" :key="userId" />
       </AppSide>
     </div>

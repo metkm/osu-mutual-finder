@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <div class="flex flex-col flex-1 overflow-hidden gap-1  rounded-lg p-2">
-    <p class="font-semibold text-2xl">Checked {{ title }}</p>
+    <p class="font-semibold text-2xl">{{ title }}</p>
     <div class="flex flex-col gap-1 overflow-y-auto flex-1 rounded-lg">
       <slot></slot>
     </div>
