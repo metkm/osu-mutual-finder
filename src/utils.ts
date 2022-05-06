@@ -55,28 +55,3 @@ export async function addFriend(userId: number): Promise<UserObjectAdded[] | und
 export async function delUser(userId: number) {
   await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
 }
-
-export async function getCountries(): Promise<WebCountry[]> {
-  const response = await axios.get("https://osu.ppy.sh/rankings/osu/country");
-  const dom = new DOMParser().parseFromString(response.data, "text/html");
-
-  let countries = <WebCountry[]>[];
-  Array.from(dom.getElementsByClassName("ranking-page-table__user-link"))
-  .forEach(row => {
-    var country = <WebCountry>{};
-    var link = row.querySelector(".ranking-page-table__country-link")!.getAttribute("href");
-    var code = link!.split("?country=")[1];
-    country.code = code;
-
-    var flag = row.querySelector<HTMLElement>(".flag-country")!;
-    var url = flag.style.backgroundImage.slice(4, -1).replace(/"/g, "");
-    country.flag_url = url;
-
-    var name = row.querySelector<HTMLElement>(".ranking-page-table__country-link-text")!.innerText;
-    country.name = name;
-
-    countries.push(country);
-  })
-
-  return countries;
-}

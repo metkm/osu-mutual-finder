@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 if (import.meta.env.DEV) {
-  router.push({ path: "/settings" });
+  router.push({ path: "/" });
 } else {
   router.push({ path: "/" });
 }
