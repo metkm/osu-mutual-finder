@@ -3,7 +3,11 @@ import TitleBar from "./components/AppTitleBar.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-router.push({ path: "/" })
+if (import.meta.env.DEV) {
+  router.push({ path: "/settings" });
+} else {
+  router.push({ path: "/" });
+}
 </script>
 
 <template>
