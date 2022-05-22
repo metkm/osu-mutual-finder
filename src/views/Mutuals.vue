@@ -89,6 +89,11 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
+  if (import.meta.env.DEV) {
+    checked.value = [10440852, 7512553];
+    return
+  };
+
   // Disable all threads
   for (const item in threads) {
     threads[item] = false;
