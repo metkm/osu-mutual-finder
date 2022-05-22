@@ -15,7 +15,7 @@ module.exports = {
       backgroundPosition: {
         "45%": "50% 45%",
         "55%": "50% 55%"
-      }
+      },
     },
   },
   variants: {
