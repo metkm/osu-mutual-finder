@@ -1,6 +1,6 @@
 {
   "name": "osu-mutual-finder",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "main": "./electron/main.js",
   "scripts": {
     "dev": "vite",
