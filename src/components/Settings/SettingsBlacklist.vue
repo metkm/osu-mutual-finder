@@ -13,9 +13,8 @@ const addToBlacklist = () => {
 const removeBlacklist = (userId: number) => {
   store.dispatch("removeBlacklist", userId);
 };
-const removeFriend = () => {
-  axios.delete(`https://osu.ppy.sh/home/friends/${userId.value}`);
-  userId.value = null;
+const clearBlacklist = () => {
+  store.dispatch("clearBlacklist");
 }
 </script>
 
@@ -27,13 +26,14 @@ const removeFriend = () => {
         <p class="setting-description">User IDs to skip automatically</p>
         <input type="number" placeholder="User id" class="form-element input-number" v-model="userId" />
         <button class="form-button" @click="addToBlacklist">Add to Blacklist</button>
-        <button class="form-button" @click="removeFriend">Remove Friend</button>
+        <!-- <button class="form-button" @click="removeFriend">Remove Friend</button> -->
+        <button class="form-button bg-red-600" @click="clearBlacklist">Clear Blacklist</button>
       </div>
-      <transition-group name="array" tag="div" class="listbox">
+      <div class="listbox">
         <p v-for="id in blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="hover:bg-gray-700 p-1">
           {{ id }}
         </p>
-      </transition-group>
+      </div>
     </div>
   </div>
 </template>

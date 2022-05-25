@@ -31,6 +31,9 @@ export default createStore({
       let index = state.blacklistIds.findIndex(id => id == userId);
       state.blacklistIds.splice(index, 1);
     },
+    CLEAR_BLACKLIST(state) {
+      state.blacklistIds = [];
+    },
     SET_STARTPAGE(state, num: number) {
       if(num < 1 || num > 200) num = 1;
       state.startPage = num;
@@ -66,6 +69,9 @@ export default createStore({
     },
     removeBlacklist({ commit }, userId: number) {
       commit("REMOVE_BLACKLIST", userId);
+    },
+    clearBlacklist({ commit }) {
+      commit("CLEAR_BLACKLIST");
     },
     setStartPage({ commit }, num: number) {
       commit("SET_STARTPAGE", num);
