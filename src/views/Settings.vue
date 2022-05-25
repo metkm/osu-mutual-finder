@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SettingsAddFriend from "../components/Settings/SettingsAddFriend.vue";
+import SettingsToggle from "../components/Settings/SettingsToggle.vue";
 import SettingsBlacklist from "../components/Settings/SettingsBlacklist.vue";
 import SettingsPageLimit from "../components/Settings/SettingsPageLimit.vue";
 import SettingsCountries from "../components/Settings/SettingsCountries.vue";
@@ -20,7 +20,7 @@ const goBack = () => {
       <p class="group-hover:-translate-x-1 transition-all">Back</p>
     </div>
 
-    <SettingsAddFriend />
+    <SettingsToggle />
     <SettingsBlacklist />
     <SettingsPageLimit />
     <SettingsMode />
