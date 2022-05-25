@@ -2,7 +2,7 @@
 import axios from "axios";
 import User from "../components/User.vue";
 import { ref, onActivated, onDeactivated, computed } from "vue";
-import { addFriend, delUser } from "../utils";
+import { addFriend, delUser, sleep } from "../utils";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AppSide from "../components/AppSide.vue";
@@ -12,10 +12,12 @@ const router = useRouter();
 const countries = computed(() => store.state.countries);
 const startPage = computed(() => store.state.startPage);
 const endPage = computed(() => store.state.endPage);
-const add = computed(() => store.state.addFriend);
 const friendIds = computed<number[]>(() => store.state.friends);
 const blacklistedIds = computed<number[]>(() => store.state.blacklistIds);
 const gamemode = computed<string>(() => store.state.gamemode);
+
+const shouldAdd = computed(() => store.state.addFriend);
+const shouldBlacklist = computed(() => store.state.addBlacklist);
 
 const checking = ref(0);
 const currentPage = ref(1);
@@ -32,6 +34,10 @@ const randomNumber = (): number => {
 
 interface Threads {
   [key: number]: boolean
+}
+
+const blacklistId = (id: number) => {
+  store.dispatch("addBlacklist", id);
 }
 
 const threads: Threads = {}
@@ -56,19 +62,32 @@ async function start(id: number) {
         let userId = parseInt(userElement.getAttribute("data-user-id")!);
         checking.value = userId;
         
+        // Already added friend. Skip.
         if (friendIds.value.includes(userId)) continue;
+        // The userid is in the blacklist. Skip.
         if (blacklistedIds.value.includes(userId)) continue;
 
+        // Add the userId to blacklist.
+        if (shouldBlacklist.value) {
+          blacklistId(userId);
+        }
+
         try {
+          // New friend list.
           let friendList = await addFriend(userId);
           if (typeof friendList == "undefined") continue;
 
           for (const friend of friendList) {
             if (friend.target_id != userId) continue;
+
+            // The added friend is not mutual. Delete it.
             if (!friend.mutual) {
               await delUser(userId);
-              continue
-            } else if (!add.value) {
+              continue;
+            } 
+
+            // Add friend settings is not enabled.
+            if (!shouldAdd.value) {
               await delUser(userId);
             }
 
@@ -80,6 +99,9 @@ async function start(id: number) {
 
         checked.value.push(userId);
       }
+
+      // Sleep on every page change
+      await sleep(2000);
     }
   }
 }

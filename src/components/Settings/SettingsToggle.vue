@@ -1,27 +1,28 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useStore } from "vuex";
+import AppCheckbox from "../AppCheckbox.vue";
 const store = useStore();
 
-const isToggled = ref(store.state.addFriend);
+const addFriend = ref(store.state.addFriend);
+const addBlacklist = ref(store.state.addBlacklist);
 
 const toggleAddFriend = () => {
   store.dispatch("toggleAddFriend");
 };
+
+const toggleAddBlacklist = () => {
+  store.dispatch("toggleAddBlacklist");
+}
 </script>
 
 <template>
   <div class="setting">
-    <label for="addfriend" class="flex items-center gap-2">
-      <input
-        type="checkbox"
-        id="addfriend"
-        class="form-tick appearance-none w-5 h-5 rounded bg-white checked:bg-green-500"
-        v-model="isToggled"
-        @change="toggleAddFriend"
-      />
-      <p class="font-semibold">Add Friend</p>
-    </label>
-    <p class="setting-description">When a mutual is found, keep it as friend or remove it.</p>
+    <div class="flex justify-evenly text-center">
+      <AppCheckbox :label="'Add Friend'" :toggled="addFriend"
+        :description="'When a mutual is found, keep it as friend or remove it.'" :onChange="toggleAddFriend" />
+      <AppCheckbox :label="'Add To Blacklist'" :toggled="addBlacklist"
+        :description="'Add to blacklist when the user is checked once.'" :onChange="toggleAddBlacklist" />
+    </div>
   </div>
 </template>

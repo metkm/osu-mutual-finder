@@ -10,6 +10,7 @@ export default createStore({
     startPage: 1,
     endPage: 200,
     addFriend: false,
+    addBlacklist: false,
     gamemode: 'osu'
   },
   mutations: {
@@ -18,6 +19,9 @@ export default createStore({
     },
     TOGGLE_ADDFRIEND(state) {
       state.addFriend = !state.addFriend;
+    },
+    TOGGLE_ADDBLACKLIST(state) {
+      state.addBlacklist = !state.addBlacklist;
     },
     ADD_BLACKLIST(state, userId: number) {
       if (state.blacklistIds.includes(userId)) return;
@@ -53,6 +57,9 @@ export default createStore({
     },
     toggleAddFriend({ commit }) {
       commit("TOGGLE_ADDFRIEND");
+    },
+    toggleAddBlacklist({ commit }) {
+      commit("TOGGLE_ADDBLACKLIST");
     },
     addBlacklist({ commit }, userId: number) {
       commit("ADD_BLACKLIST", userId);
