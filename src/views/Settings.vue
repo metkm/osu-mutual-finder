@@ -24,12 +24,7 @@ const goBack = () => {
     <SettingsBlacklist />
     <SettingsPageLimit />
     <SettingsMode />
-    <suspense>
-      <SettingsCountries />
-      <template #fallback>
-        <img src="../assets/loading.svg" class="animate-spin w-10 h-10 mx-auto" >
-      </template>
-    </suspense>
+    <SettingsCountries />
   </div>
 </template>
 
