@@ -44,12 +44,13 @@ const blacklistId = (id: number) => {
 }
 
 const threads: Threads = {}
-const getUserElements = async (country?: string, page?: number): Promise<Element[]> => {
-  const resp = await axios.get(`https://osu.ppy.sh/rankings/${gamemode.value}/performance`, check.value == Check.Country ? {
+const getUserElements = async (page: number, country?: string): Promise<Element[]> => {
+  const resp = await axios.get(`https://osu.ppy.sh/rankings/${gamemode.value}/performance`, {
     params: {
-      country, page
+      page,
+      country
     }
-  } : {});
+  });
 
   let dom = new DOMParser().parseFromString(resp.data, "text/html");
   return Array.from(dom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
@@ -90,24 +91,28 @@ const add = async (element: Element) => {
 
 const start = async (id: number) => {
   if (check.value == Check.Global) {
-    for (let element of await getUserElements()) {
-      if (!threads[id]) return;
+    for (let page = startPage.value; page <= endPage.value; page++) {
+      currentPage.value = page;
 
-      await add(element);
+      for (let element of await getUserElements(page)) {
+        if (!threads[id]) return;
+
+        await add(element);
+      }
     }
   } else {
     for (let country of countries.value) {
       for (let page = startPage.value; page <= endPage.value; page++) {
         currentPage.value = page;
 
-        for (let element of await getUserElements(country, page)) {
+        for (let element of await getUserElements(page, country)) {
           if (!threads[id]) return;
 
           await add(element);
         }
       }
 
-      await sleep(2000);
+      await sleep(2500);
     }
   }
 }
