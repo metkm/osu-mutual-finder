@@ -1,6 +1,6 @@
 import createPersistedState from "vuex-persistedstate";
 import { createStore, Store, useStore as baseUseStore } from "vuex";
-import { StoreState, Gamemode } from "../types";
+import { StoreState, Gamemode, Check } from "../types";
 import { InjectionKey } from "vue";
 
 export const key: InjectionKey<Store<StoreState>> = Symbol();
@@ -15,7 +15,8 @@ export default createStore<StoreState>({
     endPage: 200,
     addFriend: false,
     addBlacklist: false,
-    gamemode: Gamemode.osu
+    gamemode: Gamemode.osu,
+    check: Check.Country
   },
   mutations: {
     SET_FRIENDS(state, friendsList) {

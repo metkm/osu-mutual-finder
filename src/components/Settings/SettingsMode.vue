@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppRadio from '../AppRadio.vue';
 import { ref, watch } from "vue";
-import { useStore } from 'vuex';
+import { useStore } from '../../store';
 
 const store = useStore();
 

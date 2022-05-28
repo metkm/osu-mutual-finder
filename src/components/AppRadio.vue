@@ -1,8 +1,8 @@
 <script setup lang="ts">
-defineProps({
-  label: String,
-  modelValue: String
-});
+defineProps<{
+  label: string,
+  modelValue: any
+}>();
 </script>
 
 <template>

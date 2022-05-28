@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import axios from "axios";
+
 import User from "../components/User.vue";
+import AppSide from "../components/AppSide.vue";
+
 import { ref, onActivated, onDeactivated, computed } from "vue";
 import { addFriend, delUser, sleep } from "../utils";
+
 import { useRouter } from "vue-router";
-import { mapState } from "vuex";
 import { useStore } from "../store";
-import { StoreState } from "../types";
-import AppSide from "../components/AppSide.vue";
+
+import { Threads, Check } from "../types";
+
 const store = useStore();
 const router = useRouter();
 
+const blacklistedIds = computed(() => store.state.blacklistIds);
 const countries = computed(() => store.state.countries);
+const friendIds = computed(() => store.state.friends);
+const gamemode = computed(() => store.state.gamemode);
 const startPage = computed(() => store.state.startPage);
 const endPage = computed(() => store.state.endPage);
-const friendIds = computed<number[]>(() => store.state.friends);
-const blacklistedIds = computed<number[]>(() => store.state.blacklistIds);
-const gamemode = computed(() => store.state.gamemode);
+const check = computed(() => store.state.check);
 
 const shouldAdd = computed(() => store.state.addFriend);
 const shouldBlacklist = computed(() => store.state.addBlacklist);
@@ -34,75 +39,74 @@ const randomNumber = (): number => {
   return Math.floor(Math.random() * 500);
 }
 
-interface Threads {
-  [key: number]: boolean
-}
-
 const blacklistId = (id: number) => {
   store.dispatch("addBlacklist", id);
 }
 
 const threads: Threads = {}
+const getUserElements = async (country?: string, page?: number): Promise<Element[]> => {
+  const resp = await axios.get(`https://osu.ppy.sh/rankings/${gamemode.value}/performance`, check.value == Check.Country ? {
+    params: {
+      country, page
+    }
+  } : {});
 
-async function start(id: number) {
-  for (const country of countries.value) {
-    for (let page = startPage.value; page <= endPage.value; page++) {
-      currentPage.value = page
+  let dom = new DOMParser().parseFromString(resp.data, "text/html");
+  return Array.from(dom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
+}
 
-      let countryPage = await axios.get(`https://osu.ppy.sh/rankings/${gamemode.value}/performance`, {
-        params: { country: country, page: page }
-      });
+const add = async (element: Element) => {
+  let id = parseInt(element.getAttribute("data-user-id")!);
+  checking.value = id;
 
-      let countryDom = new DOMParser().parseFromString(countryPage.data, "text/html");
-      let userElements = Array.from(countryDom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
+  if (friendIds.value.includes(id) || blacklistedIds.value.includes(id)) return;
+  if (shouldBlacklist.value) {
+    blacklistId(id);
+  }
 
-      for (const userElement of userElements) {
-        if (!threads[id]) {
-          return;
+  try {
+    let newFriendList = await addFriend(id);
+    if (!newFriendList) return;
+
+    checked.value.push(id);
+
+    let friend = newFriendList.find(fr => fr.target_id == id);
+    if (!friend) return;
+
+    if (!friend.mutual) {
+      await delUser(id);
+      return;
+    }
+
+    if (!shouldAdd.value) {
+      await delUser(id);
+    }
+
+    mutuals.value.push(id);
+  } catch(err: any) {
+    console.log("can't add", id, err.response.data, err.response.status)
+  }
+}
+
+const start = async (id: number) => {
+  if (check.value == Check.Global) {
+    for (let element of await getUserElements()) {
+      if (!threads[id]) return;
+
+      await add(element);
+    }
+  } else {
+    for (let country of countries.value) {
+      for (let page = startPage.value; page <= endPage.value; page++) {
+        currentPage.value = page;
+
+        for (let element of await getUserElements(country, page)) {
+          if (!threads[id]) return;
+
+          await add(element);
         }
-
-        let userId = parseInt(userElement.getAttribute("data-user-id")!);
-        checking.value = userId;
-        
-        // Already added friend. Skip.
-        if (friendIds.value.includes(userId)) continue;
-        // The userid is in the blacklist. Skip.
-        if (blacklistedIds.value.includes(userId)) continue;
-
-        // Add the userId to blacklist.
-        if (shouldBlacklist.value) {
-          blacklistId(userId);
-        }
-
-        try {
-          // New friend list.
-          let friendList = await addFriend(userId);
-          if (typeof friendList == "undefined") continue;
-
-          for (const friend of friendList) {
-            if (friend.target_id != userId) continue;
-
-            // The added friend is not mutual. Delete it.
-            if (!friend.mutual) {
-              await delUser(userId);
-              continue;
-            } 
-
-            // Add friend settings is not enabled.
-            if (!shouldAdd.value) {
-              await delUser(userId);
-            }
-
-            mutuals.value.push(userId);
-          }
-        } catch (error: any) {
-          console.log("can't add", userId, error.response.data, error.response.status)
-        }
-
-        checked.value.push(userId);
       }
 
-      // Sleep on every page change
       await sleep(2000);
     }
   }
@@ -144,7 +148,8 @@ onActivated(() => {
     </div>
 
     <p class="font-semibold text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
-    <button class="col-span-2 bg-green-600 p-2 rounded-lg transition-all font-semibold hover:bg-gray-800" @click="toSettings">
+    <button class="col-span-2 bg-green-600 p-2 rounded-lg transition-all font-semibold hover:bg-gray-800"
+      @click="toSettings">
       Settings
     </button>
 
@@ -156,6 +161,7 @@ onActivated(() => {
   opacity: 0;
   transform: translateY(40px);
 }
+
 .mutuals-move {
   transition: all 1s ease;
   position: absolute;

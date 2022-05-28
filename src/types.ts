@@ -15,11 +15,20 @@ declare global {
   }
 }
 
+export interface Threads {
+  [key: number]: boolean
+}
+
 export enum Gamemode {
   osu,
   taiko,
   fruits,
   mania
+}
+
+export enum Check {
+  Country,
+  Global
 }
 
 export interface StoreState {
@@ -30,7 +39,8 @@ export interface StoreState {
   endPage: number,
   addFriend: boolean,
   addBlacklist: boolean,
-  gamemode: Gamemode
+  gamemode: Gamemode,
+  check: Check
 }
 
 export interface Notification {
