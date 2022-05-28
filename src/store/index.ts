@@ -1,7 +1,11 @@
-import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
+import { createStore, Store, useStore as baseUseStore } from "vuex";
+import { StoreState, Gamemode } from "../types";
+import { InjectionKey } from "vue";
 
-export default createStore({
+export const key: InjectionKey<Store<StoreState>> = Symbol();
+
+export default createStore<StoreState>({
   plugins: [createPersistedState()],
   state: {
     friends: [] as number[],
@@ -11,7 +15,7 @@ export default createStore({
     endPage: 200,
     addFriend: false,
     addBlacklist: false,
-    gamemode: 'osu'
+    gamemode: Gamemode.osu
   },
   mutations: {
     SET_FRIENDS(state, friendsList) {
@@ -50,7 +54,7 @@ export default createStore({
       let index = state.countries.findIndex(country => country == countryCode);
       state.countries.splice(index, 1);
     },
-    SET_GAMEMODE(state, mode: string) {
+    SET_GAMEMODE(state, mode: Gamemode) {
       state.gamemode = mode;
     }
   },
@@ -90,3 +94,7 @@ export default createStore({
     }
   },
 });
+
+export function useStore() {
+  return baseUseStore(key);
+}

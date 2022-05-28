@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useStore } from "vuex";
-import { Country, UserObject, UserObjectAdded, WebCountry } from "./types";
+import { useStore } from "./store";
+import { UserObject, UserObjectAdded, WebCountry } from "./types";
 
 export async function sleep(ms: number): Promise<void> {
   return new Promise(resolve => {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useStore } from "vuex";
-import axios from "axios";
+import { useStore } from "../../store";
 const store = useStore();
 
 const blacklistIds = computed(() => store.state.blacklistIds);

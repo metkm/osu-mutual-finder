@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
-import { useStore } from "vuex";
+import { useStore } from "../../store";
 const store = useStore();
 
 const start = ref(store.state.startPage);

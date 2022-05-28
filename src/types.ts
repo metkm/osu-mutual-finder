@@ -15,6 +15,24 @@ declare global {
   }
 }
 
+export enum Gamemode {
+  osu,
+  taiko,
+  fruits,
+  mania
+}
+
+export interface StoreState {
+  friends: number[],
+  blacklistIds: number[],
+  countries: string[],
+  startPage: number,
+  endPage: number,
+  addFriend: boolean,
+  addBlacklist: boolean,
+  gamemode: Gamemode
+}
+
 export interface Notification {
   message: string
 }

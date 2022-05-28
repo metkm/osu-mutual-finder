@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useStore } from "vuex";
+import { useStore } from "../../store";
 import AppCheckbox from "../AppCheckbox.vue";
 const store = useStore();
 
