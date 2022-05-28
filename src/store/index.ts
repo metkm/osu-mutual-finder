@@ -57,6 +57,9 @@ export default createStore<StoreState>({
     },
     SET_GAMEMODE(state, mode: Gamemode) {
       state.gamemode = mode;
+    },
+    SET_CHECK(state, check: Check) {
+      state.check = check; 
     }
   },
   actions: {
@@ -92,6 +95,9 @@ export default createStore<StoreState>({
     },
     setGamemode({ commit }, mode: string) {
       commit("SET_GAMEMODE", mode);
+    },
+    setCheck({ commit }, check: Check) {
+      commit("SET_CHECK", check);
     }
   },
 });

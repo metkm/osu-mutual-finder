@@ -27,8 +27,8 @@ export enum Gamemode {
 }
 
 export enum Check {
-  Country,
-  Global
+  Country = "Country",
+  Global = "Global"
 }
 
 export interface StoreState {
