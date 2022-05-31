@@ -25,14 +25,6 @@
     @apply overflow-hidden;
   }
 
-  .form-element {
-    @apply p-2;
-    @apply bg-neutral-800;
-    @apply rounded;
-    @apply max-w-lg;
-    @apply w-full;
-  }
-
   .form-button {
     @apply max-w-lg w-full;
     @apply p-2;

@@ -4,6 +4,7 @@ import { computed, ref, watch } from "vue";
 import { jsonCountries } from "../../utils";
 import { Check } from "../../types";
 import AppRadio from "../AppRadio.vue";
+import AppInput from "../AppInput.vue";
 const store = useStore();
 
 const countriesToCheck = computed(() => store.state.countries);
@@ -40,7 +41,8 @@ watch(check, newCheck => {
       <div class="flex gap-2 h-full max-h-64">
         <div class="flex flex-col flex-1 gap-2">
           <p>Countries to Add</p>
-          <input v-model="searchQuery" type="text" placeholder="Search" class="form-element max-w-full">
+          <AppInput v-model="searchQuery" type="text" placeholder="Search" />
+
           <div class="listbox">
             <p v-for="country in searchQueryResults" :key="country.code" class="hover:bg-neutral-700 p-1"
               @dblclick="addCountry(country.code)">

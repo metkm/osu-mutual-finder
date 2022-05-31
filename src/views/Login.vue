@@ -2,6 +2,7 @@
 import axios from "axios";
 import { ref, } from "vue";
 import { useRouter } from "vue-router";
+import AppInput from "../components/AppInput.vue";
 
 const cooldown = ref(false);
 const username = ref(null);
@@ -36,9 +37,10 @@ const login = async () => {
 </script>
 
 <template>
-  <div id="login" class="page flex flex-col items-center justify-center gap-2">
-    <input v-model="username" type="text" placeholder="Username" class="form-element">
-    <input v-model="password" type="text" placeholder="Password" class="form-element">
+  <div id="login" class="page flex flex-col items-center justify-center gap-2 max-w-lg mx-auto">
+    <AppInput v-model="username" type="text" placeholder="Username" />
+    <AppInput v-model="password" type="text" placeholder="Password" />
+
     <button class="form-button" :disabled="cooldown" @click="login">Login</button>
   </div>
 </template>

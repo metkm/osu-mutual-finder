@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useStore } from "../../store";
+import AppInput from "../AppInput.vue";
 const store = useStore();
 
 const blacklistIds = computed(() => store.state.blacklistIds);
@@ -23,7 +24,7 @@ const clearBlacklist = () => {
       <div class="flex flex-col gap-2">
         <p class="font-semibold">Blacklist</p>
         <p class="setting-description">User IDs to skip automatically</p>
-        <input type="number" placeholder="User id" class="form-element input-number" v-model="userId" />
+        <AppInput type="number" placeholder="User id" v-model="userId" />
         <button class="form-button" @click="addToBlacklist">Add to Blacklist</button>
         <!-- <button class="form-button" @click="removeFriend">Remove Friend</button> -->
         <button class="form-button bg-red-600" @click="clearBlacklist">Clear Blacklist</button>
