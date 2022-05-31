@@ -27,7 +27,7 @@
 
   .form-element {
     @apply p-2;
-    @apply bg-gray-800;
+    @apply bg-neutral-800;
     @apply rounded;
     @apply max-w-lg;
     @apply w-full;
@@ -40,8 +40,8 @@
     @apply font-semibold;
     @apply transition-all;
     @apply bg-green-600;
-    @apply hover:bg-gray-800;
-    @apply disabled:opacity-25 disabled:bg-gray-800;
+    @apply hover:bg-neutral-800;
+    @apply disabled:opacity-25 disabled:bg-neutral-800;
   }
 
   .input-number::-webkit-inner-spin-button {
@@ -59,25 +59,25 @@
   }
 
   .setting {
-    @apply bg-gray-900;
+    @apply bg-neutral-900;
     @apply rounded-lg;
     @apply p-4;
     @apply gap-2;
-    @apply flex flex-grow flex-col justify-between;
+    @apply flex flex-grow flex-col justify-between basis-0;
   }
 
   .listbox {
     @apply overflow-y-auto;
     @apply relative;
-    @apply bg-gray-900;
+    @apply bg-neutral-900;
     @apply border;
-    @apply border-gray-800;
+    @apply border-neutral-800;
 
     @apply w-full h-60;
     @apply rounded;
   }
 
   .setting-description {
-    @apply text-gray-500;
+    @apply text-neutral-500;
   }
 }

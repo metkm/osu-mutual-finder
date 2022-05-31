@@ -16,7 +16,7 @@ const country = jsonCountries.find(country => {
 
 <template>
   <a :href="`https://osu.ppy.sh/users/${userId}`" target="_blank"
-    class="flex flex-col bg-gray-900 p-1 rounded-md group">
+    class="flex flex-col bg-neutral-900 p-1 rounded-md group">
     <img :src="userDetails.cover.url" class="flex h-12 object-cover rounded-md" />
 
     <div class="flex px-2 gap-1" style="margin-top: -6px;">
@@ -24,7 +24,7 @@ const country = jsonCountries.find(country => {
 
       <div class="flex flex-1 items-end justify-between mx-2">
         <div>
-          <p v-if="userDetails.statistics.global_rank" class="text-sm font-bold text-gray-500 -my-1">#{{
+          <p v-if="userDetails.statistics.global_rank" class="text-sm font-bold text-neutral-500 -my-1">#{{
               userDetails.statistics.global_rank
           }}</p>
           <p class="font-semibold text-lg">{{ userDetails.username }}</p>

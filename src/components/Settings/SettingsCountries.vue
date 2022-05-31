@@ -42,7 +42,7 @@ watch(check, newCheck => {
           <p>Countries to Add</p>
           <input v-model="searchQuery" type="text" placeholder="Search" class="form-element max-w-full">
           <div class="listbox">
-            <p v-for="country in searchQueryResults" :key="country.code" class="hover:bg-gray-700 p-1"
+            <p v-for="country in searchQueryResults" :key="country.code" class="hover:bg-neutral-700 p-1"
               @dblclick="addCountry(country.code)">
               {{ country.code }} - {{ country.name }}
             </p>
@@ -52,7 +52,7 @@ watch(check, newCheck => {
         <div class="flex flex-col flex-1">
           <p>Countries to Check</p>
           <div class="listbox">
-            <p v-for="countryCode in countriesToCheck" :key="countryCode" class="hover:bg-gray-700 p-1"
+            <p v-for="countryCode in countriesToCheck" :key="countryCode" class="hover:bg-neutral-700 p-1"
               @dblclick="removeCountry(countryCode)">
               {{ countryCode }}
             </p>

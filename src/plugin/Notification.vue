@@ -21,7 +21,7 @@ window.ipc.message((message: string) => events.emit("notify", message))
 <template>
   <transition-group tag="div" class="absolute bottom-5 flex flex-col gap-2" name="notif" appear>
     <template v-for="(notification, index) in notifications" :key="index">
-      <div class="bg-gray-800 flex items-center border-l-4 border-green-600 rounded ml-5 p-2 font-semibold h-14 w-96">
+      <div class="bg-neutral-800 flex items-center border-l-4 border-green-600 rounded ml-5 p-2 font-semibold h-14 w-96">
         <p>{{ notification.message }}</p>
       </div>
     </template>
