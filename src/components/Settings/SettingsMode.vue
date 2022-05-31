@@ -16,7 +16,6 @@ watch(gamemode, mode => {
 <template>
   <div class="setting">
     <p class="font-semibold">Gamemode</p>
-    <p>Current Gamemode: {{ gamemode }}</p>
 
     <template v-for="mode in modes">
       <AppRadio :label="mode" v-model="gamemode" />
