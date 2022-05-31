@@ -56,6 +56,10 @@ export async function delUser(userId: number) {
   await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
 }
 
+export function countryFromCode(code: string) {
+  return jsonCountries.find(country => country.code == code);
+}
+
 export const jsonCountries: WebCountry[] = [
   { flag_url: "1f1fa-1f1f8.svg", code: "US", name: "United States" },
   { flag_url: "1f1f7-1f1fa.svg", code: "RU", name: "Russian Federation" },

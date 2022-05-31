@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStore } from "../../store";
 import { computed, ref, watch } from "vue";
-import { jsonCountries } from "../../utils";
+import { jsonCountries, countryFromCode } from "../../utils";
 import { Check } from "../../types";
 import AppRadio from "../AppRadio.vue";
 import AppInput from "../AppInput.vue";
@@ -35,19 +35,21 @@ watch(check, newCheck => {
       <AppRadio :label="Check.Country" v-model="check" />
       <AppRadio :label="Check.Global" v-model="check" />
     </div>
-    
-    <div :class="{'opacity-20 pointer-events-none': check != Check.Country}">
-      <p class="font-semibold">Countries</p>
-      <div class="flex gap-2 h-full max-h-64">
+
+    <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
+      <!-- <p class="font-semibold">Countries</p> -->
+      <div class="flex gap-2 h-full max-h-96">
         <div class="flex flex-col flex-1 gap-2">
           <p>Countries to Add</p>
           <AppInput v-model="searchQuery" type="text" placeholder="Search" />
 
           <div class="listbox">
-            <p v-for="country in searchQueryResults" :key="country.code" class="hover:bg-neutral-700 p-1"
-              @dblclick="addCountry(country.code)">
-              {{ country.code }} - {{ country.name }}
-            </p>
+            <div v-for="country in searchQueryResults" :key="country.code"
+              class="flex items-center gap-2 hover:bg-neutral-800 p-1 rounded" @dblclick="addCountry(country.code)">
+              <img class="h-8 flag"
+                :src="`https://osu.ppy.sh//assets/images/flags/${countryFromCode(country.code)?.flag_url}`" />
+              <p class="font-medium">{{ country.name }}</p>
+            </div>
           </div>
         </div>
 

@@ -59,14 +59,25 @@
   }
 
   .listbox {
-    @apply overflow-y-auto;
+    @apply overflow-y-auto rounded;
+    /* @apply bg-neutral-800; */
+
+    /* @apply overflow-y-auto;
     @apply relative;
     @apply bg-neutral-900;
     @apply border;
     @apply border-neutral-800;
 
     @apply w-full h-60;
-    @apply rounded;
+    @apply rounded; */
+  }
+
+  .listbox-item {
+
+  }
+
+  .flag {
+    @apply contrast-75;
   }
 
   .setting-description {
