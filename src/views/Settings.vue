@@ -20,11 +20,15 @@ const goBack = () => {
       <p class="group-hover:-translate-x-1 transition-all">Back</p>
     </div>
 
-    <SettingsToggle />
-    <SettingsBlacklist />
-    <SettingsPageLimit />
-    <SettingsMode />
-    <SettingsCountries />
+    <div class="flex flex-col gap-2">
+      <SettingsToggle />
+      <SettingsBlacklist />
+      <div class="flex justify-center gap-2">
+        <SettingsPageLimit />
+        <SettingsMode />
+      </div>
+      <SettingsCountries />
+    </div>
   </div>
 </template>
 

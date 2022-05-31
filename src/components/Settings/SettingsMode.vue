@@ -17,8 +17,8 @@ watch(gamemode, mode => {
   <div class="setting">
     <p class="font-semibold">Gamemode</p>
 
-    <template v-for="mode in modes">
-      <AppRadio :label="mode" v-model="gamemode" />
-    </template>
+    <div class="flex flex-col gap-1">
+      <AppRadio v-for="mode in modes" :label="mode" v-model="gamemode" />
+    </div>
   </div>
 </template>

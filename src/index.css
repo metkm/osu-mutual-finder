@@ -62,9 +62,8 @@
     @apply bg-gray-900;
     @apply rounded-lg;
     @apply p-4;
-    @apply my-2;
     @apply gap-2;
-    @apply flex flex-col;
+    @apply flex flex-grow flex-col justify-between;
   }
 
   .listbox {
