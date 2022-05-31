@@ -20,7 +20,7 @@ const goBack = () => {
       <p class="group-hover:-translate-x-1 transition-all">Back</p>
     </div>
 
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 mt-2">
       <SettingsToggle />
       <SettingsBlacklist />
       <div class="flex justify-center gap-2">
