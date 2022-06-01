@@ -59,7 +59,9 @@
   }
 
   .listbox {
-    @apply overflow-y-auto rounded;
+    @apply overflow-y-auto;
+    @apply flex-1 rounded;
+    @apply font-semibold;
   }
 
   .flag {
