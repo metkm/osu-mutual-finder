@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { jsonCountries, countryFromCode } from '../utils';
+import { jsonCountries } from '../utils';
 
 const props = defineProps<{
   code: string
@@ -10,7 +10,7 @@ const country = jsonCountries.find(country => country.code == props.code);
 
 <template>
   <div v-if="country" class="flex items-center gap-2 hover:bg-neutral-800 p-1 rounded">
-    <img class="h-6 flag" :src="countryFromCode(country.code)">
+    <p class="w-8">{{ country.code }}</p>
     <p>{{ country.name }}</p>
   </div>
 </template>
