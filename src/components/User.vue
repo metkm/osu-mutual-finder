@@ -19,15 +19,15 @@ const country = jsonCountries.find(country => {
     class="flex flex-col shadow-md dark:bg-neutral-900 p-1 rounded-md group">
     <img :src="userDetails.cover.url" class="flex h-12 object-cover rounded-md" />
 
-    <div class="flex px-2 gap-1" style="margin-top: -6px;">
+    <div class="flex px-2 gap-1" style="margin-top: -14px;">
       <img :src="userDetails.avatar_url" class="w-16 h-16 rounded-md" />
 
-      <div class="flex flex-1 items-end justify-between mx-2">
-        <div>
+      <div class="flex flex-grow items-end overflow-hidden">
+        <div class="overflow-hidden flex-1 px-1">
           <p v-if="userDetails.statistics.global_rank" class="text-sm font-bold text-neutral-500 -my-1">#{{
               userDetails.statistics.global_rank
           }}</p>
-          <p class="font-semibold text-lg">{{ userDetails.username }}</p>
+          <p class="font-semibold text-lg truncate">{{ userDetails.username }}</p>
         </div>
 
         <img v-if="country" class="h-8 flag" :src="countryFromCode(country.code)" />
