@@ -153,7 +153,7 @@ onActivated(() => {
     </div>
 
     <p class="font-semibold text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
-    <button class="col-span-2 bg-green-600 p-2 rounded-lg transition-all font-semibold hover:bg-neutral-800"
+    <button class="form-button max-w-full"
       @click="toSettings">
       Settings
     </button>
