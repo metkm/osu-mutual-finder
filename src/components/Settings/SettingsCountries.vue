@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useStore } from "../../store";
 import { computed, ref, watch } from "vue";
-import { jsonCountries, countryFromCode } from "../../utils";
+import { jsonCountries } from "../../utils";
 import { Check } from "../../types";
 import AppRadio from "../AppRadio.vue";
 import AppInput from "../AppInput.vue";
+import Country from "../Country.vue";
 const store = useStore();
 
 const countriesToCheck = computed(() => store.state.countries);
@@ -44,22 +45,14 @@ watch(check, newCheck => {
           <AppInput v-model="searchQuery" type="text" placeholder="Search" />
 
           <div class="listbox">
-            <div v-for="country in searchQueryResults" :key="country.code"
-              class="flex items-center gap-2 hover:bg-neutral-800 p-1 rounded" @dblclick="addCountry(country.code)">
-              <img class="h-8 flag"
-                :src="`https://osu.ppy.sh//assets/images/flags/${countryFromCode(country.code)?.flag_url}`" />
-              <p class="font-medium">{{ country.name }}</p>
-            </div>
+            <Country v-for="country in searchQueryResults" :key="country.code" :code="country.code" @dblclick="addCountry(country.code)" />
           </div>
         </div>
 
         <div class="flex flex-col flex-1">
           <p>Countries to Check</p>
           <div class="listbox">
-            <p v-for="countryCode in countriesToCheck" :key="countryCode" class="hover:bg-neutral-700 p-1"
-              @dblclick="removeCountry(countryCode)">
-              {{ countryCode }}
-            </p>
+            <Country v-for="code in countriesToCheck" :key="code" :code="code" @dblclick="removeCountry(code)" />
           </div>
         </div>
       </div>

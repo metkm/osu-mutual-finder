@@ -57,7 +57,8 @@ export async function delUser(userId: number) {
 }
 
 export function countryFromCode(code: string) {
-  return jsonCountries.find(country => country.code == code);
+  let country = jsonCountries.find(country => country.code == code);
+  return `/src/assets/flags/${country?.code.toLowerCase()}.svg`;
 }
 
 export const jsonCountries: WebCountry[] = [

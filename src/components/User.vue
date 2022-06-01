@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getUser } from "../utils";
-import { jsonCountries } from "../utils";
+import { jsonCountries, countryFromCode } from "../utils";
 
 const props = defineProps({
   userId: Number
@@ -30,7 +30,7 @@ const country = jsonCountries.find(country => {
           <p class="font-semibold text-lg">{{ userDetails.username }}</p>
         </div>
 
-        <img v-if="country" :src="`https://osu.ppy.sh//assets/images/flags/${country.flag_url}`" class="h-10">
+        <img v-if="country" class="h-8 flag" :src="countryFromCode(country.code)" />
       </div>
     </div>
   </a>
