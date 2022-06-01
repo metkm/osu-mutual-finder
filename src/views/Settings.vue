@@ -15,9 +15,13 @@ const goBack = () => {
 
 <template>
   <div id="settings" class="page overflow-y-auto">
-    <div class="p-2 w-24 text-white bg-green-600 rounded-lg flex items-center group font-semibold justify-center" @click="goBack">
-      <img src="../assets/back.svg" class="group-hover:-translate-x-1 transition-all" />
-      <p class="group-hover:-translate-x-1 transition-all">Back</p>
+    <div class="flex items-center py-2">
+      <div class="form-button w-24 absolute z-10" @click="goBack">
+        <img src="../assets/back.svg" />
+        <p>Back</p>
+      </div>
+
+      <p class="font-bold mx-auto">Settings</p>
     </div>
 
     <div class="flex flex-col gap-2 mt-2">

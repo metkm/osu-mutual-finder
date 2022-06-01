@@ -17,7 +17,7 @@ const country = jsonCountries.find(country => {
 <template>
   <a :href="`https://osu.ppy.sh/users/${userId}`" target="_blank"
     class="flex flex-col shadow-md dark:bg-neutral-900 p-1 rounded-md">
-    <img :src="userDetails.cover.url" class="flex h-12 object-cover rounded-md" />
+    <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" />
 
     <div class="flex px-2 gap-1" style="margin-top: -14px;">
       <img :src="userDetails.avatar_url" class="w-16 h-16 rounded-md" />
