@@ -9,7 +9,7 @@ const country = jsonCountries.find(country => country.code == props.code);
 </script>
 
 <template>
-  <div v-if="country" class="flex items-center gap-2 hover:bg-neutral-800 p-1 rounded">
+  <div v-if="country" class="listbox-item">
     <p class="w-8">{{ country.code }}</p>
     <p>{{ country.name }}</p>
   </div>

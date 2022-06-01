@@ -31,7 +31,7 @@ const clearBlacklist = () => {
       </div>
 
       <div class="listbox select-none">
-        <p v-for="id in blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="hover:bg-neutral-700 rounded p-1">
+        <p v-for="id in blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="listbox-item">
           {{ id }}
         </p>
       </div>

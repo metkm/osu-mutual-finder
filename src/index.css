@@ -5,7 +5,7 @@
 
 @layer base {
   html, body {
-    @apply bg-black;
+    @apply dark:bg-black;
     @apply bg-opacity-75;
     @apply w-full h-full;
     @apply overflow-hidden;
@@ -31,7 +31,7 @@
     @apply rounded;
     @apply font-semibold;
     @apply transition-all;
-    @apply bg-green-600;
+    @apply bg-green-600 text-white;
     @apply hover:bg-neutral-800;
     @apply disabled:opacity-25 disabled:bg-neutral-800;
   }
@@ -51,7 +51,7 @@
   }
 
   .setting {
-    @apply bg-neutral-900;
+    @apply shadow-md dark:bg-neutral-900;
     @apply rounded-lg;
     @apply p-4;
     @apply gap-2;
@@ -61,7 +61,12 @@
   .listbox {
     @apply overflow-y-auto;
     @apply flex-1 rounded;
-    @apply font-semibold shadow-2xl;
+    @apply font-semibold;
+  }
+
+  .listbox-item {
+    @apply flex items-center p-1 rounded;
+    @apply hover:bg-neutral-200 dark:hover:bg-neutral-800;
   }
 
   .flag {

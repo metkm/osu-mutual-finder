@@ -15,7 +15,7 @@ const goBack = () => {
 
 <template>
   <div id="settings" class="page overflow-y-auto">
-    <div class="p-2 w-24 bg-green-600 rounded-lg flex items-center group font-semibold" @click="goBack">
+    <div class="p-2 w-24 text-white bg-green-600 rounded-lg flex items-center group font-semibold justify-center" @click="goBack">
       <img src="../assets/back.svg" class="group-hover:-translate-x-1 transition-all" />
       <p class="group-hover:-translate-x-1 transition-all">Back</p>
     </div>

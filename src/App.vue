@@ -12,7 +12,7 @@ if (import.meta.env.DEV) {
 
 <template>
   <TitleBar />
-  <div id="app-inner" class="relative flex-1 overflow-hidden">
+  <div class="relative flex-1 overflow-hidden">
     <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
