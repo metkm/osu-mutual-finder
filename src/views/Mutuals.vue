@@ -92,7 +92,6 @@ const add = async (element: Element) => {
 const startCheck = async (id: number, country?: string) => {
   for (let page = startPage.value; page <= endPage.value; page++) {
     currentPage.value = page;
-    store.dispatch("setStartPage", page);
 
     let elements = await getUserElements(page, country);
     for (const element of elements) {
