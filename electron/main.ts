@@ -33,7 +33,7 @@ async function main() {
     width: 1000,
     minWidth: 500,
     height: 800,
-    minHeight: 800,
+    minHeight: 600,
     show: false,
     autoHideMenuBar: true,
     titleBarStyle: "hidden",
