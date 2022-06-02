@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session, shell, ipcMain } from "electron";
+import { app, BrowserWindow, session, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import { registerEvents } from "./events";
 
