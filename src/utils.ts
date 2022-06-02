@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useStore } from "./store";
-import { Limit } from "./store/types";
 import { UserObject, UserObjectAdded, WebCountry } from "./types";
 
 export async function sleep(ms: number): Promise<void> {

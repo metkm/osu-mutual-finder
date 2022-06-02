@@ -6,11 +6,10 @@ import AppSide from "../components/AppSide.vue";
 
 import { ref, onActivated, onDeactivated, computed } from "vue";
 import { addFriend, delUser, sleep } from "../utils";
+import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
-
-import { Threads, Check } from "../types";
 
 const store = useStore();
 const router = useRouter();
@@ -19,8 +18,6 @@ const blacklistedIds = computed(() => store.state.blacklistIds);
 const countries = computed(() => store.state.countries);
 const friendIds = computed(() => store.state.friends);
 const gamemode = computed(() => store.state.gamemode);
-const startPage = computed(() => store.state.startPage);
-const endPage = computed(() => store.state.endPage);
 const check = computed(() => store.state.check);
 
 const shouldAdd = computed(() => store.state.addFriend);
@@ -84,23 +81,53 @@ const add = async (element: Element) => {
     }
 
     mutuals.value.push(id);
-  } catch(err: any) {
+  } catch (err: any) {
     console.log("can't add", id, err.response.data, err.response.status)
   }
 }
 
 const startCheck = async (id: number, country?: string) => {
-  for (let page = startPage.value; page <= endPage.value; page++) {
+  let limit = {
+    countryCode: "?",
+    start: 1,
+    end: 200,
+    index: 0
+  }
+  
+  if (country) {
+    let countryLimit = store.getters.getLimit(country);
+    if (countryLimit) {
+      limit = countryLimit;
+    }
+  }
+
+  for (let page = limit.start; page <= limit.end; page++) {
     currentPage.value = page;
 
-    let elements = await getUserElements(page, country);
-    for (const element of elements) {
+    let elements = (await getUserElements(page, country)).slice((store.getters.getLimit(country)?.index || 0));
+
+    for (const [index, element] of elements.entries()) {
       if (!threads[id]) return;
 
+      if (country) {
+        store.commit("updateLimit", {
+          countryCode: country,
+          start: page,
+          end: limit.end,
+          index: index + (store.getters.getLimit(country)?.index || 0)
+        });
+      }
       await add(element);
     }
 
-    await sleep(2000); // sleep 2 seconds before changing page.
+    if (country) {
+      store.commit("updateLimit", {
+        countryCode: country,
+        start: page,
+        end: limit.end,
+        index: 0
+      })
+    }
   }
 }
 
@@ -151,8 +178,7 @@ onActivated(() => {
     </div>
 
     <p class="font-semibold text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
-    <button class="form-button max-w-full"
-      @click="toSettings">
+    <button class="form-button max-w-full" @click="toSettings">
       Settings
     </button>
 

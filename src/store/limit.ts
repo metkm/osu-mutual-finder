@@ -37,10 +37,8 @@ const limit: Module<LimitState, StoreState> = {
     },
     updateLimit({ limits }, newLimit: Limit) {
       clampLimit(newLimit);
-      // console.log(newLimit);
 
       let index = limits.findIndex(limit => limit.countryCode == newLimit.countryCode);
-      console.log("index", index, newLimit.index);
       if (index !== -1) {
         limits.splice(index, 1, newLimit);
       }
