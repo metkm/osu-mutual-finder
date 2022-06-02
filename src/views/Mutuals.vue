@@ -100,6 +100,8 @@ const startCheck = async (id: number, country?: string) => {
 
       await add(element);
     }
+
+    await sleep(2000); // sleep 2 seconds before changing page.
   }
 }
 
