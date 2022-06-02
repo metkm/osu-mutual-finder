@@ -20,10 +20,10 @@ export interface Threads {
 }
 
 export enum Gamemode {
-  osu,
-  taiko,
-  fruits,
-  mania
+  osu = "osu",
+  taiko = "taiko",
+  fruits = "fruits",
+  mania = "mania"
 }
 
 export enum Check {

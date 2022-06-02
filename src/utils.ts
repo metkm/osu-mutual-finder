@@ -28,7 +28,7 @@ export async function updateFriends(): Promise<void> {
   store.dispatch("setFriends", jsonUsers.map(user => user.id));
 
   const token = dom.getElementsByName("csrf-token")[0].getAttribute("content");
-  axios.defaults.headers.common["x-csrf-token"] = token;
+  axios.defaults.headers.common["x-csrf-token"] = token!;
   axios.defaults.headers.common["x-requested-with"] = "XMLHttpRequest";
 }
 
@@ -54,11 +54,6 @@ export async function addFriend(userId: number): Promise<UserObjectAdded[] | und
 
 export async function delUser(userId: number) {
   await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
-}
-
-export function countryFromCode(code: string) {
-  let country = jsonCountries.find(country => country.code == code);
-  return `/src/assets/flags/${country?.code.toLowerCase()}.svg`;
 }
 
 export const jsonCountries: WebCountry[] = [

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getUser } from "../utils";
-import { jsonCountries, countryFromCode } from "../utils";
+import { jsonCountries } from "../utils";
 
 const props = defineProps({
   userId: Number
@@ -12,6 +12,11 @@ const country = jsonCountries.find(country => {
     return country
   }
 })
+
+const countryFromCode = (code: string) => {
+  let country = jsonCountries.find(country => country.code == code);
+  return import.meta.env.DEV ? `/flags/${country?.code.toLowerCase()}.svg`: `./flags/${country?.code.toLowerCase()}.svg`;
+}
 </script>
 
 <template>
@@ -30,7 +35,7 @@ const country = jsonCountries.find(country => {
           <p class="font-semibold text-lg truncate">{{ userDetails.username }}</p>
         </div>
 
-        <img v-if="country" class="h-8 flag" :src="countryFromCode(country.code)" />
+        <img v-if="country" class="h-8 flag" :src="countryFromCode(country.code)!" />
       </div>
     </div>
   </a>

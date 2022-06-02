@@ -41,6 +41,7 @@
     "mitt": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/types": "^7.18.4",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "^10.3.6",
     "electron": "^19.0.2",

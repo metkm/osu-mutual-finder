@@ -89,29 +89,26 @@ const add = async (element: Element) => {
   }
 }
 
+const startCheck = async (id: number, country?: string) => {
+  for (let page = startPage.value; page <= endPage.value; page++) {
+    currentPage.value = page;
+    store.dispatch("setStartPage", page);
+
+    let elements = await getUserElements(page, country);
+    for (const element of elements) {
+      if (!threads[id]) return;
+
+      await add(element);
+    }
+  }
+}
+
 const start = async (id: number) => {
   if (check.value == Check.Global) {
-    for (let page = startPage.value; page <= endPage.value; page++) {
-      currentPage.value = page;
-
-      for (let element of await getUserElements(page)) {
-        if (!threads[id]) return;
-
-        await add(element);
-      }
-    }
+    await startCheck(id);
   } else {
     for (let country of countries.value) {
-      for (let page = startPage.value; page <= endPage.value; page++) {
-        currentPage.value = page;
-
-        for (let element of await getUserElements(page, country)) {
-          if (!threads[id]) return;
-
-          await add(element);
-        }
-      }
-
+      await startCheck(id, country);
       await sleep(2500);
     }
   }
