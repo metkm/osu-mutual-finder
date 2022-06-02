@@ -7,11 +7,15 @@ import AppSelect from "../AppSelect.vue";
 const store = useStore();
 
 const limits = computed(() => store.state.limit.limits);
-const selected = ref("asd");
+const selected = ref("");
 
 const change = (code: string) => {
   let limit = limits.value.find(x => x.countryCode == code);
   store.commit("updateLimit", limit);
+}
+
+const removeLimit = (code: string) => {
+  store.commit("removeLimit", code);
 }
 
 watch(selected, val => {
@@ -34,14 +38,17 @@ watch(selected, val => {
         <p>Index</p>
       </div>
 
-      <div v-for="limit in limits" :key="limit.countryCode" class="flex items-center justify-around overflow-hidden gap-2 my-1">
+      <div v-for="limit in limits" :key="limit.countryCode"
+        class="flex items-center justify-around overflow-hidden gap-2 my-1" 
+        @dblclick="removeLimit(limit.countryCode)"
+      >
         <p class="w-full text-center">{{ limit.countryCode }}</p>
         <AppInput v-model="limit.start" @keyup="change(limit.countryCode)" />
-        <AppInput v-model="limit.end"   @keyup="change(limit.countryCode)" />
+        <AppInput v-model="limit.end" @keyup="change(limit.countryCode)" />
         <AppInput v-model="limit.index" @keyup="change(limit.countryCode)" />
       </div>
     </div>
-    
+
     <AppSelect :items="jsonCountries.map(x => x.code)" v-model="selected" />
   </div>
 </template>

@@ -15,12 +15,12 @@
     @apply outline-none;
   }
 
-  div::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     @apply w-3 h-full rounded-full;
     @apply dark:bg-neutral-800 bg-neutral-100;
   }
 
-  div::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     @apply rounded-full;
     @apply dark:bg-neutral-700 bg-neutral-200;
   }
