@@ -1,34 +1,54 @@
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "../../store";
+import { jsonCountries } from "../../utils";
 import AppInput from "../AppInput.vue";
+import AppSelect from "../AppSelect.vue";
 const store = useStore();
 
-const start = ref(store.state.startPage);
-const end = ref(store.state.endPage);
+const limits = computed(() => store.state.limit.limits);
+const selected = ref("");
 
-watchEffect(() => {
-  store.dispatch("setStartPage", start.value);
-  store.dispatch("setEndPage", end.value);
+const change = (code: string) => {
+  let limit = limits.value.find(x => x.countryCode == code);
+  store.commit("updateLimit", limit);
+}
 
-  start.value = store.state.startPage;
-  end.value = store.state.endPage;
+const removeLimit = (code: string) => {
+  store.commit("removeLimit", code);
+}
+
+watch(selected, val => {
+  store.commit("addLimit", {
+    countryCode: val,
+    start: 1,
+    end: 200,
+    index: 0
+  });
 });
 </script>
 
 <template>
-  <div class="setting">
-    <p class="font-semibold">Page Limit</p>
-    <div class="flex gap-4">
-      <div class="flex-1" >
-        <p class="ml-1" >Start from</p>
-        <AppInput v-model.number="start" type="number" min="0" max="200" />
+  <div class="setting relative">
+    <div class="listbox max-h-72">
+      <div class="flex items-center justify-around border-b-4 border-b-neutral-800 rounded">
+        <p>Code</p>
+        <p>Start</p>
+        <p>End</p>
+        <p>Index</p>
       </div>
-      <div class="flex-1" >
-        <p class="ml-1">To</p>
-        <AppInput v-model.number="end" type="number" min="0" max="200" />
+
+      <div v-for="limit in limits" :key="limit.countryCode"
+        class="flex items-center justify-around overflow-hidden gap-2 my-1" 
+        @dblclick="removeLimit(limit.countryCode)"
+      >
+        <p class="w-full text-center">{{ limit.countryCode }}</p>
+        <AppInput v-model="limit.start" @keyup="change(limit.countryCode)" />
+        <AppInput v-model="limit.end" @keyup="change(limit.countryCode)" />
+        <AppInput v-model="limit.index" @keyup="change(limit.countryCode)" />
       </div>
     </div>
-    <p class="setting-description">This is limit to country page to check. Minimum 1, Maximum 200.</p>
+
+    <AppSelect :items="jsonCountries.map(x => x.code)" v-model="selected" />
   </div>
 </template>

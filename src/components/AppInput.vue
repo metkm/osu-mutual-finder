@@ -1,10 +1,16 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <script setup lang="ts">
 defineProps(["modelValue"]);
 defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <div class="shrink-0 relative rounded overflow-hidden w-full">
+  <div class="relative rounded overflow-hidden w-full">
     <input
       v-bind="$attrs"
       :value="modelValue"
