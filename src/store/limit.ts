@@ -25,7 +25,7 @@ const checkUpperLower = (n: number, start: number, end: number) => {
 
 const limit: Module<LimitState, StoreState> = {
   state: () => ({
-    limits: [{ countryCode: "USD", index: 0, start: 1, end: 200 }],
+    limits: [],
   }),
   mutations: {
     addLimit({ limits }, payload: Limit) {

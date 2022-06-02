@@ -13,8 +13,6 @@ export default createStore<StoreState>({
     friends: [] as number[],
     blacklistIds: [] as number[],
     countries: [] as string[],
-    // startPage: 1,
-    // endPage: 200,
     addFriend: false,
     addBlacklist: false,
     gamemode: Gamemode.osu,
@@ -41,14 +39,6 @@ export default createStore<StoreState>({
     CLEAR_BLACKLIST(state) {
       state.blacklistIds = [];
     },
-    // SET_STARTPAGE(state, num: number) {
-    //   if(num < 1 || num > 200) num = 1;
-    //   state.startPage = num;
-    // },
-    // SET_ENDPAGE(state, num: number) {
-    //   if (num > 200 || num < 1) num = 200;
-    //   state.endPage = num;
-    // },
     ADD_COUNTRY(state, countryCode: string) {
       if (state.countries.includes(countryCode)) return;
       state.countries.push(countryCode);
@@ -83,12 +73,6 @@ export default createStore<StoreState>({
     clearBlacklist({ commit }) {
       commit("CLEAR_BLACKLIST");
     },
-    // setStartPage({ commit }, num: number) {
-    //   commit("SET_STARTPAGE", num);
-    // },
-    // setEndPage({ commit }, num: number) {
-    //   commit("SET_ENDPAGE", num);
-    // },
     addCountry({ commit }, countryCode: string) {
       commit("ADD_COUNTRY", countryCode);
     },
@@ -103,7 +87,7 @@ export default createStore<StoreState>({
     }
   },
   modules: {
-    limits: Limit
+    limit: Limit
   }
 });
 
