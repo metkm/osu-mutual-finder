@@ -19,7 +19,7 @@ const country = jsonCountries.find(country => {
     class="flex flex-col shadow-md dark:bg-neutral-900 p-1 rounded-md">
     <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" />
 
-    <div class="flex px-2 gap-1" style="margin-top: -14px;">
+    <div class="flex px-2 gap-1 -mt-3">
       <img :src="userDetails.avatar_url" class="w-16 h-16 rounded-md" />
 
       <div class="flex flex-grow items-end overflow-hidden">
