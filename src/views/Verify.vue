@@ -18,7 +18,7 @@ const verify = async () => {
 
     router.push({ path: "/mutuals" })
   } catch {
-    error.value = "Can't verify the key. Check if it's correct."
+    error.value = "Can't verify the key. Check if it's correct. If you're BN or GMT (anything with extra permissions) this is expected."
   }
 }
 </script>
