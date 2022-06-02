@@ -109,19 +109,19 @@ const startCheck = async (id: number, country?: string) => {
     for (const [index, element] of elements.entries()) {
       if (!threads[id]) return;
 
+      await add(element);
       if (country) {
-        store.commit("updateLimit", {
+        store.dispatch("updateLimit", {
           countryCode: country,
           start: page,
           end: limit.end,
-          index: index + (store.getters.getLimit(country)?.index || 0)
+          index
         });
       }
-      await add(element);
     }
 
     if (country) {
-      store.commit("updateLimit", {
+      store.dispatch("updateLimit", {
         countryCode: country,
         start: page,
         end: limit.end,
@@ -147,10 +147,10 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  if (import.meta.env.DEV) {
-    checked.value = [10440852, 7512553];
-    return
-  };
+  // if (import.meta.env.DEV) {
+  //   checked.value = [10440852, 7512553];
+  //   return
+  // };
 
   // Disable all threads
   for (const item in threads) {

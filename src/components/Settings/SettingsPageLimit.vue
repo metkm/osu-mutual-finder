@@ -11,7 +11,7 @@ const selected = ref("");
 
 const change = (code: string) => {
   let limit = limits.value.find(x => x.countryCode == code);
-  store.commit("updateLimit", limit);
+  store.dispatch("updateLimit", limit);
 }
 
 const removeLimit = (code: string) => {
