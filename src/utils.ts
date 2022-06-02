@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useStore } from "./store";
+import { Limit } from "./store/types";
 import { UserObject, UserObjectAdded, WebCountry } from "./types";
 
 export async function sleep(ms: number): Promise<void> {
@@ -54,6 +55,10 @@ export async function addFriend(userId: number): Promise<UserObjectAdded[] | und
 
 export async function delUser(userId: number) {
   await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
+}
+
+export const clampNumber = (n: number, min: number, max: number) => {
+  return Math.min(Math.max(n, min), max);
 }
 
 export const jsonCountries: WebCountry[] = [

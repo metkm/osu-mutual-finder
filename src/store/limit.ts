@@ -3,6 +3,7 @@
 
 import { Module } from "vuex";
 import { StoreState } from "../types";
+import { clampNumber } from "../utils";
 
 interface Limit {
   countryCode: string,
@@ -11,16 +12,14 @@ interface Limit {
   index: number // start index (only for start page)
 }
 
-interface LimitState {
+export interface LimitState {
   limits: Limit[],
 }
 
-const checkUpperLower = (n: number, start: number, end: number) => {
-  if (n < start || n > end) {
-    return false;
-  }
-
-  return true;
+export const clampLimit = (limit: Limit) => {
+  limit.start = clampNumber(limit.start, 1, 200);
+  limit.end = clampNumber(limit.end, 1, 200);
+  limit.index = clampNumber(limit.index, 0, 50);
 }
 
 const limit: Module<LimitState, StoreState> = {
@@ -29,23 +28,22 @@ const limit: Module<LimitState, StoreState> = {
   }),
   mutations: {
     addLimit({ limits }, payload: Limit) {
-      if (checkUpperLower(payload.start, 1, 200)) {
-        payload.start = 1;
-      }
-
-      if (checkUpperLower(payload.end, 1, 200)) {
-        payload.end = 200;
-      }
-
-      if (checkUpperLower(payload.index, 0, 50)) {
-        payload.end = 0;
-      }
-
+      clampLimit(payload);
       limits.push(payload);
     },
     removeLimit({ limits }, code: string) {
       let index = limits.findIndex(limit => limit.countryCode == code);
       limits.splice(index, 1);
+    },
+    updateLimit({ limits }, newLimit: Limit) {
+      clampLimit(newLimit);
+      // console.log(newLimit);
+
+      let index = limits.findIndex(limit => limit.countryCode == newLimit.countryCode);
+      console.log("index", index, newLimit.index);
+      if (index !== -1) {
+        limits.splice(index, 1, newLimit);
+      }
     }
   },
   getters: {

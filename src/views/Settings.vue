@@ -28,7 +28,7 @@ const goBack = () => {
       <SettingsToggle />
       <SettingsBlacklist />
       <div class="flex justify-center gap-2">
-        <!-- <SettingsPageLimit /> -->
+        <SettingsPageLimit />
         <SettingsMode />
       </div>
       <SettingsCountries />

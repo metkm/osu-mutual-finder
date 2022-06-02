@@ -3,11 +3,15 @@ import { createStore, Store, useStore as baseUseStore } from "vuex";
 import { StoreState, Gamemode, Check } from "../types";
 import { InjectionKey } from "vue";
 
-import Limit from "./limit";
+import Limit, { LimitState } from "./limit";
 
-export const key: InjectionKey<Store<StoreState>> = Symbol();
+interface RootState extends StoreState {
+  limit: LimitState
+}
 
-export default createStore<StoreState>({
+export const key: InjectionKey<Store<RootState>> = Symbol();
+
+export default createStore({
   plugins: [createPersistedState()],
   state: {
     friends: [] as number[],
