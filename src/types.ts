@@ -115,3 +115,53 @@ export interface UserObjectAdded {
   relation_type: string,
   mutual: boolean,
 }
+
+export interface SessionLoginUser extends UserObject {
+  cover_url: string,
+  discord: string,
+  has_supported: boolean;
+  interests: any;
+  join_date: string;
+  kudosu: { total: number, available: number };
+  location: string;
+  max_blocks: number;
+  max_friends: number;
+  occupation: any;
+  playmode: Gamemode;
+  playstyle: string[];
+  post_count: number;
+  profile_order: string[];
+  title: string | null;
+  title_url: string | null;
+  twitter: string;
+  website: string;
+  is_admin: boolean;
+  is_bng: boolean;
+  is_full_bn: boolean;
+  is_gmt: boolean;
+  is_limited_bn: boolean;
+  is_moderator: boolean;
+  is_nat: boolean;
+  is_restricted: boolean;
+  is_silenced: boolean;
+  blocks: any[];
+  follow_user_mapping: string[];
+  friends: UserObjectAdded[];
+  groups: any[];
+  unread_pm_count: number;
+  user_preferences: {
+    audio_autoplay: boolean;
+    audio_muted: boolean;
+    audio_volume: number;
+    beatmapset_card_size: string;
+    beatmapset_download: number;
+    beatmapset_show_nsfw: boolean;
+    beatmapset_title_show_original: boolean;
+    comments_show_deleted: boolean;
+    forum_posts_show_deleted: boolean;
+    profile_cover_expanded: boolean;
+    user_list_filter: string;
+    user_list_sort: string;
+    user_list_view: string;
+  }
+}

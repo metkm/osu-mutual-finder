@@ -2,12 +2,15 @@
 import axios from "axios";
 import { ref, } from "vue";
 import { useRouter } from "vue-router";
+import { SessionLoginUser } from "../types";
 import AppInput from "../components/AppInput.vue";
+import { useStore } from "../store";
 
 const cooldown = ref(false);
 const username = ref(null);
 const password = ref(null);
 const router = useRouter();
+const store = useStore();
 
 const getToken = async (): Promise<string> => {
   const resp = await axios.get("https://osu.ppy.sh/home");
@@ -21,13 +24,16 @@ const login = async () => {
   setTimeout(() => {
     cooldown.value = false;
   }, 3000);
-  
+
   const token = await getToken();
-  await axios.post("https://osu.ppy.sh/session", {
+  const resp = await axios.post<{ header: string, header_popup: string, user: SessionLoginUser }>("https://osu.ppy.sh/session", {
     "_token": token,
     "username": username.value,
     "password": password.value,
   })
+
+  console.log(resp.data.user);
+  store.commit("setUser", resp.data.user);
 
   // fire verification
   axios.get("https://osu.ppy.sh/home/account/edit");

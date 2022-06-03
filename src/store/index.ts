@@ -4,9 +4,11 @@ import { StoreState, Gamemode, Check } from "../types";
 import { InjectionKey } from "vue";
 
 import Limit, { LimitState } from "./limit";
+import User, { UserState } from "./user";
 
 interface RootState extends StoreState {
-  limit: LimitState
+  limit: LimitState,
+  user: UserState
 }
 
 export const key: InjectionKey<Store<RootState>> = Symbol();
@@ -91,7 +93,8 @@ export default createStore({
     }
   },
   modules: {
-    limit: Limit
+    limit: Limit,
+    user: User
   }
 });
 

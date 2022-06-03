@@ -5,7 +5,9 @@ import SettingsPageLimit from "../components/Settings/SettingsPageLimit.vue";
 import SettingsCountries from "../components/Settings/SettingsCountries.vue";
 import SettingsMode from "../components/Settings/SettingsMode.vue";
 import { useRouter } from "vue-router";
+import { useStore } from "../store";
 const router = useRouter();
+const store = useStore();
 
 const goBack = () => {
   router.push({ path: "/mutuals" });
@@ -15,13 +17,18 @@ const goBack = () => {
 
 <template>
   <div id="settings" class="page overflow-y-auto">
-    <div class="flex items-center py-2">
-      <div class="form-button w-24 absolute z-10" @click="goBack">
+    <div class="grid grid-cols-3 items-center  py-2">
+      <div class="form-button w-24" @click="goBack">
         <img src="../assets/back.svg" />
         <p>Back</p>
       </div>
 
-      <p class="font-bold mx-auto">Settings</p>
+      <p class="font-bold text-center">Settings</p>
+
+      <img v-if="store.state.user.user" 
+        :src="store.state.user.user.avatar_url"
+        class="h-10 rounded-full justify-self-end"
+      />
     </div>
 
     <div class="flex flex-col gap-2 mt-2">
