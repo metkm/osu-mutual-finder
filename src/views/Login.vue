@@ -31,8 +31,11 @@ const login = async () => {
     "username": username.value,
     "password": password.value,
   })
+  
+  if (!store.state.user.user) {
+    store.dispatch("addBlacklist", resp.data.user.id);
+  }
 
-  console.log(resp.data.user);
   store.commit("setUser", resp.data.user);
 
   // fire verification
