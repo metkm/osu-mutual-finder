@@ -52,7 +52,7 @@ export async function addFriend(userId: number): Promise<UserObjectAdded[] | und
   }
 }
 
-export async function delUser(userId: number) {
+export async function removeFriend(userId: number) {
   await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
 }
 

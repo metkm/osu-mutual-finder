@@ -5,7 +5,7 @@ import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 
 import { ref, onActivated, onDeactivated, computed } from "vue";
-import { addFriend, delUser, sleep } from "../utils";
+import { addFriend, removeFriend, sleep } from "../utils";
 import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
@@ -72,12 +72,12 @@ const add = async (element: Element) => {
     if (!friend) return;
 
     if (!friend.mutual) {
-      await delUser(id);
+      await removeFriend(id);
       return;
     }
 
     if (!shouldAdd.value) {
-      await delUser(id);
+      await removeFriend(id);
     }
 
     mutuals.value.push(id);

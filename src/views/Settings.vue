@@ -4,6 +4,7 @@ import SettingsBlacklist from "../components/Settings/SettingsBlacklist.vue";
 import SettingsPageLimit from "../components/Settings/SettingsPageLimit.vue";
 import SettingsCountries from "../components/Settings/SettingsCountries.vue";
 import SettingsMode from "../components/Settings/SettingsMode.vue";
+import SettingsOther from "../components/Settings/SettingsOther.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
 const router = useRouter();
@@ -39,6 +40,7 @@ const goBack = () => {
         <SettingsMode />
       </div>
       <SettingsCountries />
+      <SettingsOther />
     </div>
   </div>
 </template>
