@@ -147,10 +147,10 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  // if (import.meta.env.DEV) {
-  //   checked.value = [10440852, 7512553];
-  //   return
-  // };
+  if (import.meta.env.DEV) {
+    checked.value = [10440852];
+    return
+  };
 
   // Disable all threads
   for (const item in threads) {
@@ -162,6 +162,13 @@ onActivated(() => {
 
   start(id);
 })
+
+const clearMutuals = () => {
+  mutuals.value = [];
+}
+const clearChecked = () => {
+  checked.value = [];
+}
 </script>
 
 <template>
@@ -169,11 +176,19 @@ onActivated(() => {
 
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
       <AppSide :title="'Found Mutuals'">
-        <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+        <template v-slot:users>
+          <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+        </template>
+
+        <button class="p-2 rounded bg-red-600 hover:bg-red-800 transition-all" @click="clearMutuals">Clear</button>
       </AppSide>
 
       <AppSide :title="'Checked'">
-        <User v-for="userId in checked" :userId="userId" :key="userId" />
+        <template v-slot:users>
+          <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
+        </template>
+
+        <button class="p-2 rounded bg-red-600 hover:bg-red-800 transition-all" @click="clearChecked">Clear</button>
       </AppSide>
     </div>
 
