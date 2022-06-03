@@ -16,14 +16,12 @@ if (import.meta.env.DEV) {
     <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
-          <transition name="page">
-            <keep-alive>
-              <component 
-                :is="Component" 
-                :key="route.meta.usePathKey ? route.path : undefined" 
-              />
-            </keep-alive>
-          </transition>
+          <keep-alive>
+            <component 
+              :is="Component" 
+              :key="route.meta.usePathKey ? route.path : undefined" 
+            />
+          </keep-alive>
         </router-view>
       </template>
       <template #fallback>
@@ -34,16 +32,3 @@ if (import.meta.env.DEV) {
     <Notification />
   </div>
 </template>
-
-<style>
-.page-enter-active, .page-leave-active {
-  transition: all 300ms ease;
-  position: absolute;
-}
-.page-enter-from {
-  transform: translateX(100%);
-}
-.page-leave-to {
-  transform: translateX(-100%);
-}
-</style>
