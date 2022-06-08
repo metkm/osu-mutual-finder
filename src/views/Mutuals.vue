@@ -177,7 +177,7 @@ const clearChecked = () => {
           <User v-for="userId in mutuals" :userId="userId" :key="userId" />
         </template>
 
-        <button class="p-2 rounded bg-red-600 hover:bg-red-800 transition-all" @click="clearMutuals">Clear</button>
+        <button class="p-2 rounded text-white bg-red-600 hover:bg-red-800 transition-all" @click="clearMutuals">Clear</button>
       </AppSide>
 
       <AppSide :title="'Checked'">
@@ -185,7 +185,7 @@ const clearChecked = () => {
           <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
         </template>
 
-        <button class="p-2 rounded bg-red-600 hover:bg-red-800 transition-all" @click="clearChecked">Clear</button>
+        <button class="p-2 rounded text-white bg-red-600 hover:bg-red-800 transition-all" @click="clearChecked">Clear</button>
       </AppSide>
     </div>
 
