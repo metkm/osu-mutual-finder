@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { http } from "@tauri-apps/api";
 
 import { useRouter } from "vue-router";
@@ -7,6 +7,7 @@ import { useStore } from "../store";
 
 import AppInput from "../components/AppInput.vue";
 import { getTokens } from "../utils";
+import { UserObject } from "../types";
 
 // updateFriends();
 const router = useRouter();
@@ -15,6 +16,22 @@ const store = useStore();
 const code = ref(null);
 const error = ref("");
 
+const updateFriends = async () => {
+  const client = await http.getClient();
+  const response = await client.get<string>("https://osu.ppy.sh/home/friends", {
+    responseType: 2,
+    headers: {
+      "cookie": `osu_session=${store.state.auth.session}`
+    }
+  });
+
+  const dom = new DOMParser().parseFromString(response.data, "text/html");
+  let jsonUsers = JSON.parse(dom.getElementById("json-users")!.innerText) as UserObject[];
+
+  store.dispatch("setFriends", jsonUsers.map(user => user.id));
+}
+
+onMounted(updateFriends);
 const verify = async () => {
   const client = await http.getClient();
   const response = await client.post("https://osu.ppy.sh/home/account/verify", {
