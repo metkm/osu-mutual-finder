@@ -5,16 +5,19 @@ import { InjectionKey } from "vue";
 
 import Limit, { LimitState } from "./limit";
 import User, { UserState } from "./user";
+import Auth, { AuthState } from "./auth";
 
 interface RootState extends StoreState {
   limit: LimitState,
-  user: UserState
+  user: UserState,
+  auth: AuthState
 }
 
 export const key: InjectionKey<Store<RootState>> = Symbol();
 
-export default createStore({
+export default createStore<RootState>({
   plugins: [createPersistedState()],
+  // @ts-ignore
   state: {
     friends: [] as number[],
     blacklistIds: [] as number[],
@@ -94,7 +97,8 @@ export default createStore({
   },
   modules: {
     limit: Limit,
-    user: User
+    user: User,
+    auth: Auth
   }
 });
 

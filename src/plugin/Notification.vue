@@ -14,8 +14,6 @@ events.on("notify" , (content: string) => {
     notifications.value.splice(index, 1);
   }, 5000)
 })
-
-window.ipc.message((message: string) => events.emit("notify", message))
 </script>
 
 <template>

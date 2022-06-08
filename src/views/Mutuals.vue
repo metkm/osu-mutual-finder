@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import axios from "axios";
-
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 
@@ -10,6 +8,7 @@ import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
+import { http } from "@tauri-apps/api";
 
 const store = useStore();
 const router = useRouter();
@@ -22,6 +21,9 @@ const check = computed(() => store.state.check);
 
 const shouldAdd = computed(() => store.state.addFriend);
 const shouldBlacklist = computed(() => store.state.addBlacklist);
+
+const session = computed(() => store.state.auth.session);
+const token = computed(() => store.state.auth.token);
 
 const checking = ref(0);
 const currentPage = ref(1);
@@ -36,20 +38,14 @@ const randomNumber = (): number => {
   return Math.floor(Math.random() * 500);
 }
 
-const blacklistId = (id: number) => {
-  store.dispatch("addBlacklist", id);
-}
-
 const threads: Threads = {}
 const getUserElements = async (page: number, country?: string): Promise<Element[]> => {
-  const resp = await axios.get(`https://osu.ppy.sh/rankings/${gamemode.value}/performance`, {
-    params: {
-      page,
-      country
-    }
-  });
+  const response = await http.fetch<string>(`https://osu.ppy.sh/rankings/${gamemode.value}/performance?page=${page}&country=${country}`, {
+    method: "GET",
+    responseType: 2
+  })
 
-  let dom = new DOMParser().parseFromString(resp.data, "text/html");
+  let dom = new DOMParser().parseFromString(response.data, "text/html");
   return Array.from(dom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
 }
 
@@ -59,11 +55,11 @@ const add = async (element: Element) => {
 
   if (friendIds.value.includes(id) || blacklistedIds.value.includes(id)) return;
   if (shouldBlacklist.value) {
-    blacklistId(id);
+    store.dispatch("addBlacklist", id);
   }
 
   try {
-    let newFriendList = await addFriend(id);
+    let newFriendList = await addFriend(id, token.value, session.value);
     if (!newFriendList) return;
 
     checked.value.push(id);
@@ -72,16 +68,17 @@ const add = async (element: Element) => {
     if (!friend) return;
 
     if (!friend.mutual) {
-      await removeFriend(id);
+      await removeFriend(id, token.value, session.value);
       return;
     }
 
     if (!shouldAdd.value) {
-      await removeFriend(id);
+      await removeFriend(id, token.value, session.value);
     }
 
     mutuals.value.push(id);
   } catch (err: any) {
+    console.log(err);
     console.log("can't add", id, err.response.data, err.response.status)
   }
 }
@@ -147,10 +144,10 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  if (import.meta.env.DEV) {
-    checked.value = [10440852];
-    return
-  };
+  // if (import.meta.env.DEV) {
+  //   checked.value = [10440852];
+  //   return
+  // };
 
   // Disable all threads
   for (const item in threads) {

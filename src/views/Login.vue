@@ -1,46 +1,68 @@
 <script setup lang="ts">
-import axios from "axios";
-import { ref, } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
+import { http } from "@tauri-apps/api";
+import { app } from "@tauri-apps/api";
 import { SessionLoginUser } from "../types";
+import { getTokens } from "../utils";
+
 import AppInput from "../components/AppInput.vue";
-import { useStore } from "../store";
+import store from "../store";
+import router from "../router";
 
-const cooldown = ref(false);
-const username = ref(null);
-const password = ref(null);
-const router = useRouter();
-const store = useStore();
-
-const getToken = async (): Promise<string> => {
-  const resp = await axios.get("https://osu.ppy.sh/home");
-  const doc = new DOMParser().parseFromString(resp.data, "text/html");
-  let token = doc.getElementsByName("csrf-token")[0].getAttribute("content");
-  return token!
+interface Login {
+  header: string,
+  header_popup: string,
+  user: SessionLoginUser
 }
 
-const login = async () => {
-  cooldown.value = true;
-  setTimeout(() => {
-    cooldown.value = false;
-  }, 3000);
+const username = ref("");
+const password = ref("");
+const cooldown = ref(false);
+const version = await app.getVersion();
 
-  const token = await getToken();
-  const resp = await axios.post<{ header: string, header_popup: string, user: SessionLoginUser }>("https://osu.ppy.sh/session", {
-    "_token": token,
-    "username": username.value,
-    "password": password.value,
-  })
+const login = async () => {
+  const client = await http.getClient();
+  const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
   
-  if (!store.state.user.user) {
-    store.dispatch("addBlacklist", resp.data.user.id);
+  let [token, session] = await getTokens(response.rawHeaders);
+
+  const sessionResponse = await client.post<Login>("https://osu.ppy.sh/session", {
+    payload: {
+      "_token": token,
+      "username": username.value,
+      "password": password.value
+    },
+    type: "Form"
+  }, {
+    headers: {
+      "referer": "https://osu.ppy.sh",
+      "cookie": `osu_session=${session}`
+    }
+  });
+
+  // error handling here.
+  if (sessionResponse.status != 200) {
+    return;
   }
 
-  store.commit("setUser", resp.data.user);
+  if (!store.state.user.user) {
+    store.dispatch("addBlacklist", sessionResponse.data.user.id);
+  }
 
-  // fire verification
-  axios.get("https://osu.ppy.sh/home/account/edit");
-  router.push({ path: "/verify" });
+  store.commit("setUser", sessionResponse.data.user);
+  [token, session] = await getTokens(sessionResponse.rawHeaders);
+  
+  const verificationResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
+    headers: {
+      "cookie": `osu_session=${session}`
+    }
+  });
+
+  [token, session] = await getTokens(verificationResponse.rawHeaders);
+  store.commit("setSession", session);
+  store.commit("setToken", token);
+
+  router.push("/verify")
 }
 
 </script>
@@ -51,5 +73,6 @@ const login = async () => {
     <AppInput v-model="password" type="text" placeholder="Password" />
 
     <button class="form-button" :disabled="cooldown" @click="login">Login</button>
+    <p class="setting-description font-bold absolute bottom-4">Version: {{ version }}</p>
   </div>
 </template>

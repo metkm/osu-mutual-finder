@@ -1,0 +1,75 @@
+{
+  "$schema": "..\\node_modules/@tauri-apps/cli\\schema.json",
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
+    "devPath": "http://localhost:3000",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "Mutual Finder",
+    "version": "1.3.2"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true,
+      "http": {
+        "scope": ["https://osu.ppy.sh/*"]
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.Sibyl.dev",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": ""
+    },
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://gist.githubusercontent.com/sibyl666/174008ebff743a92f266a774dc21c2ed/raw/osu-mutual-finder-config"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEI3QTVBMTFBRUQwNzEwNzMKUldSekVBZnRHcUdsdDZPQzV6c1U4NU9ma2V0MjZhSjJZdTQ0elh3dHJ4WDdUanNhVGVOYXdpNWIK"
+    },
+    "windows": [
+      {
+        "title": "Mutual Finder",
+        "fullscreen": false,
+        "height": 600,
+        "width": 800,
+        "resizable": true,
+        "decorations": false,
+        "visible": false
+      }
+    ]
+  }
+}

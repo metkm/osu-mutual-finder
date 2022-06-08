@@ -1,20 +1,3 @@
-type events = "minimize" | "maximize" | "close";
-
-interface titleBar {
-  event: (event: events) => void;
-}
-
-interface Message {
-  message: (callback: (message: string) => void) => void;
-}
-
-declare global {
-  interface Window {
-    titleBar: titleBar,
-    ipc: Message
-  }
-}
-
 export interface Threads {
   [key: number]: boolean
 }
