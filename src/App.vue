@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import TitleBar from "./components/AppTitleBar.vue";
+import { event } from "@tauri-apps/api";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
+event.listen("tauri://update-status", (res) => {
+  console.log(res);
+});
+
 if (import.meta.env.DEV) {
-  router.push({ path: "/settings" });
+  router.push({ path: "/" });
 } else {
   router.push({ path: "/" });
 }

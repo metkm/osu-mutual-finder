@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import AppInput from '../AppInput.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { removeFriend } from '../../utils';
+import { useStore } from '../../store';
+
+const store = useStore();
 
 const userId = ref(0);
 const cooldown = ref(false);
+const token = computed(() => store.state.auth.token);
+const session = computed(() => store.state.auth.session);
 
 const removeFriendClick = () => {
-  removeFriend(userId.value);
+  removeFriend(userId.value, token.value, session.value);
+
   cooldown.value = true;
   setTimeout(() => {
     cooldown.value = false;

@@ -11,7 +11,6 @@ const user: Module<UserState, StoreState> = {
   },
   mutations: {
     setUser(state, payload: SessionLoginUser) {
-      console.log("py", payload);
       state.user = payload;
     },
   }

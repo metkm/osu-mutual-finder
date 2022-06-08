@@ -1,6 +1,17 @@
-import axios from "axios";
-import { useStore } from "./store";
+import { http } from "@tauri-apps/api";
 import { UserObject, UserObjectAdded, WebCountry } from "./types";
+import store from "./store";
+
+const xsrfTokenRegex = /XSRF-TOKEN=(.*?);/;
+const sessionTokenRegex = /osu_session=(.*?);/;
+
+export const getTokens = async (headers: Record<string, string[]>) => {
+  let xsrfMatch = xsrfTokenRegex.exec(headers["set-cookie"][0]);
+  let sessionMatch = sessionTokenRegex.exec(headers["set-cookie"][1]);
+
+  if (!xsrfMatch || !sessionMatch) return [];
+  return [xsrfMatch[1], sessionMatch[1]]
+}
 
 export async function sleep(ms: number): Promise<void> {
   return new Promise(resolve => {
@@ -11,7 +22,10 @@ export async function sleep(ms: number): Promise<void> {
 }
 
 export async function getUser(userId: number): Promise<UserObject> {
-  const response = await axios.get(`https://osu.ppy.sh/users/${userId}`);
+  const response = await http.fetch<string>(`https://osu.ppy.sh/users/${userId}`, {
+    method: "GET",
+    responseType: 2
+  });
   const responseDom = new DOMParser().parseFromString(response.data, "text/html");
   let element = responseDom.getElementsByClassName("js-react--profile-page")[0]!;
   let userJson = JSON.parse(element.getAttribute("data-initial-data")!);
@@ -19,41 +33,46 @@ export async function getUser(userId: number): Promise<UserObject> {
   return userJson.user
 }
 
-export async function updateFriends(): Promise<void> {
-  const store = useStore();
-
-  const response = await axios.get("https://osu.ppy.sh/home/friends");
-  const dom = new DOMParser().parseFromString(response.data, "text/html");
-  let jsonUsers = JSON.parse(dom.getElementById("json-users")!.innerText) as UserObject[];
-  store.dispatch("setFriends", jsonUsers.map(user => user.id));
-
-  const token = dom.getElementsByName("csrf-token")[0].getAttribute("content");
-  axios.defaults.headers.common["x-csrf-token"] = token!;
-  axios.defaults.headers.common["x-requested-with"] = "XMLHttpRequest";
-}
-
-export async function addFriend(userId: number): Promise<UserObjectAdded[] | undefined> {
+export async function addFriend(userId: number, token: string, session: string): Promise<UserObjectAdded[] | undefined> {
   await sleep(6500);
   try {
-    const response = await axios.post("https://osu.ppy.sh/home/friends", null, {
-      params: {
-        target: userId
+    const response = await http.fetch<UserObjectAdded[]>(`https://osu.ppy.sh/home/friends?target=${userId}`, {
+      method: "POST",
+      headers: {
+        "cookie": `osu_session=${session}`,
+        "x-csrf-token": token
       }
     });
 
+    let [newToken, newSession] = await getTokens(response.rawHeaders);
+    store.commit("setSession", newSession);
+    store.commit("setToken", newToken);
+
     return response.data
   } catch(error: any) {
+    console.log(error);
+
     if (error.response.status == 429) {
-      await sleep(10000);
-      addFriend(userId);
+      await sleep(3500);
+      await addFriend(userId, token, session);
     } else {
       console.log("Can't add:", userId);
     }
   }
 }
 
-export async function removeFriend(userId: number) {
-  await axios.delete(`https://osu.ppy.sh/home/friends/${userId}`)
+export async function removeFriend(userId: number, token: string, session: string) {
+  const response = await http.fetch(`https://osu.ppy.sh/home/friends/${userId}`, {
+    method: "DELETE",
+    headers: {
+      "cookie": `osu_session=${session}`,
+      "x-csrf-token": token
+    }
+  });
+
+  let [newToken, newSession] = await getTokens(response.rawHeaders);
+  store.commit("setSession", newSession);
+  store.commit("setToken", newToken);
 }
 
 export const clampNumber = (n: number, min: number, max: number) => {
