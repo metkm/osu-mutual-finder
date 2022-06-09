@@ -23,6 +23,12 @@ reqwest = { version = "0.11.10", features= ["json"] }
 lazy_static = "1.4.0"
 regex = "1"
 
+[profile.release]
+panic = "abort" # Strip expensive panic clean-up logic
+codegen-units = 1 # Compile crates one after another so the compiler can optimize better
+lto = true # Enables link to optimizations
+opt-level = "s" # Optimize for binary size
+strip = true  # Automatically strip symbols from the binary.
 
 [features]
 # by default Tauri runs in production mode
