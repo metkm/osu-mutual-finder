@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bs" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="bs-a">
-      <path fill-opacity=".7" d="M-12 0h640v480H-12z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" clip-path="url(#bs-a)" transform="translate(12)">
-    <path fill="#fff" d="M968.5 480h-979V1.8h979z"/>
-    <path fill="#ffe900" d="M968.5 344.5h-979V143.3h979z"/>
-    <path fill="#08ced6" d="M968.5 480h-979V320.6h979zm0-318.7h-979V2h979z"/>
-    <path d="M-11 0c2.3 0 391.8 236.8 391.8 236.8L-12 479.2-10.9 0z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#00ABC9" d="M1.364 29.987C2.069 30.61 2.985 31 4 31h28c2.209 0 4-1.791 4-4v-4.5H11.442L1.364 29.987z"/><path fill="#FAE042" d="M17.5 18l-6.058 4.5H36v-9H11.442z"/><path fill="#00ABC9" d="M32 5H4c-1.015 0-1.931.39-2.636 1.013L11.442 13.5H36V9c0-2.209-1.791-4-4-4z"/><path fill="#141414" d="M17.5 18l-6.058-4.5L1.364 6.013C.534 6.746 0 7.806 0 9v18c0 1.194.534 2.254 1.364 2.987L11.442 22.5 17.5 18z"/></svg>

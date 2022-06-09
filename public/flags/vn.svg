@@ -1,11 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-vn" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="vn-a">
-      <path fill-opacity=".7" d="M-85.3 0h682.6v512H-85.3z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" clip-path="url(#vn-a)" transform="translate(80) scale(.9375)">
-    <path fill="#ec0015" d="M-128 0h768v512h-768z"/>
-    <path fill="#ff0" d="M349.6 381 260 314.3l-89 67.3L204 272l-89-67.7 110.1-1 34.2-109.4L294 203l110.1.1-88.5 68.4 33.9 109.6z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#DA251D" d="M32 5H4C1.791 5 0 6.791 0 9v18c0 2.209 1.791 4 4 4h28c2.209 0 4-1.791 4-4V9c0-2.209-1.791-4-4-4z"/><path fill="#FF0" d="M19.753 16.037L18 10.642l-1.753 5.395h-5.672l4.589 3.333-1.753 5.395L18 21.431l4.589 3.334-1.753-5.395 4.589-3.333z"/></svg>

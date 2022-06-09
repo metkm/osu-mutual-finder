@@ -1,11 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-pw" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="pw-a">
-      <path fill-opacity=".7" d="M-70.3 0h640v480h-640z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" stroke-width="1pt" clip-path="url(#pw-a)" transform="translate(70.3)">
-    <path fill="#4aadd6" d="M-173.4 0h846.3v480h-846.3z"/>
-    <path fill="#ffde00" d="M335.6 232.1a135.9 130.1 0 1 1-271.7 0 135.9 130.1 0 1 1 271.7 0z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#4AADD6" d="M32 5H4C1.791 5 0 6.791 0 9v18c0 2.209 1.791 4 4 4h28c2.209 0 4-1.791 4-4V9c0-2.209-1.791-4-4-4z"/><circle fill="#FFDE00" cx="14.8" cy="18" r="8"/></svg>

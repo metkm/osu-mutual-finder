@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bv" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="bv-a">
-      <path fill-opacity=".7" d="M0 0h640v480H0z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" stroke-width="1pt" clip-path="url(#bv-a)">
-    <path fill="#fff" d="M-28 0h699.7v512H-28z"/>
-    <path fill="#d72828" d="M-53-77.8h218.7v276.2H-53zM289.4-.6h381v199h-381zM-27.6 320h190.4v190.3H-27.6zm319.6 2.1h378.3v188.2H292z"/>
-    <path fill="#003897" d="M196.7-25.4H261v535.7h-64.5z"/>
-    <path fill="#003897" d="M-27.6 224.8h698v63.5h-698z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#EF2B2D" d="M10 5H4C1.791 5 0 6.791 0 9v6h10V5zm22 0H16v10h20V9c0-2.209-1.791-4-4-4zM16 31h16c2.209 0 4-1.791 4-4.5V21H16v10zM0 21v5.5C0 29.209 1.791 31 4 31h6V21H0z"/><path fill="#002868" d="M14.5 5h-2.944l-.025 11.5H0v3h11.525L11.5 31h3V19.5H36v-3H14.5z"/><path fill="#EDECEC" d="M14.5 31H16V21h20v-1.5H14.5zM16 5h-1.5v11.5H36V15H16zm-4.5 0H10v10H0v1.5h11.5zM0 19.5V21h10v10h1.5V19.5z"/></svg>

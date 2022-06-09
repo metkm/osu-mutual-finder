@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-cl" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="cl-a">
-      <path fill-opacity=".7" d="M0 0h682.7v512H0z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" clip-path="url(#cl-a)" transform="scale(.9375)">
-    <path fill="#fff" d="M256 0h512v256H256z"/>
-    <path fill="#0039a6" d="M0 0h256v256H0z"/>
-    <path fill="#fff" d="M167.8 191.7 128.2 162l-39.5 30 14.7-48.8L64 113.1l48.7-.5L127.8 64l15.5 48.5 48.7.1-39.2 30.4 15 48.7z"/>
-    <path fill="#d52b1e" d="M0 256h768v256H0z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#1F429B" d="M13 5H4C1.791 5 0 6.791 0 9v9h13V5zm-4.663 9.292l-1.882-1.367-1.882 1.367.719-2.212-1.882-1.368h2.326L6.455 8.5l.719 2.212H9.5L7.618 12.08l.719 2.212z"/><path fill="#EEE" d="M32 5H13v13h23V9c0-2.209-1.791-4-4-4z"/><path fill="#D42D27" d="M0 18v9c0 2.209 1.791 4 4 4h28c2.209 0 4-1.791 4-4v-9H0z"/><path fill="#FFF" d="M7.174 10.712L6.455 8.5l-.719 2.212H3.41l1.882 1.368-.719 2.212 1.882-1.367 1.882 1.367-.719-2.212L9.5 10.712z"/></svg>

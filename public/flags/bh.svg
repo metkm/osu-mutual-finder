@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bh" viewBox="0 0 640 480">
-  <defs id="defs448">
-    <clipPath id="bh-a">
-      <path id="path445" fill-opacity=".7" d="M0 0h640v480H0z"/>
-    </clipPath>
-  </defs>
-  <path id="path1077" fill="#fff" stroke-width="4.8" d="M0 0h640v480H0" opacity="1" stop-opacity="1"/>
-  <path id="path1079" fill="#ce1126" stroke-width="5.1" d="M640 0H96l110.7 48L96 96l110.7 48L96 192l110.7 48L96 288l110.7 48L96 384l110.7 48L96 480h544" opacity="1" stop-opacity="1"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#EEE" d="M15 6L8 5H4C1.791 5 0 6.791 0 9v18c0 2.209 1.791 4 4 4h4l7-1V6z"/><path fill="#CE1126" d="M32 5H8l6.081 2.6L8 10.2l6.081 2.6L8 15.4l6.081 2.6L8 20.6l6.081 2.6L8 25.8l6.081 2.6L8 31h24c2.209 0 4-1.791 4-4V9c0-2.209-1.791-4-4-4z"/></svg>

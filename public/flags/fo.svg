@@ -1,12 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-fo" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="fo-a">
-      <path fill-opacity=".7" d="M-78 32h640v480H-78z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" stroke-width="0" clip-path="url(#fo-a)" transform="translate(78 -32)">
-    <path fill="#fff" d="M-78 32h663.9v480H-78z"/>
-    <path fill="#003897" d="M-76 218.7h185.9V32H216v186.7h371.8v106.6H216V512H109.9V325.3h-186V218.7z"/>
-    <path fill="#d72828" d="M-76 245.3h212.4V32h53.1v213.3H588v53.4H189.5V512h-53V298.7H-76v-53.4z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#EEE" d="M9.444 5H4C1.791 5 0 6.791 0 9v5.5h9.444V5zM36 14.5V9c0-2.209-1.791-4-4-4H16.5v9.5H36z"/><path fill="#0065BD" d="M36 16v-1.5H16.5V5H15v11zM11 5H9.444v9.5H0V16h11z"/><path fill="#EEE" d="M0 21.5V27c0 2.209 1.791 4 4 4h5.444v-9.5H0zm16.5 0V31H32c2.209 0 4-1.791 4-4v-5.5H16.5z"/><path fill="#ED2939" d="M15 16V5h-4v11H0v4h11v11h4V20h21v-4z"/><path fill="#0065BD" d="M15 20v11h1.5v-9.5H36V20zm-4 0H0v1.5h9.444V31H11z"/></svg>

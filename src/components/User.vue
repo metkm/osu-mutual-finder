@@ -35,7 +35,7 @@ const countryFromCode = (code: string) => {
           <p class="font-semibold text-lg truncate">{{ userDetails.username }}</p>
         </div>
 
-        <img v-if="country" class="h-8 flag" :src="countryFromCode(country.code)!" />
+        <img v-if="country" class="h-9 flag" :src="countryFromCode(country.code)!" />
       </div>
     </div>
   </a>
