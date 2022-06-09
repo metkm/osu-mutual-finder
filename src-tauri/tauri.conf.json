@@ -12,9 +12,17 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true,
+      "all": false,
       "http": {
-        "scope": ["https://osu.ppy.sh/*"]
+        "scope": ["https://osu.ppy.sh/*"],
+        "request": true
+      },
+      "window": {
+        "show": true,
+        "minimize": true,
+        "maximize": true,
+        "close": true,
+        "startDragging": true
       }
     },
     "bundle": {
