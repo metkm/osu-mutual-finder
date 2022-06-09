@@ -3,13 +3,9 @@ module.exports = {
   darkMode: "media", // or 'media' or 'class'
   theme: {
     extend: {
-      zIndex: {
-        "-10": "-10"
-      },
-      backgroundPosition: {
-        "45%": "50% 45%",
-        "55%": "50% 55%"
-      },
+      boxShadow: {
+        "scroll": "inset 0px 0px 10px 10px"
+      }
     },
   },
   variants: {
