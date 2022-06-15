@@ -34,7 +34,7 @@ export async function getUser(userId: number): Promise<UserObject> {
 }
 
 export async function addFriend(userId: number, token: string, session: string): Promise<UserObjectAdded[] | undefined> {
-  await sleep(6500);
+  await sleep(6000);
   try {
     const response = await http.fetch<UserObjectAdded[]>(`https://osu.ppy.sh/home/friends?target=${userId}`, {
       method: "POST",

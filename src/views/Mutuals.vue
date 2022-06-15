@@ -125,6 +125,9 @@ const startCheck = async (id: number, country?: string) => {
         index: 0
       })
     }
+
+    // page change sleep. Just in case.
+    await sleep(1500);
   }
 }
 
