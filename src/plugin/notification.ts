@@ -1,6 +1,7 @@
+import { App } from "vue";
+import { NotificationOptions } from "../types";
 import Notification from "./Notification.vue";
 import mitt from "mitt";
-import { App } from "vue";
 
 export default {
   install(app: App) {
@@ -9,10 +10,16 @@ export default {
 }
 
 type Events = {
-  notify: string
+  notify: {
+    text: string,
+    options?: NotificationOptions
+  }
 }
 
 export const events = mitt<Events>()
-export function notify(content: string) {
-  events.emit("notify", content);
+export function notify(text: string, options: NotificationOptions) {
+  events.emit("notify", {
+    text,
+    options
+  })
 }

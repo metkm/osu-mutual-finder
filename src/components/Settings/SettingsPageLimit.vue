@@ -31,7 +31,7 @@ watch(selected, val => {
 <template>
   <div class="setting relative">
     <div class="listbox max-h-72">
-      <div class="flex items-center justify-around border-b-4 border-b-neutral-800 rounded">
+      <div class="flex items-center justify-around">
         <p>Code</p>
         <p>Start</p>
         <p>End</p>

@@ -24,8 +24,16 @@ export interface StoreState {
   check: Check
 }
 
+export interface NotificationOptions {
+  acceptText?: string,
+  rejectText?: string,
+  acceptCallback?: () => void,
+  rejectCallback?: () => void
+}
+
 export interface Notification {
-  message: string
+  message: string,
+  options?: NotificationOptions
 }
 
 export interface Country {
