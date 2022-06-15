@@ -32,7 +32,7 @@
 
   .form-button {
     @apply max-w-lg w-full;
-    @apply p-2;
+    @apply py-2 px-2;
     @apply flex items-center justify-center rounded;
     @apply font-semibold select-none;
     @apply transition-all;
@@ -56,8 +56,7 @@
   }
 
   .setting {
-    @apply shadow-md dark:bg-neutral-900;
-    @apply rounded-lg;
+    @apply rounded-lg border-2 border-neutral-100 dark:border-neutral-900;
     @apply p-4;
     @apply gap-2;
     @apply flex flex-grow flex-col justify-evenly basis-0;
@@ -81,5 +80,11 @@
 
   .setting-description {
     @apply text-neutral-500;
+  }
+}
+
+@layer utilities {
+  .bg-theme-sec {
+    @apply bg-neutral-100 dark:bg-neutral-900;
   }
 }
