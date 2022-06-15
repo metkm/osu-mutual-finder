@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getUser } from "../utils";
 import { jsonCountries } from "../utils";
+import { open } from "@tauri-apps/api/shell";
 
 const props = defineProps({
   userId: Number
@@ -17,10 +18,14 @@ const countryFromCode = (code: string) => {
   let country = jsonCountries.find(country => country.code == code);
   return import.meta.env.DEV ? `/flags/${country?.code.toLowerCase()}.svg`: `./flags/${country?.code.toLowerCase()}.svg`;
 }
+
+const openLink = () => {
+  open(`https://osu.ppy.sh/users/${props.userId}`);
+}
 </script>
 
 <template>
-  <a :href="`https://osu.ppy.sh/users/${userId}`" target="_blank"
+  <a @click="openLink" target="_blank"
     class="flex flex-col shadow-md dark:bg-neutral-900 p-1 rounded-md">
     <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" />
 

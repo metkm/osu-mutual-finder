@@ -24,6 +24,9 @@
         "unmaximize": true,
         "close": true,
         "startDragging": true
+      },
+      "shell": {
+        "open": true
       }
     },
     "bundle": {
