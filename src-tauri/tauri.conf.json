@@ -21,6 +21,7 @@
         "show": true,
         "minimize": true,
         "maximize": true,
+        "unmaximize": true,
         "close": true,
         "startDragging": true
       }
