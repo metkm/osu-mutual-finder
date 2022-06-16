@@ -27,6 +27,9 @@
       },
       "shell": {
         "open": true
+      },
+      "process": {
+        "relaunch": true
       }
     },
     "bundle": {
@@ -69,7 +72,7 @@
       "endpoints": [
         "https://gist.githubusercontent.com/sibyl666/174008ebff743a92f266a774dc21c2ed/raw/osu-mutual-finder-config"
       ],
-      "dialog": true,
+      "dialog": false,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEI3QTVBMTFBRUQwNzEwNzMKUldSekVBZnRHcUdsdDZPQzV6c1U4NU9ma2V0MjZhSjJZdTQ0elh3dHJ4WDdUanNhVGVOYXdpNWIK"
     },
     "windows": [

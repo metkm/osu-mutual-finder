@@ -25,6 +25,7 @@ export interface StoreState {
 }
 
 export interface NotificationOptions {
+  delay?: number,
   acceptText?: string,
   rejectText?: string,
   acceptCallback?: () => void,

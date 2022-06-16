@@ -17,7 +17,7 @@ type Events = {
 }
 
 export const events = mitt<Events>()
-export function notify(text: string, options: NotificationOptions) {
+export function notify(text: string, options?: NotificationOptions) {
   events.emit("notify", {
     text,
     options
