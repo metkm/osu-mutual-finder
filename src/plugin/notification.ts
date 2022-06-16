@@ -13,6 +13,9 @@ type Events = {
   notify: {
     text: string,
     options?: NotificationOptions
+  },
+  notifyRemove: {
+    text: string
   }
 }
 
@@ -21,5 +24,11 @@ export function notify(text: string, options?: NotificationOptions) {
   events.emit("notify", {
     text,
     options
+  })
+}
+
+export function notifyRemove(text: string) {
+  events.emit("notifyRemove", {
+    text
   })
 }

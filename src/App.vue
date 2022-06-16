@@ -5,23 +5,27 @@ import { onMounted } from "vue";
 import { event } from "@tauri-apps/api";
 import { relaunch } from "@tauri-apps/api/process";
 import { checkUpdate, installUpdate } from "@tauri-apps/api/updater";
-import { notify } from "./plugin/notification";
+import { notify, notifyRemove } from "./plugin/notification";
 
 import TitleBar from "./components/AppTitleBar.vue";
 const router = useRouter();
 
 onMounted(async () => {
   const { shouldUpdate, manifest } = await checkUpdate();
+  const updateText = shouldUpdate ? `Update Available. v${manifest?.version}` : "No update available";
   notify("Checking for updates..");
 
   if (shouldUpdate) {
-    notify(`Update found. ${manifest?.version}`, {
+    notify(updateText, {
       acceptText: "Update now",
       acceptCallback: async () => {
+        notifyRemove(updateText);
         await installUpdate();
         await relaunch();
       } 
     });
+  } else {
+    notify(updateText)
   }
 })
 

@@ -4,6 +4,12 @@ import { events } from "./notification";
 import { Notification } from "../types";
 
 const notifications = ref<Notification[]>([]);
+
+const removeNotification = (text: string) => {
+  let index = notifications.value.findIndex(val => val.message == text);
+  notifications.value.splice(index, 1);
+}
+
 events.on("notify", ({ text, options }) => {
   notifications.value.push({
     message: text,
@@ -12,10 +18,11 @@ events.on("notify", ({ text, options }) => {
     }
   });
 
-  setTimeout(() => {
-    let index = notifications.value.findIndex(val => val.message == text);
-    notifications.value.splice(index, 1);
-  }, options?.delay || 5000)
+  setTimeout(() => removeNotification(text), options?.delay || 5000)
+})
+
+events.on("notifyRemove", ({ text }) => {
+  removeNotification(text);  
 })
 </script>
 
