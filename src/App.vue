@@ -22,7 +22,8 @@ onMounted(async () => {
         notifyRemove(updateText);
         await installUpdate();
         await relaunch();
-      } 
+      },
+      delay: 10000
     });
   } else {
     notify(updateText)
