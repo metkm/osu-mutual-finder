@@ -8,6 +8,8 @@ pub async fn get(
     Path(user_id): Path<i32>,
     Extension(client): Extension<Arc<Client>>,
 ) -> impl IntoResponse {
+    println!("XD");
+
     let query = client
         .query(
             "SELECT * FROM mutuals WHERE $1 = ANY(friend_ids)",
