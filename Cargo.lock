@@ -2699,6 +2699,7 @@ name = "server"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "rand 0.8.5",
  "reqwest",
  "serde",
  "tokio",
