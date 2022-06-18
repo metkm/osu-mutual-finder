@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use tokio_postgres::Row;
+use postgres_types::ToSql;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct User {
@@ -82,10 +83,10 @@ pub struct UserMonthlyPlaycount {
     count: u32
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, ToSql)]
 pub struct OsuUser {
-    // pub avatar_url: String,
-    // pub country_code: String,
+    pub avatar_url: String,
+    pub country_code: String,
     // pub default_group: String,
     pub id: i32,
     // pub is_active: bool,
@@ -96,7 +97,7 @@ pub struct OsuUser {
     // pub last_visit: Option<String>,
     // pub pm_friends_only: bool,
     // pub profile_colour: Option<String>,
-    // pub username: String,
+    pub username: String,
     // pub cover_url: String,
     // pub discord: Option<String>,
     // pub has_supported: bool,
@@ -116,7 +117,7 @@ pub struct OsuUser {
     // pub twitter: Option<String>,
     // pub website: Option<String>,
     // pub country: Country,
-    // pub cover: Cover,
+    pub cover: Cover,
     // pub is_restricted: bool,
     // pub account_history: Vec<UserAccountHistory>,
     // pub active_tournament_banner: Option<ProfileBanner>,
@@ -152,17 +153,17 @@ pub struct OsuUser {
     // pub unranked_beatmapset_count: u32,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, ToSql)]
 pub struct Country {
     code: String,
     name: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, ToSql)]
 pub struct Cover {
-    custom_url: String,
-    url: String,
-    id: Option<u32>,
+    pub custom_url: Option<String>,
+    pub url: String,
+    pub id: Option<String>, // wtf is this a string????? org: Option<u32>
 }
 
 #[derive(Serialize, Deserialize)]
