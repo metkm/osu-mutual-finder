@@ -1,12 +1,12 @@
 use axum::{
     extract::Query,
     response::{IntoResponse, Response},
-    Extension, Json,
+    Extension,
 };
 use axum_extra::extract::cookie::{Cookie, CookieJar};
 
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, sync::Arc, time::Instant};
+use std::{collections::HashMap, sync::Arc};
 use tokio::join;
 use tokio_postgres::{types::ToSql, Client};
 
@@ -37,9 +37,9 @@ pub async fn authorize(
     Extension(db): Extension<Arc<Client>>,
     Extension(state): Extension<Arc<ServerState>>,
     jar: CookieJar,
-) -> Response {
+) -> Result<Response, Response> {
     let Some(code) = params.get("code") else {
-        return (StatusCode::BAD_REQUEST, "Code is required!").into_response()
+        return Err((StatusCode::BAD_REQUEST, "Code is required!").into_response())
     };
 
     let map: HashMap<&str, &str> = HashMap::from([
@@ -59,38 +59,11 @@ pub async fn authorize(
         .unwrap();
 
     let Ok(tokens) = response.json::<Tokens>().await else {
-        return (StatusCode::INTERNAL_SERVER_ERROR, "Token parsing failed!").into_response()
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Token parsing failed!").into_response())
     };
 
-    let header_format = format!("Bearer {}", &tokens.access_token);
-    let me_future = client
-        .get("https://osu.ppy.sh/api/v2/me")
-        .header("Authorization", &header_format)
-        .send();
+    let (user, mut friends) = get_me_and_friends(&tokens, client).await?;
 
-    let friends_future = client
-        .get("https://osu.ppy.sh/api/v2/friends")
-        .header("Authorization", &header_format)
-        .send();
-
-    let (Ok(me_response), Ok(friends_response)) = join!(
-        me_future,
-        friends_future
-    ) else {
-        return (StatusCode::INTERNAL_SERVER_ERROR, "Can't get user or friends!").into_response()
-    };
-
-    let (user, mut friends) = (
-        me_response
-            .json::<OsuUser>()
-            .await
-            .expect("Can't parse user!"),
-        friends_response
-            .json::<Vec<OsuUser>>()
-            .await
-            .expect("Can't parse friends!"),
-    );
-    
     friends.push(user.clone());
     let session_str = gen_random_str();
     let friend_ids: Vec<i32> = friends.iter().map(|user| user.id).collect();
@@ -120,7 +93,7 @@ pub async fn authorize(
     ////
 
     if let Err(_) = db.execute(&query, &params).await {
-        return (StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!").into_response();
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!").into_response());
     }
 
     if let Err(_) = db
@@ -136,11 +109,45 @@ pub async fn authorize(
         )
         .await
     {
-        return (StatusCode::INTERNAL_SERVER_ERROR, "Can't add session!").into_response();
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add session!").into_response());
     };
 
-    let updated_jar = jar
-        .add(Cookie::new("osu_session", session_str));
+    let updated_jar = jar.add(Cookie::new("osu_session", session_str));
 
-    (StatusCode::CREATED, updated_jar, "Ok").into_response()
+    Ok((StatusCode::CREATED, updated_jar, "Ok").into_response())
+}
+
+async fn get_me_and_friends(
+    tokens: &Tokens,
+    client: reqwest::Client,
+) -> Result<(OsuUser, Vec<OsuUser>), Response> {
+    let header_format = format!("Bearer {}", &tokens.access_token);
+
+    let me_future = client
+        .get("https://osu.ppy.sh/api/v2/me")
+        .header("Authorization", &header_format)
+        .send();
+    let friends_future = client
+        .get("https://osu.ppy.sh/api/v2/friends")
+        .header("Authorization", &header_format)
+        .send();
+
+    let (Ok(me_response), Ok(friends_response)) = join!(
+        me_future,
+        friends_future
+    ) else {
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't get user or friends!").into_response())
+    };
+
+    let (user, friends) = (
+        me_response
+            .json::<OsuUser>()
+            .await
+            .expect("Can't parse user!"),
+        friends_response
+            .json::<Vec<OsuUser>>()
+            .await
+            .expect("Can't parse friends!"),
+    );
+    Ok((user, friends))
 }
