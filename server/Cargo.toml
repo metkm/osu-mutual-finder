@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 axum = "0.5.7"
+axum-extra = { version = "0.3.4", features=["cookie"] }
 tokio = { version = "1.19.2", features=["full"] }
 tokio-postgres = "0.7.6"
 serde = { version = "1", features=["derive"] }

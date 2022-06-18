@@ -17,7 +17,7 @@ impl From<Row> for User {
 }
 
 #[derive(Serialize, Deserialize)]
-enum GameMode {
+pub enum GameMode {
     #[serde(rename = "fruits")]
     Fruits,
     #[serde(rename = "mania")]
@@ -39,7 +39,7 @@ enum HistoryType {
 }
 
 #[derive(Serialize, Deserialize)]
-struct UserAccountHistory {
+pub struct UserAccountHistory {
     description: Option<String>,
     id: u32,
     length: u32,
@@ -49,14 +49,14 @@ struct UserAccountHistory {
 }
 
 #[derive(Serialize, Deserialize)]
-struct ProfileBanner {
+pub struct ProfileBanner {
     id: u32,
     tournament_id: u32,
     image: String
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct UserBadge {
+pub struct UserBadge {
     awarded_at: String,
     description: String,
     image_url: String,
@@ -64,7 +64,7 @@ struct UserBadge {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct UserGroup {
+pub struct UserGroup {
     colour: Option<String>,
     has_listing: bool,
     has_playmodes: bool,
@@ -77,79 +77,79 @@ struct UserGroup {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct UserMonthlyPlaycount {
+pub struct UserMonthlyPlaycount {
     start_date: String,
     count: u32
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct OsuUser {
-    avatar_url: String,
-    country_code: String,
-    default_group: String,
-    id: i64,
-    is_active: bool,
-    is_bot: bool,
-    is_deleted: bool,
-    is_online: bool,
-    is_supporter: bool,
-    last_visit: Option<String>,
-    pm_friends_only: bool,
-    profile_colour: Option<String>,
-    username: String,
-    cover_url: String,
-    discord: Option<String>,
-    has_supported: bool,
-    interests: Option<String>,
-    join_date: String,
-    kudosu: Kudosu,
-    location: Option<String>,
-    max_blocks: i64,
-    max_friends: i64,
-    occupation: Option<String>,
-    playmode: GameMode,
-    playstyle: Vec<String>,
-    post_count: u16,
-    profile_order: Vec<String>,
-    title: Option<String>,
-    title_url: Option<String>,
-    twitter: Option<String>,
-    website: Option<String>,
-    country: Country,
-    cover: Cover,
-    is_restricted: bool,
-    account_history: Vec<UserAccountHistory>,
-    active_tournament_banner: Option<ProfileBanner>,
-    badges: Vec<UserBadge>,
-    beatmap_playcounts_count: u32,
-    comments_count: u64,
-    favourite_beatmapset_count: u32,
-    follower_count: u32,
-    graveyard_beatmapset_count: u32,
-    groups: Vec<UserGroup>,
-    guest_beatmapset_count: u32,
-    loved_beatmapset_count: u32,
-    mapping_follower_count: u32,
-    monthly_playcounts: Vec<UserMonthlyPlaycount>,
-    page: Page,
-    pending_beatmapset_count: u32,
-    previous_usernames: Vec<String>,
-    ranked_beatmapset_count: u32,
-    replays_watched_counts: Vec<Count>,
-    scores_best_count: u32,
-    scores_first_count: u32,
-    scores_pinned_count: u32,
-    scores_recent_count: u32,
-    statistics: Statistics,
-    statistics_rulesets: StatisticsRulesets,
-    support_level: u16,
-    user_achievements: Vec<UserAchievement>,
-    // #[serde(rename = "rank_history")]
-    rank_history: RankHistory,
-    // #[serde(rename = "rank_history")]
-    // welcome_rank_history: RankHistory,
-    ranked_and_approved_beatmapset_count: u32,
-    unranked_beatmapset_count: u32,
+    // pub avatar_url: String,
+    // pub country_code: String,
+    // pub default_group: String,
+    pub id: i32,
+    // pub is_active: bool,
+    // pub is_bot: bool,
+    // pub is_deleted: bool,
+    // pub is_online: bool,
+    // pub is_supporter: bool,
+    // pub last_visit: Option<String>,
+    // pub pm_friends_only: bool,
+    // pub profile_colour: Option<String>,
+    // pub username: String,
+    // pub cover_url: String,
+    // pub discord: Option<String>,
+    // pub has_supported: bool,
+    // pub interests: Option<String>,
+    // pub join_date: String,
+    // pub kudosu: Kudosu,
+    // pub location: Option<String>,
+    // pub max_blocks: i64,
+    // pub max_friends: i64,
+    // pub occupation: Option<String>,
+    // pub playmode: GameMode,
+    // pub playstyle: Vec<String>,
+    // pub post_count: u16,
+    // pub profile_order: Vec<String>,
+    // pub title: Option<String>,
+    // pub title_url: Option<String>,
+    // pub twitter: Option<String>,
+    // pub website: Option<String>,
+    // pub country: Country,
+    // pub cover: Cover,
+    // pub is_restricted: bool,
+    // pub account_history: Vec<UserAccountHistory>,
+    // pub active_tournament_banner: Option<ProfileBanner>,
+    // pub badges: Vec<UserBadge>,
+    // pub beatmap_playcounts_count: u32,
+    // pub comments_count: u64,
+    // pub favourite_beatmapset_count: u32,
+    // pub follower_count: u32,
+    // pub graveyard_beatmapset_count: u32,
+    // pub groups: Vec<UserGroup>,
+    // pub guest_beatmapset_count: u32,
+    // pub loved_beatmapset_count: u32,
+    // pub mapping_follower_count: u32,
+    // pub monthly_playcounts: Vec<UserMonthlyPlaycount>,
+    // pub page: Page,
+    // pub pending_beatmapset_count: u32,
+    // pub previous_usernames: Vec<String>,
+    // pub ranked_beatmapset_count: u32,
+    // pub replays_watched_counts: Vec<Count>,
+    // pub scores_best_count: u32,
+    // pub scores_first_count: u32,
+    // pub scores_pinned_count: u32,
+    // pub scores_recent_count: u32,
+    // pub statistics: Statistics,
+    // pub statistics_rulesets: StatisticsRulesets,
+    // pub support_level: u16,
+    // pub user_achievements: Vec<UserAchievement>,
+    // // #[serde(rename = "rank_history")]
+    // pub rank_history: RankHistory,
+    // // #[serde(rename = "rank_history")]
+    // // pub welcome_rank_history: RankHistory,
+    // pub ranked_and_approved_beatmapset_count: u32,
+    // pub unranked_beatmapset_count: u32,
 }
 
 #[derive(Serialize, Deserialize)]
