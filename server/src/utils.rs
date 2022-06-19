@@ -1,7 +1,23 @@
-fn build_insert_query<T>(table_name: &str, params: &[T]) -> String {
-    // let base_query = format!("INSERT INTO {table_name} VALUES ({}, {}, {})");
+use rand::{thread_rng, Rng, distributions::Alphanumeric};
+use std::collections::HashMap;
 
+macro_rules! hashmap {
+    ($($k: expr => $v: expr)*) => {{
+        let map = HashMap::from([
+            $(
+                ($k, $v),
+            )*
+        ]);
 
+        map
+    }};
+}
+pub(crate) use hashmap;
 
-    "".to_string()
+pub fn gen_random_str() -> String {
+    thread_rng()
+        .sample_iter(&Alphanumeric)
+        .take(40)
+        .map(char::from)
+        .collect()
 }

@@ -1,74 +1,52 @@
 use axum::{
     extract::Query,
-    response::{IntoResponse, Response},
+    response::IntoResponse,
     Extension,
 };
 use axum_extra::extract::cookie::{Cookie, CookieJar};
 
-use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, sync::Arc};
-use tokio::join;
+use std::{collections::HashMap, sync::Arc, vec};
 use tokio_postgres::{types::ToSql, Client};
 
 use itertools::Itertools;
-use rand::{distributions::Alphanumeric, thread_rng, Rng};
 use reqwest::{self, StatusCode};
 
-use crate::models::{server::ServerState, user::OsuUser};
-
-#[derive(Debug, Deserialize, Serialize)]
-struct Tokens {
-    token_type: String,
-    expires_in: i32,
-    access_token: String,
-    refresh_token: String,
-}
-
-fn gen_random_str() -> String {
-    thread_rng()
-        .sample_iter(&Alphanumeric)
-        .take(40)
-        .map(char::from)
-        .collect()
-}
+use crate::api::get_me_and_friends;
+use crate::models::server::ServerState;
+use crate::{
+    api::get_tokens,
+    utils::{gen_random_str, hashmap},
+};
 
 pub async fn authorize(
     Query(params): Query<HashMap<String, String>>,
     Extension(db): Extension<Arc<Client>>,
     Extension(state): Extension<Arc<ServerState>>,
     jar: CookieJar,
-) -> Result<Response, Response> {
+) -> Result<impl IntoResponse, impl IntoResponse> {
     let Some(code) = params.get("code") else {
-        return Err((StatusCode::BAD_REQUEST, "Code is required!").into_response())
+        return Err((StatusCode::BAD_REQUEST, "Code is required!"));
     };
 
-    let map: HashMap<&str, &str> = HashMap::from([
-        ("client_id", "15483"),
-        ("client_secret", &state.client_secret),
-        ("code", code),
-        ("grant_type", "authorization_code"),
-        ("redirect_uri", "http://127.0.0.1:3000/api/authorize"),
-    ]);
+    let params: HashMap<&str, &str> = hashmap! {
+        "client_id"     => "15483"
+        "client_secret" => &state.client_secret
+        "code"          => code
+        "grant_type"    => "authorization_code"
+        "redirect_uri"  => "http://127.0.0.1:3000/api/authorize"
+    };
 
     let client = reqwest::Client::new();
-    let response = client
-        .post("https://osu.ppy.sh/oauth/token")
-        .json(&map)
-        .send()
-        .await
-        .unwrap();
-
-    let Ok(tokens) = response.json::<Tokens>().await else {
-        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Token parsing failed!").into_response())
+    let Ok(tokens) = get_tokens(&client, &params).await else {
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't get tokens!"));
     };
 
-    let (user, mut friends) = get_me_and_friends(&tokens, client).await?;
-
+    let (user, mut friends) = get_me_and_friends(&tokens, &client).await?;
     friends.push(user.clone());
+
     let session_str = gen_random_str();
     let friend_ids: Vec<i32> = friends.iter().map(|user| user.id).collect();
 
-    ////
     let params: Vec<&(dyn ToSql + Sync)> = friends
         .iter()
         .flat_map(|row| {
@@ -90,64 +68,25 @@ pub async fn authorize(
                 f(&format_args!("(${i}, ${j}, ${k}, ${l}, ${m})"))
             }),
     );
-    ////
 
     if let Err(_) = db.execute(&query, &params).await {
-        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!").into_response());
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!"));
     }
 
-    if let Err(_) = db
-        .execute(
-            "INSERT INTO sessions VALUES ($1, $2, $3, $4, $5)",
-            &[
-                &user.id,
-                &friend_ids,
-                &session_str,
-                &tokens.access_token,
-                &tokens.refresh_token,
-            ],
-        )
-        .await
-    {
-        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add session!").into_response());
+    if db.execute(
+        "INSERT INTO sessions VALUES ($1, $2, $3, $4, $5)",
+        &[
+            &user.id,
+            &friend_ids,
+            &session_str,
+            &tokens.access_token,
+            &tokens.refresh_token,
+        ],
+    ).await.is_err() {
+        return Err((StatusCode::INTERNAL_SERVER_ERROR,"Can't add session!"))
     };
-
+    
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
 
-    Ok((StatusCode::CREATED, updated_jar, "Ok").into_response())
-}
-
-async fn get_me_and_friends(
-    tokens: &Tokens,
-    client: reqwest::Client,
-) -> Result<(OsuUser, Vec<OsuUser>), Response> {
-    let header_format = format!("Bearer {}", &tokens.access_token);
-
-    let me_future = client
-        .get("https://osu.ppy.sh/api/v2/me")
-        .header("Authorization", &header_format)
-        .send();
-    let friends_future = client
-        .get("https://osu.ppy.sh/api/v2/friends")
-        .header("Authorization", &header_format)
-        .send();
-
-    let (Ok(me_response), Ok(friends_response)) = join!(
-        me_future,
-        friends_future
-    ) else {
-        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't get user or friends!").into_response())
-    };
-
-    let (user, friends) = (
-        me_response
-            .json::<OsuUser>()
-            .await
-            .expect("Can't parse user!"),
-        friends_response
-            .json::<Vec<OsuUser>>()
-            .await
-            .expect("Can't parse friends!"),
-    );
-    Ok((user, friends))
+    return Ok((StatusCode::CREATED, updated_jar, "Ok!"));
 }

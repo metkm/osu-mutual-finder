@@ -3,6 +3,7 @@
 mod models;
 mod routes;
 mod utils;
+mod api;
 
 use models::{server::ServerState, user};
 use routes::{auth, mutuals};
