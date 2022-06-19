@@ -1,5 +1,4 @@
 use rand::{thread_rng, Rng, distributions::Alphanumeric};
-use std::collections::HashMap;
 
 macro_rules! hashmap {
     ($($k: expr => $v: expr)*) => {{

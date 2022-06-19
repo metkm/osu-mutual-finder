@@ -18,7 +18,7 @@ pub async fn get(
         .await
         .unwrap();
 
-    let users: Vec<User> = query.into_iter().map(|row| User::from(row)).collect();
+    let users: Vec<User> = query.into_iter().map(User::from).collect();
 
     Json(users)
 }

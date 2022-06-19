@@ -69,7 +69,7 @@ pub async fn authorize(
             }),
     );
 
-    if let Err(_) = db.execute(&query, &params).await {
+    if db.execute(&query, &params).await.is_err() {
         return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!"));
     }
 
@@ -88,5 +88,5 @@ pub async fn authorize(
     
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
 
-    return Ok((StatusCode::CREATED, updated_jar, "Ok!"));
+    Ok((StatusCode::CREATED, updated_jar, "Ok!"))
 }
