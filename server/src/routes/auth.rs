@@ -5,7 +5,7 @@ use axum::{
 };
 use axum_extra::extract::cookie::{Cookie, CookieJar};
 
-use std::{collections::HashMap, sync::Arc, vec};
+use std::{collections::HashMap, sync::Arc};
 use tokio_postgres::{types::ToSql, Client};
 
 use itertools::Itertools;
