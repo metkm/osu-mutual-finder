@@ -5,12 +5,13 @@ mod routes;
 mod utils;
 mod api;
 mod middlewares;
+mod database;
 
 use models::{server::ServerState, user};
 use routes::{auth, mutuals};
 
 use axum::{
-    routing::get,
+    routing::{get, patch},
     Extension, Router, middleware,
 };
 use std::{net::SocketAddr, sync::Arc};
@@ -43,6 +44,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let app = Router::new()
         .route("/api/mutuals", get(mutuals::get_mutuals))
+        .route("/api/refresh", patch(auth::refresh))
         .route_layer(middleware::from_fn(middlewares::session::session))
 
         .route("/api/authorize", get(auth::authorize))

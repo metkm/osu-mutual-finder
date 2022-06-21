@@ -31,8 +31,8 @@ async fn get_friends(client: &Client, token: &str) -> Result<Vec<OsuUser>, reqwe
 }
 
 pub async fn get_me_and_friends(
-    tokens: &Tokens,
     client: &Client,
+    tokens: &Tokens,
 ) -> Result<(OsuUser, Vec<OsuUser>), (StatusCode, &'static str)> {
     let (user, friends) = join!(
         get_me(client, &tokens.access_token),
@@ -52,14 +52,19 @@ pub async fn get_me_and_friends(
 
 pub async fn get_tokens(
     client: &Client,
-    params: &HashMap<&str, &str>,
-) -> Result<Tokens, reqwest::Error> {
-    let response = client
+    params: &HashMap<&str, &str>
+) -> Result<Tokens, (StatusCode, &'static str)> {
+    let Ok(response) = client
         .post("https://osu.ppy.sh/oauth/token")
         .json(params)
         .send()
-        .await?;
+        .await else {
+            return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't get tokens!"));
+        };
 
-    let tokens = response.json::<Tokens>().await?;
+    let Ok(tokens) = response.json::<Tokens>().await else {
+        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't parse tokens!"));
+    };
+
     Ok(tokens)
 }
