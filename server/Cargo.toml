@@ -8,10 +8,12 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 itertools = "0.10.3"
+reqwest = { version = "0.11.11", features=["json"] }
+serde = { version = "1", features=["derive"] }
+
 axum = "0.5.7"
 axum-extra = { version = "0.3.4", features=["cookie"] }
+
 tokio = { version = "1.19.2", features=["full"] }
 tokio-postgres = { version = "0.7.6", features=["array-impls"] }
 postgres-types = { version = "0.2.3", features = ["derive"] }
-serde = { version = "1", features=["derive"] }
-reqwest = { version = "0.11.11", features=["json"] }

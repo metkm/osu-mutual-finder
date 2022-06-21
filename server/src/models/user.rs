@@ -1,21 +1,6 @@
+use postgres_types::ToSql;
 use serde::{Deserialize, Serialize};
 use tokio_postgres::Row;
-use postgres_types::ToSql;
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct User {
-    pub user_id: u32,
-    pub friend_ids: Vec<u32>,
-}
-
-impl From<Row> for User {
-    fn from(row: Row) -> Self {
-        Self {
-            user_id: row.get("user_id"),
-            friend_ids: row.get("friend_ids"),
-        }
-    }
-}
 
 #[derive(Serialize, Deserialize)]
 pub enum GameMode {
@@ -26,7 +11,7 @@ pub enum GameMode {
     #[serde(rename = "osu")]
     Osu,
     #[serde(rename = "takio")]
-    Takio 
+    Takio,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -36,7 +21,7 @@ enum HistoryType {
     #[serde(rename = "restriction")]
     Restriction,
     #[serde(rename = "silence")]
-    Silence
+    Silence,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -46,14 +31,14 @@ pub struct UserAccountHistory {
     length: u32,
     timestamp: String,
     #[serde(rename = "type")]
-    _type: HistoryType
+    _type: HistoryType,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct ProfileBanner {
     id: u32,
     tournament_id: u32,
-    image: String
+    image: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -61,7 +46,7 @@ pub struct UserBadge {
     awarded_at: String,
     description: String,
     image_url: String,
-    url: String
+    url: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -74,13 +59,13 @@ pub struct UserGroup {
     is_probationary: bool,
     name: String,
     short_name: String,
-    playmodes: Option<Vec<String>>
+    playmodes: Option<Vec<String>>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UserMonthlyPlaycount {
     start_date: String,
-    count: u32
+    count: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, ToSql)]
@@ -153,6 +138,18 @@ pub struct OsuUser {
     // pub unranked_beatmapset_count: u32,
 }
 
+impl From<Row> for OsuUser {
+    fn from(row: Row) -> Self {
+        Self {
+            avatar_url: row.get("avatar_url"),
+            country_code: row.get("country_code"),
+            id: row.get("user_id"),
+            username: row.get("username"),
+            cover: Cover { url: row.get("cover_url") },
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, ToSql)]
 pub struct Country {
     code: String,
@@ -161,9 +158,9 @@ pub struct Country {
 
 #[derive(Debug, Clone, Serialize, Deserialize, ToSql)]
 pub struct Cover {
-    pub custom_url: Option<String>,
+    // pub custom_url: Option<String>,
     pub url: String,
-    pub id: Option<String>, // wtf is this a string????? org: Option<u32>
+    // pub id: Option<String>, // wtf is this a string????? org: Option<u32>
 }
 
 #[derive(Serialize, Deserialize)]

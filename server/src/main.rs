@@ -4,13 +4,14 @@ mod models;
 mod routes;
 mod utils;
 mod api;
+mod middlewares;
 
 use models::{server::ServerState, user};
 use routes::{auth, mutuals};
 
 use axum::{
-    routing::{get, post},
-    Extension, Router,
+    routing::get,
+    Extension, Router, middleware,
 };
 use std::{net::SocketAddr, sync::Arc};
 use tokio_postgres::{connect, NoTls};
@@ -41,11 +42,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let shared_state = Arc::new(state);
 
     let app = Router::new()
-        .route("/api/mutuals/get/:id", get(mutuals::get))
-        .route("/api/mutuals/add", post(mutuals::add))
+        .route("/api/mutuals", get(mutuals::get_mutuals))
+        .route_layer(middleware::from_fn(middlewares::session::session))
+
         .route("/api/authorize", get(auth::authorize))
         .layer(Extension(shared_client))
         .layer(Extension(shared_state));
+
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
 
     axum::Server::bind(&addr)

@@ -42,10 +42,9 @@ pub async fn authorize(
     };
 
     let (user, mut friends) = get_me_and_friends(&tokens, &client).await?;
-    friends.push(user.clone());
-
-    let session_str = gen_random_str();
     let friend_ids: Vec<i32> = friends.iter().map(|user| user.id).collect();
+    let session_str = gen_random_str();
+    friends.push(user.clone());
 
     let params: Vec<&(dyn ToSql + Sync)> = friends
         .iter()
@@ -69,7 +68,8 @@ pub async fn authorize(
             }),
     );
 
-    if db.execute(&query, &params).await.is_err() {
+    if let Err(e) = db.execute(&query, &params).await {
+        println!("{:?}", e);
         return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!"));
     }
 
