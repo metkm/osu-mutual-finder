@@ -18,7 +18,7 @@ pub async fn refresh(
     let client = reqwest::Client::new();
 
     let params: HashMap<&str, &str> = hashmap! {
-        "client_id"     => "15483"
+        "client_id"     => "15638"
         "client_secret" => &server_state.client_secret
         "refresh_token" => &current_session.refresh_token
         "grant_type"    => "refresh_token"

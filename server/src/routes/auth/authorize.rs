@@ -25,7 +25,7 @@ pub async fn authorize(
 
     let client = reqwest::Client::new();
     let params: HashMap<&str, &str> = hashmap! {
-        "client_id"     => "15483"
+        "client_id"     => "15638"
         "client_secret" => &server_state.client_secret
         "code"          => code
         "grant_type"    => "authorization_code" 
@@ -76,5 +76,12 @@ pub async fn authorize(
     .await?;
 
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
-    Ok((updated_jar, Redirect::permanent("https://tauri.localhost/")))
+    let url: &str = 'url: {
+        if cfg!(debug_assertions) {
+            break 'url "http://localhost:3000"
+        }
+
+        "https://tauri.localhost/"
+    };
+    Ok((updated_jar, Redirect::permanent(url)))
 }
