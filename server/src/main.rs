@@ -1,5 +1,4 @@
 #![feature(let_else)]
-#![feature(label_break_value)]
 
 mod models;
 mod routes;
