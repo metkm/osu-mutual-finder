@@ -48,10 +48,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route_layer(middleware::from_fn(middlewares::session::session))
 
         .route("/api/authorize", get(auth::authorize))
+        .route("/api/login", get(auth::login))
         .layer(Extension(shared_client))
         .layer(Extension(shared_state));
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 3001));
 
     axum::Server::bind(&addr)
         .serve(app.into_make_service())

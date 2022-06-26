@@ -25,7 +25,8 @@ export default createStore<RootState>({
     addFriend: false,
     addBlacklist: false,
     gamemode: Gamemode.osu,
-    check: Check.Country
+    check: Check.Country,
+    uploaded: false
   },
   mutations: {
     SET_FRIENDS(state, friendsList) {
@@ -61,6 +62,9 @@ export default createStore<RootState>({
     },
     SET_CHECK(state, check: Check) {
       state.check = check; 
+    },
+    TOGGLE_UPLOADED(state) {
+      state.uploaded = true;
     }
   },
   actions: {
@@ -93,6 +97,9 @@ export default createStore<RootState>({
     },
     setCheck({ commit }, check: Check) {
       commit("SET_CHECK", check);
+    },
+    toggleUploaded({ commit }) {
+      commit("TOGGLE_UPLOADED");
     }
   },
   modules: {

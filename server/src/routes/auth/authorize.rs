@@ -23,17 +23,13 @@ pub async fn authorize(
         return Err((StatusCode::BAD_REQUEST, "Code is required!"));
     };
 
-    let Some(redirect_uri) = query_params.get("redirect_uri") else {
-        return Err((StatusCode::BAD_REQUEST, "Redirect_uri is required!"));
-    };
-
     let client = reqwest::Client::new();
     let params: HashMap<&str, &str> = hashmap! {
         "client_id"     => "15483"
         "client_secret" => &server_state.client_secret
         "code"          => code
         "grant_type"    => "authorization_code" 
-        "redirect_uri"  => redirect_uri
+        "redirect_uri"  => "http://localhost:3001/api/authorize"
     };
 
     let tokens = get_tokens(&client, &params).await?;
@@ -80,5 +76,5 @@ pub async fn authorize(
     .await?;
 
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
-    Ok((StatusCode::CREATED, updated_jar, Redirect::permanent(&redirect_uri)))
+    Ok((updated_jar, Redirect::permanent("https://tauri.localhost/")))
 }

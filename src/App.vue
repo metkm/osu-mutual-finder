@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useStore } from "./store";
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 
@@ -9,6 +10,7 @@ import { notify, notifyRemove } from "./plugin/notification";
 
 import TitleBar from "./components/AppTitleBar.vue";
 const router = useRouter();
+const store = useStore();
 
 onMounted(async () => {
   const { shouldUpdate, manifest } = await checkUpdate();
@@ -28,6 +30,19 @@ onMounted(async () => {
   } else {
     notify(updateText)
   }
+
+  if (store.state.uploaded) return;
+
+  notify("Would you like to upload your friend list to database?", {
+    acceptText: "Yes!",
+    acceptCallback: () => {
+      let url = import.meta.env.DEV ? "http://localhost:3001/api/login" : "https://sibylku.xyz/api/login";
+
+      store.dispatch("toggleUploaded");
+      window.location.href = url;
+    },
+    delay: 15000
+  });
 })
 
 event.listen("tauri://update-status", (res) => {

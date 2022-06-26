@@ -21,7 +21,8 @@ export interface StoreState {
   addFriend: boolean,
   addBlacklist: boolean,
   gamemode: Gamemode,
-  check: Check
+  check: Check,
+  uploaded: boolean
 }
 
 export interface NotificationOptions {
