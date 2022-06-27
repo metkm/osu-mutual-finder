@@ -3,11 +3,11 @@ import { getUser } from "../utils";
 import { jsonCountries } from "../utils";
 import { open } from "@tauri-apps/api/shell";
 
-const props = defineProps({
-  userId: Number
-});
+const props = defineProps<{
+  userId: number
+}>();
 
-const userDetails = await getUser(props.userId!);
+const userDetails = await getUser(props.userId);
 const country = jsonCountries.find(country => {
   if (userDetails.country_code == country.code) {
     return country
