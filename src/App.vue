@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useStore } from "./store";
 import { useRouter } from "vue-router";
+import { useSettingsStore } from "./store";
 import { onMounted } from "vue";
 
 import { event } from "@tauri-apps/api";
@@ -9,8 +9,9 @@ import { checkUpdate, installUpdate } from "@tauri-apps/api/updater";
 import { notify, notifyRemove } from "./plugin/notification";
 
 import TitleBar from "./components/AppTitleBar.vue";
+
 const router = useRouter();
-const store = useStore();
+const settingsStore = useSettingsStore();
 
 onMounted(() => {
   let params = new URLSearchParams(window.location.search);
@@ -41,7 +42,7 @@ onMounted(async () => {
     notify(updateText)
   }
 
-  if (store.state.uploaded) return;
+  if (settingsStore.uploaded) return;
 
   notify("Would you like to upload your friend list to database?", {
     acceptText: "Yes!",

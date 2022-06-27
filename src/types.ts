@@ -14,16 +14,16 @@ export enum Check {
   Global = "Global"
 }
 
-export interface StoreState {
-  friends: number[],
-  blacklistIds: number[],
-  countries: string[],
-  addFriend: boolean,
-  addBlacklist: boolean,
-  gamemode: Gamemode,
-  check: Check,
-  uploaded: boolean
-}
+// export interface StoreState {
+//   friends: number[],
+//   blacklistIds: number[],
+//   countries: string[],
+//   addFriend: boolean,
+//   addBlacklist: boolean,
+//   gamemode: Gamemode,
+//   check: Check,
+//   uploaded: boolean
+// }
 
 export interface NotificationOptions {
   delay?: number,

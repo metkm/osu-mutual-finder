@@ -1,6 +1,6 @@
 import { http } from "@tauri-apps/api";
+import { useAuthStore } from "./store";
 import { UserObject, UserObjectAdded, WebCountry } from "./types";
-import store from "./store";
 
 const xsrfTokenRegex = /XSRF-TOKEN=(.*?);/;
 const sessionTokenRegex = /osu_session=(.*?);/;
@@ -36,6 +36,8 @@ export async function getUser(userId: number): Promise<UserObject> {
 export async function addFriend(userId: number, token: string, session: string): Promise<UserObjectAdded[] | undefined> {
   await sleep(6000);
   try {
+    const authStore = useAuthStore();
+
     const response = await http.fetch<UserObjectAdded[]>(`https://osu.ppy.sh/home/friends?target=${userId}`, {
       method: "POST",
       headers: {
@@ -45,8 +47,8 @@ export async function addFriend(userId: number, token: string, session: string):
     });
 
     let [newToken, newSession] = await getTokens(response.rawHeaders);
-    store.commit("setSession", newSession);
-    store.commit("setToken", newToken);
+    authStore.session = newSession;
+    authStore.token = newToken;
 
     return response.data
   } catch(error: any) {
@@ -62,6 +64,8 @@ export async function addFriend(userId: number, token: string, session: string):
 }
 
 export async function removeFriend(userId: number, token: string, session: string) {
+  const authStore = useAuthStore();
+
   const response = await http.fetch(`https://osu.ppy.sh/home/friends/${userId}`, {
     method: "DELETE",
     headers: {
@@ -71,8 +75,8 @@ export async function removeFriend(userId: number, token: string, session: strin
   });
 
   let [newToken, newSession] = await getTokens(response.rawHeaders);
-  store.commit("setSession", newSession);
-  store.commit("setToken", newToken);
+  authStore.session = newSession;
+  authStore.token = newToken;
 }
 
 export const clampNumber = (n: number, min: number, max: number) => {

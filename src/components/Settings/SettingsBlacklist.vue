@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useStore } from "../../store";
+import { ref } from "vue";
+import { useSettingsStore } from "../../store";
 import AppInput from "../AppInput.vue";
-const store = useStore();
 
-const blacklistIds = computed(() => store.state.blacklistIds);
+const settingsStore = useSettingsStore();
 const userId = ref(null);
 
 const addToBlacklist = () => {
-  store.dispatch("addBlacklist", userId.value);
+  if (userId.value) {
+    settingsStore.toggleBlacklistId(userId.value);
+  }
 };
 const removeBlacklist = (userId: number) => {
-  store.dispatch("removeBlacklist", userId);
+  settingsStore.toggleBlacklistId(userId);
 };
 const clearBlacklist = () => {
-  store.dispatch("clearBlacklist");
+  settingsStore.blacklistIds = [];
 }
 </script>
 
@@ -31,7 +32,7 @@ const clearBlacklist = () => {
       </div>
 
       <div class="listbox select-none max-h-72">
-        <p v-for="id in blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="listbox-item">
+        <p v-for="id in settingsStore.blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="listbox-item">
           {{ id }}
         </p>
       </div>

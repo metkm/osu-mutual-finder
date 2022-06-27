@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { http } from "@tauri-apps/api";
 import { app } from "@tauri-apps/api";
 import { SessionLoginUser } from "../types";
 import { getTokens } from "../utils";
 
 import AppInput from "../components/AppInput.vue";
-import store from "../store";
 import router from "../router";
+import { useAuthStore, useSettingsStore, useUserStore } from "../store";
+import { storeToRefs } from "pinia";
 
 interface Login {
   header: string,
@@ -19,6 +20,9 @@ const username = ref("");
 const password = ref("");
 const cooldown = ref(false);
 const version = await app.getVersion();
+const settingsStore = useSettingsStore();
+const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const login = async () => {
   const client = await http.getClient();
@@ -45,11 +49,11 @@ const login = async () => {
     return;
   }
 
-  if (!store.state.user.user) {
-    store.dispatch("addBlacklist", sessionResponse.data.user.id);
+  if (!userStore.user) {
+    settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
   }
 
-  store.commit("setUser", sessionResponse.data.user);
+  userStore.user = sessionResponse.data.user;
   [token, session] = await getTokens(sessionResponse.rawHeaders);
   
   const verificationResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
@@ -59,8 +63,8 @@ const login = async () => {
   });
 
   [token, session] = await getTokens(verificationResponse.rawHeaders);
-  store.commit("setSession", session);
-  store.commit("setToken", token);
+  authStore.session = session;
+  authStore.token = token;
 
   router.push("/verify")
 }

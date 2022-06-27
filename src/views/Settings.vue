@@ -6,9 +6,9 @@ import SettingsCountries from "../components/Settings/SettingsCountries.vue";
 import SettingsMode from "../components/Settings/SettingsMode.vue";
 import SettingsOther from "../components/Settings/SettingsOther.vue";
 import { useRouter } from "vue-router";
-import { useStore } from "../store";
+import { useUserStore } from "../store";
 const router = useRouter();
-const store = useStore();
+const userStore = useUserStore();
 
 const goBack = () => {
   router.push({ path: "/mutuals" });
@@ -26,8 +26,8 @@ const goBack = () => {
 
       <p class="font-bold text-center">Settings</p>
 
-      <img v-if="store.state.user.user" 
-        :src="store.state.user.user.avatar_url"
+      <img v-if="userStore.user" 
+        :src="userStore.user.avatar_url"
         class="h-10 rounded-full justify-self-end"
       />
     </div>
