@@ -23,21 +23,13 @@ pub async fn authorize(
         return Err((StatusCode::BAD_REQUEST, "Code is required!"));
     };
 
-    let redirect_uri = {
-        if cfg!(debug_assertions) {
-            "http://localhost:3001/api/authorize"
-        } else {
-            "https://sibylku.xyz/api/authorize"
-        }
-    };
-
     let client = reqwest::Client::new();
     let params: HashMap<&str, &str> = hashmap! {
-        "client_id"     => "15638"
-        "client_secret" => &server_state.client_secret
-        "code"          => code
-        "grant_type"    => "authorization_code" 
-        "redirect_uri"  => redirect_uri
+        "client_id"     => "15638",
+        "client_secret" => &server_state.client_secret,
+        "code"          => code,
+        "grant_type"    => "authorization_code",
+        "redirect_uri"  => &server_state.auth_redirect_uri
     };
 
     let tokens = get_tokens(&client, &params).await?;
@@ -84,12 +76,5 @@ pub async fn authorize(
     .await?;
 
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
-    let url: &str = {
-        if cfg!(debug_assertions) {
-            "http://localhost:3000"
-        } else {
-            "https://tauri.localhost/"
-        }
-    };
-    Ok((updated_jar, Redirect::permanent(url)))
+    Ok((updated_jar, Redirect::permanent(&server_state.redirect_uri)))
 }

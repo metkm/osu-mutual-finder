@@ -1,25 +1,27 @@
 #![feature(let_else)]
 
+mod api;
+mod database;
+mod middlewares;
 mod models;
 mod routes;
 mod utils;
-mod api;
-mod middlewares;
-mod database;
 
-use models::{server::ServerState, user};
+use models::user;
 use routes::{auth, mutuals};
 
 use axum::{
+    middleware,
     routing::{get, patch},
-    Extension, Router, middleware,
+    Extension, Router,
 };
+use utils::load_env_variables;
 use std::{net::SocketAddr, sync::Arc};
 use tokio_postgres::{connect, NoTls};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let state = ServerState::new();
+    let state = load_env_variables();
 
     let connection_string = format!(
         "host=localhost user=postgres password={} dbname=mutuals",
@@ -46,7 +48,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/api/mutuals", get(mutuals::get_mutuals))
         .route("/api/refresh", patch(auth::refresh))
         .route_layer(middleware::from_fn(middlewares::session::session))
-
         .route("/api/authorize", get(auth::authorize))
         .route("/api/login", get(auth::login))
         .layer(Extension(shared_client))

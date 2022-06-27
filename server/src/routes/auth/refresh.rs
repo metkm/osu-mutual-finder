@@ -18,10 +18,10 @@ pub async fn refresh(
     let client = reqwest::Client::new();
 
     let params: HashMap<&str, &str> = hashmap! {
-        "client_id"     => "15638"
-        "client_secret" => &server_state.client_secret
-        "refresh_token" => &current_session.refresh_token
-        "grant_type"    => "refresh_token"
+        "client_id"     => "15638",
+        "client_secret" => &server_state.client_secret,
+        "refresh_token" => &current_session.refresh_token,
+        "grant_type"    => "refresh_token",
         "redirect_uri"  => "http://127.0.0.1:3000/api/authorize"
     };
 
