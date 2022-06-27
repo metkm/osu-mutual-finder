@@ -12,6 +12,16 @@ import TitleBar from "./components/AppTitleBar.vue";
 const router = useRouter();
 const store = useStore();
 
+onMounted(() => {
+  let params = new URLSearchParams(window.location.search);
+  let access_token = params.get("access_token");
+  let refresh_token = params.get("refresh_token");
+
+  if (access_token && refresh_token) {
+    // should keep it in the state. Also can get user profiles with these tokens to reduce normal http calls.
+  }
+});
+
 onMounted(async () => {
   const { shouldUpdate, manifest } = await checkUpdate();
   const updateText = shouldUpdate ? `Update Available. v${manifest?.version}` : "No update available";
@@ -38,12 +48,12 @@ onMounted(async () => {
     acceptCallback: () => {
       let url = import.meta.env.DEV ? "http://localhost:3001/api/login" : "https://sibylku.xyz/api/login";
 
-      store.dispatch("toggleUploaded");
+      // store.dispatch("toggleUploaded");
       window.location.href = url;
     },
     delay: 15000
   });
-})
+});
 
 event.listen("tauri://update-status", (res) => {
   console.log(res);

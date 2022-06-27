@@ -1,23 +1,28 @@
 use std::{collections::HashMap, sync::Arc};
 
-use axum::{extract::Query, response::{IntoResponse, Redirect}, Extension};
-use axum_extra::extract::{CookieJar, cookie::Cookie}
-;
+use axum::{
+    extract::Query,
+    response::{IntoResponse, Redirect},
+    Extension,
+};
+use axum_extra::extract::{cookie::Cookie, CookieJar};
 use itertools::Itertools;
 use postgres_types::ToSql;
-use tokio_postgres::Client;
 use reqwest::StatusCode;
+use tokio_postgres::Client;
 
 use crate::{
-    api::{get_tokens, get_me_and_friends},
-    models::server::ServerState, database::insert_session, utils::{gen_random_str, hashmap},
+    api::{get_me_and_friends, get_tokens},
+    database::insert_session,
+    models::server::ServerState,
+    utils::{gen_random_str, hashmap},
 };
 
 pub async fn authorize(
     Query(query_params): Query<HashMap<String, String>>,
     Extension(server_state): Extension<Arc<ServerState>>,
     Extension(db): Extension<Arc<Client>>,
-    jar: CookieJar
+    jar: CookieJar,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let Some(code) = query_params.get("code") else {
         return Err((StatusCode::BAD_REQUEST, "Code is required!"));
@@ -63,7 +68,7 @@ pub async fn authorize(
     if db.execute(&query, &params).await.is_err() {
         return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!"));
     };
-    
+
     let session_str = gen_random_str();
     insert_session(
         &db,
@@ -75,6 +80,12 @@ pub async fn authorize(
     )
     .await?;
 
+    // probably not a good idea to return access_token and refresh token like this.
+    let redirect_uri = format!(
+        "{}?access_token={}&refresh_token={}",
+        &server_state.redirect_uri, &tokens.access_token, &tokens.refresh_token
+    );
+
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
-    Ok((updated_jar, Redirect::permanent(&server_state.redirect_uri)))
+    Ok((updated_jar, Redirect::permanent(&redirect_uri)))
 }
