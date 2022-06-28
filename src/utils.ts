@@ -32,8 +32,6 @@ export async function getUser(userId: number): Promise<UserObject> {
 }
 
 export async function getUserApi(userId: number, access_token: string): Promise<UserObject> {
-  console.log("api request");
-
   const response = await http.fetch<UserObject>(`https://osu.ppy.sh/api/v2/users/${userId}`, {
     method: "GET",
     responseType: 1,
@@ -41,8 +39,6 @@ export async function getUserApi(userId: number, access_token: string): Promise<
       "Authorization": `Bearer ${access_token}`
     }
   });
-
-  console.log(response.data);
 
   return response.data
 }
