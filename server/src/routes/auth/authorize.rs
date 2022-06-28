@@ -40,19 +40,13 @@ pub async fn authorize(
 
     friends.push(user.clone());
 
-    // BAD CODE WARNING
-    let global_ranks: &Vec<i32> = &friends.iter().map(|x| x.statistics.global_rank.unwrap_or(0)).collect();
-    let mut index = 0;
-
     let params: &Vec<&(dyn ToSql + Sync)> = &friends
         .iter()
         .flat_map(|row| {
-            index += 1;
-
             [
                 &row.id,
                 &row.username as &(dyn ToSql + Sync),
-                &global_ranks[index - 1],
+                (&row.statistics.global_rank).as_ref().unwrap_or(&0),
                 &row.country_code,
                 &row.avatar_url,
                 &row.cover.url,
