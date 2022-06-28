@@ -14,6 +14,7 @@ serde = { version = "1", features=["derive"] }
 
 axum = "0.5.7"
 axum-extra = { version = "0.3.4", features=["cookie"] }
+tower-http = { version = "0.3.4", features=["cors"] }
 
 tokio = { version = "1.19.2", features=["full"] }
 tokio-postgres = { version = "0.7.6", features=["array-impls"] }

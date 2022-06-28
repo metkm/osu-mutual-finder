@@ -2801,6 +2801,7 @@ dependencies = [
  "serde",
  "tokio",
  "tokio-postgres",
+ "tower-http",
 ]
 
 [[package]]

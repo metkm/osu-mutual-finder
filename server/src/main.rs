@@ -15,13 +15,15 @@ use axum::{
     routing::{get, patch},
     Extension, Router,
 };
-use utils::load_env_variables;
 use std::{net::SocketAddr, sync::Arc};
 use tokio_postgres::{connect, NoTls};
+use tower_http::cors::{Any, CorsLayer};
+use utils::load_env_variables;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let state = load_env_variables();
+    let cors = CorsLayer::new().allow_origin(Any);
 
     let connection_string = format!(
         "host=localhost user=postgres password={} dbname=mutuals",
@@ -51,7 +53,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/api/authorize", get(auth::authorize))
         .route("/api/login", get(auth::login))
         .layer(Extension(shared_client))
-        .layer(Extension(shared_state));
+        .layer(Extension(shared_state))
+        .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3001));
 
