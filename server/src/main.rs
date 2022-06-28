@@ -10,15 +10,15 @@ mod utils;
 use models::user;
 use routes::{auth, mutuals};
 
-use axum::{
-    middleware,
-    routing::{get, patch},
-    Extension, Router,
-};
+use axum::middleware;
+use axum::routing::{get, patch};
+use axum::{Extension, Router};
+
 use std::{net::SocketAddr, sync::Arc};
 use tokio_postgres::{connect, NoTls};
 use tower_http::cors::CorsLayer;
 use utils::load_env_variables;
+
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

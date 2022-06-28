@@ -1,22 +1,19 @@
 use std::{collections::HashMap, sync::Arc};
 
-use axum::{
-    extract::Query,
-    response::{IntoResponse, Redirect},
-    Extension,
-};
+use axum::extract::Query;
+use axum::response::{IntoResponse, Redirect};
+use axum::Extension;
 use axum_extra::extract::{cookie::Cookie, CookieJar};
+
 use itertools::Itertools;
 use postgres_types::ToSql;
 use reqwest::StatusCode;
 use tokio_postgres::Client;
 
-use crate::{
-    api::{get_me_and_friends, get_tokens},
-    database::insert_session,
-    models::server::ServerState,
-    utils::{gen_random_str, hashmap},
-};
+use crate::api::{get_me_and_friends, get_tokens};
+use crate::database::insert_session;
+use crate::models::server::ServerState;
+use crate::utils::{gen_random_str, hashmap};
 
 pub async fn authorize(
     Query(query_params): Query<HashMap<String, String>>,
@@ -40,7 +37,7 @@ pub async fn authorize(
     let tokens = get_tokens(&client, &params).await?;
     let (user, mut friends) = get_me_and_friends(&client, &tokens).await?;
     let friend_ids: Vec<i32> = friends.iter().map(|user| user.id).collect();
-    
+
     friends.push(user.clone());
 
     let params: Vec<&(dyn ToSql + Sync)> = friends

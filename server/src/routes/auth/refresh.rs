@@ -1,19 +1,20 @@
-use std::{sync::Arc, collections::HashMap};
+use std::{collections::HashMap, sync::Arc};
 
 use axum::{http::StatusCode, response::IntoResponse, Extension};
-use axum_extra::extract::{CookieJar, cookie::Cookie};
+use axum_extra::extract::{cookie::Cookie, CookieJar};
 use tokio_postgres::Client;
 
-use crate::{
-    api::get_tokens,
-    models::{server::ServerState, session::Session}, utils::{gen_random_str, hashmap}, database::insert_session,
-};
+use crate::api::get_tokens;
+use crate::database::insert_session;
+use crate::models::server::ServerState;
+use crate::models::session::Session;
+use crate::utils::{gen_random_str, hashmap};
 
 pub async fn refresh(
     Extension(db): Extension<Arc<Client>>,
     Extension(current_session): Extension<Session>,
     Extension(server_state): Extension<Arc<ServerState>>,
-    jar: CookieJar
+    jar: CookieJar,
 ) -> Result<impl IntoResponse, (StatusCode, &'static str)> {
     let client = reqwest::Client::new();
 
@@ -36,8 +37,9 @@ pub async fn refresh(
         &current_session.friend_ids,
         &session_str,
         &tokens.access_token,
-        &tokens.refresh_token
-    ).await?;
+        &tokens.refresh_token,
+    )
+    .await?;
 
     let updated_jar = jar.add(Cookie::new("osu_session", session_str));
     Ok((StatusCode::OK, updated_jar, "Ok!"))

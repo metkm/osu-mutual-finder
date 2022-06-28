@@ -1,12 +1,11 @@
 use std::sync::Arc;
 
-use axum::{
-    extract::{FromRequest, RequestParts},
-    http::Request,
-    middleware::Next,
-    response::Response,
-};
+use axum::extract::{FromRequest, RequestParts};
+use axum::http::Request;
+use axum::middleware::Next;
+use axum::response::Response;
 use axum_extra::extract::CookieJar;
+
 use reqwest::StatusCode;
 use tokio_postgres::Client;
 

@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
-use axum::{response::{Redirect, IntoResponse}, Extension};
+use axum::Extension;
+use axum::response::{Redirect, IntoResponse};
 use reqwest::StatusCode;
 
 use crate::models::server::ServerState;
