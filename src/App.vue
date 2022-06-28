@@ -53,7 +53,6 @@ onMounted(async () => {
     acceptCallback: () => {
       let url = import.meta.env.DEV ? "http://localhost:3001/api/login" : "https://sibylku.xyz/api/login";
 
-      // store.dispatch("toggleUploaded");
       window.location.href = url;
     },
     delay: 15000
@@ -65,7 +64,7 @@ event.listen("tauri://update-status", (res) => {
 });
 
 if (import.meta.env.DEV) {
-  router.push({ path: "/" });
+  router.push({ path: "/settings" });
 } else {
   router.push({ path: "/" });
 }
