@@ -10,7 +10,7 @@ pub async fn login(
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let params = vec![
         ("client_id", "15638"),
-        ("scope", "friends.read identify"),
+        ("scope", "friends.read public"),
         ("response_type", "code"),
         ("redirect_uri", &server_state.auth_redirect_uri)
     ];

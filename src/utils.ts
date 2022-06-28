@@ -22,6 +22,32 @@ export async function sleep(ms: number): Promise<void> {
 }
 
 export async function getUser(userId: number): Promise<UserObject> {
+  const authStore = useAuthStore();
+
+  if (authStore.access_token) {
+    return getUserApi(userId, authStore.access_token);
+  }
+
+  return getUserWeb(userId);
+}
+
+export async function getUserApi(userId: number, access_token: string): Promise<UserObject> {
+  console.log("api request");
+
+  const response = await http.fetch<UserObject>(`https://osu.ppy.sh/api/v2/users/${userId}`, {
+    method: "GET",
+    responseType: 1,
+    headers: {
+      "Authorization": `Bearer ${access_token}`
+    }
+  });
+
+  console.log(response.data);
+
+  return response.data
+}
+
+export async function getUserWeb(userId: number) {
   const response = await http.fetch<string>(`https://osu.ppy.sh/users/${userId}`, {
     method: "GET",
     responseType: 2
