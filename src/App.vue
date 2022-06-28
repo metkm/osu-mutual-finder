@@ -14,6 +14,9 @@ const router = useRouter();
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
 
+let url = import.meta.env.DEV ? "http://localhost:3001/api/mutuals" : "https://sibylku.xyz/api/login";
+fetch(url, { credentials: "include" });
+
 onMounted(() => {
   let params = new URLSearchParams(window.location.search);
   let access_token = params.get("access_token");

@@ -17,13 +17,13 @@ use axum::{
 };
 use std::{net::SocketAddr, sync::Arc};
 use tokio_postgres::{connect, NoTls};
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::CorsLayer;
 use utils::load_env_variables;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let state = load_env_variables();
-    let cors = CorsLayer::new().allow_origin(Any);
+    let cors = CorsLayer::very_permissive().allow_credentials(true);
 
     let connection_string = format!(
         "host=localhost user=postgres password={} dbname=mutuals",
