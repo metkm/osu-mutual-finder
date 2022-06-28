@@ -40,12 +40,19 @@ pub async fn authorize(
 
     friends.push(user.clone());
 
-    let params: Vec<&(dyn ToSql + Sync)> = friends
+    // BAD CODE WARNING
+    let global_ranks: &Vec<i32> = &friends.iter().map(|x| x.statistics.global_rank.unwrap_or(0)).collect();
+    let mut index = 0;
+
+    let params: &Vec<&(dyn ToSql + Sync)> = &friends
         .iter()
         .flat_map(|row| {
+            index += 1;
+
             [
                 &row.id,
                 &row.username as &(dyn ToSql + Sync),
+                &global_ranks[index - 1],
                 &row.country_code,
                 &row.avatar_url,
                 &row.cover.url,
@@ -57,12 +64,12 @@ pub async fn authorize(
         "INSERT INTO users VALUES {} ON CONFLICT DO NOTHING",
         (1..=params.len())
             .tuples()
-            .format_with(", ", |(i, j, k, l, m), f| {
-                f(&format_args!("(${i}, ${j}, ${k}, ${l}, ${m})"))
+            .format_with(", ", |(id, username, global_rank, country_code, avatar_url, cover_url), f| {
+                f(&format_args!("(${id}, ${username}, ${global_rank}, ${country_code}, ${avatar_url}, ${cover_url})"))
             }),
     );
 
-    if db.execute(&query, &params).await.is_err() {
+    if db.execute(&query, params).await.is_err() {
         return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add users!"));
     };
 

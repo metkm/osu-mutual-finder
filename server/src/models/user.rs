@@ -27,8 +27,8 @@ enum HistoryType {
 #[derive(Serialize, Deserialize)]
 pub struct UserAccountHistory {
     description: Option<String>,
-    id: u32,
-    length: u32,
+    id: i32,
+    length: i32,
     timestamp: String,
     #[serde(rename = "type")]
     _type: HistoryType,
@@ -36,8 +36,8 @@ pub struct UserAccountHistory {
 
 #[derive(Serialize, Deserialize)]
 pub struct ProfileBanner {
-    id: u32,
-    tournament_id: u32,
+    id: i32,
+    tournament_id: i32,
     image: String,
 }
 
@@ -54,7 +54,7 @@ pub struct UserGroup {
     colour: Option<String>,
     has_listing: bool,
     has_playmodes: bool,
-    id: u32,
+    id: i32,
     identifier: String,
     is_probationary: bool,
     name: String,
@@ -65,7 +65,7 @@ pub struct UserGroup {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UserMonthlyPlaycount {
     start_date: String,
-    count: u32,
+    count: i32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, ToSql)]
@@ -95,7 +95,7 @@ pub struct OsuUser {
     // pub occupation: Option<String>,
     // pub playmode: GameMode,
     // pub playstyle: Vec<String>,
-    // pub post_count: u16,
+    // pub post_count: i16,
     // pub profile_order: Vec<String>,
     // pub title: Option<String>,
     // pub title_url: Option<String>,
@@ -107,35 +107,35 @@ pub struct OsuUser {
     // pub account_history: Vec<UserAccountHistory>,
     // pub active_tournament_banner: Option<ProfileBanner>,
     // pub badges: Vec<UserBadge>,
-    // pub beatmap_playcounts_count: u32,
+    // pub beatmap_playcounts_count: i32,
     // pub comments_count: u64,
-    // pub favourite_beatmapset_count: u32,
-    // pub follower_count: u32,
-    // pub graveyard_beatmapset_count: u32,
+    // pub favourite_beatmapset_count: i32,
+    // pub follower_count: i32,
+    // pub graveyard_beatmapset_count: i32,
     // pub groups: Vec<UserGroup>,
-    // pub guest_beatmapset_count: u32,
-    // pub loved_beatmapset_count: u32,
-    // pub mapping_follower_count: u32,
+    // pub guest_beatmapset_count: i32,
+    // pub loved_beatmapset_count: i32,
+    // pub mapping_follower_count: i32,
     // pub monthly_playcounts: Vec<UserMonthlyPlaycount>,
     // pub page: Page,
-    // pub pending_beatmapset_count: u32,
+    // pub pending_beatmapset_count: i32,
     // pub previous_usernames: Vec<String>,
-    // pub ranked_beatmapset_count: u32,
+    // pub ranked_beatmapset_count: i32,
     // pub replays_watched_counts: Vec<Count>,
-    // pub scores_best_count: u32,
-    // pub scores_first_count: u32,
-    // pub scores_pinned_count: u32,
-    // pub scores_recent_count: u32,
-    // pub statistics: Statistics,
+    // pub scores_best_count: i32,
+    // pub scores_first_count: i32,
+    // pub scores_pinned_count: i32,
+    // pub scores_recent_count: i32,
+    pub statistics: Statistics,
     // pub statistics_rulesets: StatisticsRulesets,
-    // pub support_level: u16,
+    // pub support_level: i16,
     // pub user_achievements: Vec<UserAchievement>,
     // // #[serde(rename = "rank_history")]
     // pub rank_history: RankHistory,
     // // #[serde(rename = "rank_history")]
     // // pub welcome_rank_history: RankHistory,
-    // pub ranked_and_approved_beatmapset_count: u32,
-    // pub unranked_beatmapset_count: u32,
+    // pub ranked_and_approved_beatmapset_count: i32,
+    // pub unranked_beatmapset_count: i32,
 }
 
 impl From<Row> for OsuUser {
@@ -145,7 +145,12 @@ impl From<Row> for OsuUser {
             country_code: row.get("country_code"),
             id: row.get("user_id"),
             username: row.get("username"),
-            cover: Cover { url: row.get("cover_url") },
+            statistics: Statistics {
+                global_rank: row.get("global_rank"),
+            },
+            cover: Cover {
+                url: row.get("cover_url"),
+            },
         }
     }
 }
@@ -160,19 +165,19 @@ pub struct Country {
 pub struct Cover {
     // pub custom_url: Option<String>,
     pub url: String,
-    // pub id: Option<String>, // wtf is this a string????? org: Option<u32>
+    // pub id: Option<String>, // wtf is this a string????? org: Option<i32>
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Kudosu {
-    total: u16,
-    available: u16,
+    total: i16,
+    available: i16,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Count {
     start_date: String,
-    count: u32,
+    count: i32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -184,35 +189,35 @@ pub struct Page {
 #[derive(Serialize, Deserialize)]
 pub struct RankHistory {
     mode: String,
-    data: Vec<u32>,
+    data: Vec<i32>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, ToSql)]
 pub struct Statistics {
-    level: Level,
-    global_rank: Option<u32>,
-    pp: u16,
-    ranked_score: u64,
-    hit_accuracy: f32,
-    play_count: u32,
-    play_time: u32,
-    total_score: u64,
-    total_hits: u64,
-    maximum_combo: u32,
-    replays_watched_by_others: u32,
-    is_ranked: bool,
-    grade_counts: GradeCounts,
-    country_rank: Option<u32>,
-    rank: Option<Rank>,
+    // level: Level,
+    pub global_rank: Option<i32>,
+    // pp: i16,
+    // ranked_score: u64,
+    // hit_accuracy: f32,
+    // play_count: i32,
+    // play_time: i32,
+    // total_score: u64,
+    // total_hits: u64,
+    // maximum_combo: i32,
+    // replays_watched_by_others: i32,
+    // is_ranked: bool,
+    // grade_counts: GradeCounts,
+    // country_rank: Option<i32>,
+    // rank: Option<Rank>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct GradeCounts {
-    ss: u16,
-    ssh: u16,
-    s: u16,
-    sh: u16,
-    a: u16,
+    ss: i16,
+    ssh: i16,
+    s: i16,
+    sh: i16,
+    a: i16,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -223,7 +228,7 @@ pub struct Level {
 
 #[derive(Serialize, Deserialize)]
 pub struct Rank {
-    country: Option<u32>,
+    country: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -237,5 +242,5 @@ pub struct StatisticsRulesets {
 #[derive(Serialize, Deserialize)]
 pub struct UserAchievement {
     achieved_at: String,
-    achievement_id: u16,
+    achievement_id: i16,
 }

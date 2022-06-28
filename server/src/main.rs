@@ -39,8 +39,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     client
         .batch_execute(
-    "CREATE TABLE IF NOT EXISTS users (user_id integer UNIQUE PRIMARY KEY, username TEXT, country_code TEXT, avatar_url TEXT, cover_url TEXT);
-        CREATE TABLE IF NOT EXISTS sessions (user_id integer REFERENCES users(user_id), friend_ids INTEGER[], osu_session TEXT, access_token TEXT, refresh_token TEXT)")
+    "CREATE TABLE IF NOT EXISTS users (user_id INTEGER UNIQUE PRIMARY KEY, username TEXT, global_rank INTEGER, country_code TEXT, avatar_url TEXT, cover_url TEXT);
+        CREATE TABLE IF NOT EXISTS sessions (user_id INTEGER REFERENCES users(user_id), friend_ids INTEGER[], osu_session TEXT, access_token TEXT, refresh_token TEXT)")
         .await?;
 
     let shared_client = Arc::new(client);
