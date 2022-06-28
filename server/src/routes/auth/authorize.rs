@@ -39,9 +39,9 @@ pub async fn authorize(
 
     let tokens = get_tokens(&client, &params).await?;
     let (user, mut friends) = get_me_and_friends(&client, &tokens).await?;
-    friends.push(user.clone());
-
     let friend_ids: Vec<i32> = friends.iter().map(|user| user.id).collect();
+    
+    friends.push(user.clone());
 
     let params: Vec<&(dyn ToSql + Sync)> = friends
         .iter()
