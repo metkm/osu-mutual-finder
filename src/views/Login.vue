@@ -3,11 +3,12 @@ import { ref } from "vue";
 import { http } from "@tauri-apps/api";
 import { app } from "@tauri-apps/api";
 import { SessionLoginUser, UserObject } from "../types";
+import { useAuthStore, useSettingsStore, useUserStore } from "../store";
 import { getTokens } from "../utils";
 
-import AppInput from "../components/AppInput.vue";
+import axios from "axios";
 import router from "../router";
-import { useAuthStore, useSettingsStore, useUserStore } from "../store";
+import AppInput from "../components/AppInput.vue";
 import User from "../components/User.vue";
 
 interface Login {
@@ -28,7 +29,9 @@ const mutuals = ref<UserObject[] | null>();
 
 if (authStore.access_token) {
   let url = import.meta.env.DEV ? "http://localhost:3001/api/mutuals" : "https://sibylku.xyz/api/mutuals";
-  fetch(url, { credentials: "include" }).then(response => response.json()).then(users => mutuals.value = users);
+  axios.get<UserObject[]>(url, { withCredentials: true }).then(users => mutuals.value = users.data);
+
+  // fetch(url, { credentials: "include" }).then(response => response.json()).then(users => mutuals.value = users);
 }
 
 const login = async () => {

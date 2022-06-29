@@ -3,6 +3,7 @@ use std::{collections::HashMap, sync::Arc};
 use axum::extract::Query;
 use axum::response::{IntoResponse, Redirect};
 use axum::Extension;
+use axum_extra::extract::cookie::SameSite;
 use axum_extra::extract::{cookie::Cookie, CookieJar};
 
 use itertools::Itertools;
@@ -86,6 +87,7 @@ pub async fn authorize(
 
     let mut cookie = Cookie::new("osu_session", session_str);
     cookie.set_domain(server_state.domain.clone());
+    cookie.set_same_site(SameSite::None);
 
     let updated_jar = jar.add(cookie);
     Ok((updated_jar, Redirect::permanent(&redirect_uri)))
