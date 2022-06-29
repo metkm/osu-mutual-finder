@@ -84,6 +84,9 @@ pub async fn authorize(
         &server_state.redirect_uri, &tokens.access_token, &tokens.refresh_token
     );
 
-    let updated_jar = jar.add(Cookie::new("osu_session", session_str));
+    let mut cookie = Cookie::new("osu_session", session_str);
+    cookie.set_domain(server_state.domain.clone());
+
+    let updated_jar = jar.add(cookie);
     Ok((updated_jar, Redirect::permanent(&redirect_uri)))
 }
