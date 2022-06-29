@@ -14,9 +14,6 @@ const router = useRouter();
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
 
-let url = import.meta.env.DEV ? "http://localhost:3001/api/mutuals" : "https://sibylku.xyz/api/login";
-fetch(url, { credentials: "include" });
-
 onMounted(() => {
   let params = new URLSearchParams(window.location.search);
   let access_token = params.get("access_token");
@@ -51,14 +48,14 @@ onMounted(async () => {
 
   if (settingsStore.uploaded) return;
 
-  notify("Would you like to upload your friend list to database?", {
+  notify("Would you like to upload your friend list to database? This helps you find mutuals quickly by checking saved mutuals in Mutual Finder's database (Recommended)", {
     acceptText: "Yes!",
     acceptCallback: () => {
       let url = import.meta.env.DEV ? "http://localhost:3001/api/login" : "https://sibylku.xyz/api/login";
 
       window.location.href = url;
     },
-    delay: 15000
+    delay: 15000,
   });
 });
 
@@ -67,7 +64,7 @@ event.listen("tauri://update-status", (res) => {
 });
 
 if (import.meta.env.DEV) {
-  router.push({ path: "/settings" });
+  router.push({ path: "/" });
 } else {
   router.push({ path: "/" });
 }
