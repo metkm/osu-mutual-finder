@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { useStore } from "../../store";
+import { useSettingsStore } from "../../store";
 import { jsonCountries } from "../../utils";
 import AppInput from "../AppInput.vue";
 import AppSelect from "../AppSelect.vue";
-const store = useStore();
+const settingsStore = useSettingsStore();
 
-const limits = computed(() => store.state.limit.limits);
+const limits = computed(() => settingsStore.limits);
 const selected = ref("");
 
 const change = (code: string) => {
   let limit = limits.value.find(x => x.countryCode == code);
-  store.dispatch("updateLimit", limit);
+  if (limit) {
+    settingsStore.updateLimit(limit);
+  }
 }
 
 const removeLimit = (code: string) => {
-  store.commit("removeLimit", code);
+  settingsStore.removeLimit(code);
 }
 
 watch(selected, val => {
-  store.commit("addLimit", {
+  settingsStore.addLimit({
     countryCode: val,
     start: 1,
     end: 200,

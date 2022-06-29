@@ -3,15 +3,15 @@ import { onMounted, ref } from "vue";
 import { http } from "@tauri-apps/api";
 
 import { useRouter } from "vue-router";
-import { useStore } from "../store";
+import { useAuthStore, useSettingsStore } from "../store";
 
 import AppInput from "../components/AppInput.vue";
 import { getTokens } from "../utils";
 import { UserObject } from "../types";
 
-// updateFriends();
 const router = useRouter();
-const store = useStore();
+const authStore = useAuthStore();
+const settingsStore = useSettingsStore();
 
 const code = ref(null);
 const error = ref("");
@@ -21,14 +21,14 @@ const updateFriends = async () => {
   const response = await client.get<string>("https://osu.ppy.sh/home/friends", {
     responseType: 2,
     headers: {
-      "cookie": `osu_session=${store.state.auth.session}`
+      "cookie": `osu_session=${authStore.session}`
     }
   });
 
   const dom = new DOMParser().parseFromString(response.data, "text/html");
   let jsonUsers = JSON.parse(dom.getElementById("json-users")!.innerText) as UserObject[];
 
-  store.dispatch("setFriends", jsonUsers.map(user => user.id));
+  settingsStore.friends = jsonUsers.map(user => user.id);
 }
 
 onMounted(updateFriends);
@@ -41,9 +41,9 @@ const verify = async () => {
     type: "Json"
   }, {
     headers: {
-      "cookie": `osu_session=${store.state.auth.session}; XSRF-TOKEN=${store.state.auth.token}`,
+      "cookie": `osu_session=${authStore.session}; XSRF-TOKEN=${authStore.token}`,
       "referer": "https://osu.ppy.sh",
-      "x-csrf-token": store.state.auth.token
+      "x-csrf-token": authStore.token 
     }
   });
 
@@ -53,8 +53,8 @@ const verify = async () => {
   }
 
   let [token, session] = await getTokens(response.rawHeaders);
-  store.commit("setSession", session);
-  store.commit("setToken", token);
+  authStore.session = session;
+  authStore.token = token;
   
   await router.push("/mutuals");
 }

@@ -7,23 +7,24 @@ import { addFriend, removeFriend, sleep } from "../utils";
 import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
-import { useStore } from "../store";
+import { useAuthStore, useSettingsStore } from "../store";
 import { http } from "@tauri-apps/api";
 
-const store = useStore();
+const settingsStore = useSettingsStore();
+const authStore = useAuthStore();
 const router = useRouter();
 
-const blacklistedIds = computed(() => store.state.blacklistIds);
-const countries = computed(() => store.state.countries);
-const friendIds = computed(() => store.state.friends);
-const gamemode = computed(() => store.state.gamemode);
-const check = computed(() => store.state.check);
+const blacklistedIds = computed(() => settingsStore.blacklistIds);
+const countries = computed(() => settingsStore.countries);
+const friendIds = computed(() => settingsStore.friends);
+const gamemode = computed(() => settingsStore.gamemode);
+const check = computed(() => settingsStore.check);
 
-const shouldAdd = computed(() => store.state.addFriend);
-const shouldBlacklist = computed(() => store.state.addBlacklist);
+const shouldAdd = computed(() => settingsStore.addFriend);
+const shouldBlacklist = computed(() => settingsStore.addBlacklist);
 
-const session = computed(() => store.state.auth.session);
-const token = computed(() => store.state.auth.token);
+const session = computed(() => authStore.session);
+const token = computed(() => authStore.token);
 
 const checking = ref(0);
 const currentPage = ref(1);
@@ -55,7 +56,7 @@ const add = async (element: Element) => {
 
   if (friendIds.value.includes(id) || blacklistedIds.value.includes(id)) return;
   if (shouldBlacklist.value) {
-    store.dispatch("addBlacklist", id);
+    settingsStore.toggleBlacklistId(id);
   }
 
   try {
@@ -92,7 +93,7 @@ const startCheck = async (id: number, country?: string) => {
   }
   
   if (country) {
-    let countryLimit = store.getters.getLimit(country);
+    let countryLimit = settingsStore.getLimit(country);
     if (countryLimit) {
       limit = countryLimit;
     }
@@ -101,14 +102,15 @@ const startCheck = async (id: number, country?: string) => {
   for (let page = limit.start; page <= limit.end; page++) {
     currentPage.value = page;
 
-    let elements = (await getUserElements(page, country)).slice((store.getters.getLimit(country)?.index || 0));
+    let slice_index = country ? settingsStore.getLimit(country)?.index : 0;
+    let elements = (await getUserElements(page, country)).slice(slice_index);
 
     for (const [index, element] of elements.entries()) {
       if (!threads[id]) return;
 
       await add(element);
       if (country) {
-        store.dispatch("updateLimit", {
+        settingsStore.updateLimit({
           countryCode: country,
           start: page,
           end: limit.end,
@@ -118,7 +120,7 @@ const startCheck = async (id: number, country?: string) => {
     }
 
     if (country) {
-      store.dispatch("updateLimit", {
+      settingsStore.updateLimit({
         countryCode: country,
         start: page,
         end: limit.end,

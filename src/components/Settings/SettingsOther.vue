@@ -2,14 +2,14 @@
 import AppInput from '../AppInput.vue';
 import { computed, ref } from 'vue';
 import { removeFriend } from '../../utils';
-import { useStore } from '../../store';
+import { useAuthStore } from '../../store';
 
-const store = useStore();
+const authStore = useAuthStore();
 
 const userId = ref(0);
 const cooldown = ref(false);
-const token = computed(() => store.state.auth.token);
-const session = computed(() => store.state.auth.session);
+const token = computed(() => authStore.token);
+const session = computed(() => authStore.session);
 
 const removeFriendClick = () => {
   removeFriend(userId.value, token.value, session.value);

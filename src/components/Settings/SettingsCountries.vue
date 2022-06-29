@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useStore } from "../../store";
+import { useSettingsStore } from "../../store";
 import { computed, ref, watch } from "vue";
 import { jsonCountries } from "../../utils";
 import { Check } from "../../types";
 import AppRadio from "../AppRadio.vue";
 import AppInput from "../AppInput.vue";
 import Country from "../Country.vue";
-const store = useStore();
+const settingsStore = useSettingsStore();
 
-const countriesToCheck = computed(() => store.state.countries);
-const check = ref(store.state.check);
+const countriesToCheck = computed(() => settingsStore.countries);
+const check = ref(settingsStore.check);
 
 const searchQuery = ref("");
 const searchQueryResults = computed(() => {
@@ -19,14 +19,14 @@ const searchQueryResults = computed(() => {
 })
 
 const addCountry = (countryCode: string) => {
-  store.dispatch("addCountry", countryCode);
+  settingsStore.toggleCountry(countryCode);
 };
 const removeCountry = (countryCode: string) => {
-  store.dispatch("removeCountry", countryCode);
+  settingsStore.toggleCountry(countryCode);
 }
 
 watch(check, newCheck => {
-  store.dispatch("setCheck", newCheck);
+  settingsStore.check = newCheck;
 })
 </script>
 

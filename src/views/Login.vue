@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { http } from "@tauri-apps/api";
 import { app } from "@tauri-apps/api";
-import { SessionLoginUser } from "../types";
+import { SessionLoginUser, UserObject } from "../types";
+import { useAuthStore, useSettingsStore, useUserStore } from "../store";
 import { getTokens } from "../utils";
 
-import AppInput from "../components/AppInput.vue";
-import store from "../store";
+import axios from "axios";
 import router from "../router";
+import AppInput from "../components/AppInput.vue";
+import User from "../components/User.vue";
 
 interface Login {
   header: string,
@@ -15,15 +17,27 @@ interface Login {
   user: SessionLoginUser
 }
 
+
 const username = ref("");
 const password = ref("");
 const cooldown = ref(false);
 const version = await app.getVersion();
+const settingsStore = useSettingsStore();
+const authStore = useAuthStore();
+const userStore = useUserStore();
+const mutuals = ref<UserObject[] | null>();
+
+if (authStore.access_token) {
+  let url = import.meta.env.DEV ? "http://localhost:3001/api/mutuals" : "https://sibylku.xyz/api/mutuals";
+  axios.get<UserObject[]>(url, { withCredentials: true }).then(users => mutuals.value = users.data);
+
+  // fetch(url, { credentials: "include" }).then(response => response.json()).then(users => mutuals.value = users);
+}
 
 const login = async () => {
   const client = await http.getClient();
   const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
-  
+
   let [token, session] = await getTokens(response.rawHeaders);
 
   const sessionResponse = await client.post<Login>("https://osu.ppy.sh/session", {
@@ -45,13 +59,13 @@ const login = async () => {
     return;
   }
 
-  if (!store.state.user.user) {
-    store.dispatch("addBlacklist", sessionResponse.data.user.id);
+  if (!userStore.user) {
+    settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
   }
 
-  store.commit("setUser", sessionResponse.data.user);
+  userStore.user = sessionResponse.data.user;
   [token, session] = await getTokens(sessionResponse.rawHeaders);
-  
+
   const verificationResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
     headers: {
       "cookie": `osu_session=${session}`
@@ -59,8 +73,8 @@ const login = async () => {
   });
 
   [token, session] = await getTokens(verificationResponse.rawHeaders);
-  store.commit("setSession", session);
-  store.commit("setToken", token);
+  authStore.session = session;
+  authStore.token = token;
 
   router.push("/verify")
 }
@@ -68,11 +82,19 @@ const login = async () => {
 </script>
 
 <template>
-  <div id="login" class="page flex flex-col items-center justify-center gap-2 max-w-lg mx-auto">
-    <AppInput v-model="username" type="text" placeholder="Username" />
-    <AppInput v-model="password" type="text" placeholder="Password" />
+  <!-- <div id="login" class="page overflow-y-auto flex flex-col items-center justify-center gap-2 max-w-lg mx-auto"> -->
+  <div id="login" class="page flex flex-col justify-center max-w-lg mx-auto">
+    <div class="flex flex-col gap-2">
+      <AppInput v-model="username" type="text" placeholder="Username" />
+      <AppInput v-model="password" type="text" placeholder="Password" />
+  
+      <button class="form-button" :disabled="cooldown" @click="login">Login</button>
+      <p class="setting-description font-bold">Version: {{ version }}</p>
+    </div>
 
-    <button class="form-button" :disabled="cooldown" @click="login">Login</button>
-    <p class="setting-description font-bold absolute bottom-4">Version: {{ version }}</p>
+    <div v-if="mutuals && mutuals.length > 0" class="w-full overflow-y-auto rounded-lg">
+      <p class="font-semibold">Found mutuals from the database.</p>
+      <User v-for="user in mutuals" :user="user" :userId="user.id" />
+    </div>
   </div>
 </template>

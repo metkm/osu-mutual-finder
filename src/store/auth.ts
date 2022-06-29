@@ -1,33 +1,11 @@
-import { Module } from "vuex";
-import { StoreState } from "../types";
+import { defineStore } from "pinia";
 
-export interface AuthState {
-  token: string,
-  session: string
-}
-
-const Auth: Module<AuthState, StoreState> = {
-  state: {
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
     token: "",
-    session: ""
-  },
-  mutations: {
-    setToken(state, token) {
-      if (token) {
-        state.token = token;
-      }
-    },
-    setSession(state, session) {
-      if (session) {
-        state.session = session;
-      }
-    }
-  },
-  getters: {
-    getCookies({ token, session }) {
-      return `XSRF-TOKEN=${token}; osu_session=${session}`;
-    }
-  }
-}
-
-export default Auth;
+    session: "",
+    access_token: "",
+    refresh_token: ""
+  }),
+  persist: true
+});
