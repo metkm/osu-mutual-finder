@@ -22,7 +22,7 @@ events.on("notify", ({ text, options }) => {
 })
 
 events.on("notifyRemove", ({ text }) => {
-  removeNotification(text);  
+  removeNotification(text);
 })
 </script>
 
@@ -30,7 +30,10 @@ events.on("notifyRemove", ({ text }) => {
   <transition-group tag="div" class="absolute bottom-5 flex flex-col gap-2 max-w-md" name="notif" appear>
     <div v-for="notification in notifications" :key="notification.message"
       class="bg-theme-sec ml-5 overflow-hidden rounded min-w-[20rem] shadow py-2 px-3 border-2 border-neutral-200 dark:border-neutral-800">
-      <p class="font-semibold ml-2">{{ notification.message }}</p>
+      <div class="p-1">
+        <p class="font-semibold">{{ notification.message }}</p>
+        <p v-if="notification.options?.description" class="text-neutral-400">{{ notification.options.description }}</p>
+      </div>
       <div v-if="notification.options?.acceptText || notification.options?.rejectText" class="flex gap-2 p-1">
         <button v-if="notification.options?.acceptText" @click="notification.options?.acceptCallback"
           class="form-button p-1">{{ notification.options.acceptText }}</button>

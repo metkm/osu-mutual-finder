@@ -48,8 +48,9 @@ onMounted(async () => {
 
   if (settingsStore.uploaded) return;
 
-  notify("Would you like to upload your friend list to database? This helps you find mutuals quickly by checking saved mutuals in Mutual Finder's database (Recommended)", {
+  notify("Would you like to upload your friend list to database?", {
     acceptText: "Yes!",
+    description: "This helps you find mutuals quickly by checking saved mutuals in Mutual Finder's database (Recommended)",
     acceptCallback: () => {
       let url = import.meta.env.DEV ? "http://localhost:3001/api/login" : "https://sibylku.xyz/api/login";
 

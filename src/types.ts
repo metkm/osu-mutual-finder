@@ -27,6 +27,7 @@ export enum Check {
 
 export interface NotificationOptions {
   delay?: number,
+  description?: string,
   acceptText?: string,
   rejectText?: string,
   acceptCallback?: () => void,
