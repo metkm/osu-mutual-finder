@@ -3,8 +3,8 @@ use std::{collections::HashMap, sync::Arc};
 use axum::extract::Query;
 use axum::response::{IntoResponse, Redirect};
 use axum::Extension;
-use axum_extra::extract::cookie::SameSite;
-use axum_extra::extract::{cookie::Cookie, CookieJar};
+use axum_extra::extract::cookie::{SameSite, Cookie, CookieJar};
+use time::{ OffsetDateTime, Duration };
 
 use itertools::Itertools;
 use postgres_types::ToSql;
@@ -85,9 +85,14 @@ pub async fn authorize(
         &server_state.redirect_uri, &tokens.access_token, &tokens.refresh_token
     );
 
-    let mut cookie = Cookie::new("osu_session", session_str);
-    cookie.set_domain(server_state.domain.clone());
-    cookie.set_same_site(SameSite::None);
+    let mut now = OffsetDateTime::now_utc();
+    now += Duration::weeks(52);
+
+    let cookie = Cookie::build("osu_session", session_str)
+        .domain(server_state.domain.clone())
+        .same_site(SameSite::None)
+        .expires(now)
+        .finish();
 
     let updated_jar = jar.add(cookie);
     Ok((updated_jar, Redirect::permanent(&redirect_uri)))
