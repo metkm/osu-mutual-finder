@@ -3,8 +3,8 @@ use std::{collections::HashMap, sync::Arc};
 use axum::extract::Query;
 use axum::response::{IntoResponse, Redirect};
 use axum::Extension;
-use axum_extra::extract::cookie::{SameSite, Cookie, CookieJar};
-use time::{ OffsetDateTime, Duration };
+use axum_extra::extract::cookie::{Cookie, CookieJar, SameSite};
+use time::{Duration, OffsetDateTime};
 
 use itertools::Itertools;
 use postgres_types::ToSql;

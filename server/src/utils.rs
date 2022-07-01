@@ -18,7 +18,7 @@ use crate::models::server::ServerState;
 pub fn gen_random_str() -> String {
     thread_rng()
         .sample_iter(&Alphanumeric)
-        .take(40)
+        .take(300)
         .map(char::from)
         .collect()
 }
