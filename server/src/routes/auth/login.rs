@@ -10,8 +10,8 @@ pub async fn login(
     Extension(server_state): Extension<Arc<ServerState>>
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let params = vec![
-        ("client_id", "15638"),
         ("scope", "friends.read public"),
+        ("client_id", &server_state.client_id),
         ("response_type", "code"),
         ("redirect_uri", &server_state.auth_redirect_uri)
     ];

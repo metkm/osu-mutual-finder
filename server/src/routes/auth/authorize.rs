@@ -28,10 +28,10 @@ pub async fn authorize(
 
     let client = reqwest::Client::new();
     let params: HashMap<&str, &str> = hashmap! {
-        "client_id"     => "15638",
+        "grant_type"    => "authorization_code",
+        "client_id"     => &server_state.client_id,
         "client_secret" => &server_state.client_secret,
         "code"          => code,
-        "grant_type"    => "authorization_code",
         "redirect_uri"  => &server_state.auth_redirect_uri
     };
 
