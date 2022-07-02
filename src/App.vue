@@ -65,7 +65,7 @@ event.listen("tauri://update-status", (res) => {
 });
 
 if (import.meta.env.DEV) {
-  router.push({ path: "/" });
+  router.push({ path: "/settings" });
 } else {
   router.push({ path: "/" });
 }
