@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       boxShadow: {
         "scroll": "inset 0px 0px 10px 10px"
+      },
+      colors: {
+        "dark": "#101010"
       }
     },
   },

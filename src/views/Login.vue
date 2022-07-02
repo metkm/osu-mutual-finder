@@ -89,7 +89,7 @@ const login = async () => {
       <AppInput v-model="password" type="text" placeholder="Password" />
   
       <button class="form-button" :disabled="cooldown" @click="login">Login</button>
-      <p class="setting-description font-bold">Version: {{ version }}</p>
+      <p class="setting-description font-semibold">Version: {{ version }}</p>
     </div>
 
     <div v-if="mutuals && mutuals.length > 0" class="w-full overflow-y-auto rounded-lg">

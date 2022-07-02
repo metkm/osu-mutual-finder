@@ -26,9 +26,9 @@ const clearBlacklist = () => {
         <p class="font-semibold">Blacklist</p>
         <p class="setting-description">User IDs to skip automatically</p>
         <AppInput type="number" placeholder="User id" v-model="userId" />
+        
         <button class="form-button" @click="addToBlacklist">Add to Blacklist</button>
-        <!-- <button class="form-button" @click="removeFriend">Remove Friend</button> -->
-        <button class="form-button bg-red-600" @click="clearBlacklist">Clear Blacklist</button>
+        <button class="form-button bg-red-600 hover:bg-red-800" @click="clearBlacklist">Clear Blacklist</button>
       </div>
 
       <div class="listbox select-none max-h-72">

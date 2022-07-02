@@ -24,7 +24,7 @@ const goBack = () => {
         <p>Back</p>
       </div>
 
-      <p class="font-bold text-center">Settings</p>
+      <p class="font-semibold text-center">Settings</p>
 
       <img v-if="userStore.user" 
         :src="userStore.user.avatar_url"

@@ -51,6 +51,6 @@ watch(selected, val => {
       </div>
     </div>
 
-    <AppSelect :items="jsonCountries.map(x => x.code)" v-model="selected" />
+    <AppSelect :placeholder="'Select a country'" :items="jsonCountries.map(x => x.code)" v-model="selected" />
   </div>
 </template>

@@ -36,7 +36,7 @@ const openLink = () => {
 
       <div class="flex flex-grow items-end overflow-hidden">
         <div class="overflow-hidden flex-1 px-1">
-          <p v-if="userDetails.statistics.global_rank" class="text-sm font-bold text-neutral-500 -my-1">#{{
+          <p v-if="userDetails.statistics.global_rank" class="text-sm font-semibold text-neutral-500 -my-1">#{{
               userDetails.statistics.global_rank
           }}</p>
           <p class="font-semibold text-lg truncate">{{ userDetails.username }}</p>

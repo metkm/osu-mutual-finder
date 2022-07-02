@@ -149,10 +149,10 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  // if (import.meta.env.DEV) {
-  //   checked.value = [10440852];
-  //   return
-  // };
+  if (import.meta.env.DEV) {
+    checked.value = [10440852];
+    return
+  };
 
   // Disable all threads
   for (const item in threads) {
@@ -175,7 +175,6 @@ const clearChecked = () => {
 
 <template>
   <div id="mutuals" class="page flex flex-col gap-1">
-
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
       <AppSide :title="'Found Mutuals'">
         <template v-slot:users>
@@ -194,7 +193,7 @@ const clearChecked = () => {
       </AppSide>
     </div>
 
-    <p class="font-semibold text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
+    <p class="text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
     <button class="form-button max-w-full" @click="toSettings">
       Settings
     </button>
