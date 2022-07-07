@@ -8,7 +8,7 @@ defineProps<{
 <template>
   <div class="flex items-center gap-2">
     <input 
-      class="appearance-none w-5 h-5 rounded-full dark:bg-neutral-800 transition-all checked:bg-green-500 border-4 dark:border-neutral-700" 
+      class="appearance-none w-5 h-5 rounded-lg border-2 checked:bg-green-500 border-neutral-800 transition-colors" 
       type="radio"
       :id="label"
       :value="label"
