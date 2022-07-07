@@ -23,7 +23,7 @@ const clearBlacklist = () => {
   <div class="setting">
     <div class="flex gap-4">
       <div class="flex flex-col gap-2">
-        <p class="font-semibold">Blacklist</p>
+        <p>Blacklist</p>
         <p class="setting-description">User IDs to skip automatically</p>
         <AppInput type="number" placeholder="User id" v-model="userId" />
         

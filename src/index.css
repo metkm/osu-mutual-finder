@@ -33,7 +33,7 @@
 
   .form-button {
     @apply max-w-lg w-full;
-    @apply py-2 px-2;
+    @apply py-2 px-2 select-none;
     @apply flex items-center justify-center rounded;
     @apply transition-all;
     @apply bg-green-600 text-white;
