@@ -28,10 +28,10 @@ const userStore = useUserStore();
 const mutuals = ref<UserObject[] | null>();
 
 if (authStore.access_token) {
-  let url = import.meta.env.DEV ? "http://localhost:3001/api/mutuals" : "https://sibylku.xyz/api/mutuals";
-  axios.get<UserObject[]>(url, { withCredentials: true }).then(users => mutuals.value = users.data);
-
-  // fetch(url, { credentials: "include" }).then(response => response.json()).then(users => mutuals.value = users);
+  axios.get<UserObject[]>("/api/mutuals")
+  .then(users => {
+    mutuals.value = users.data;
+  });
 }
 
 const login = async () => {
@@ -87,7 +87,7 @@ const login = async () => {
     <div class="flex flex-col gap-2">
       <AppInput v-model="username" type="text" placeholder="Username" />
       <AppInput v-model="password" type="text" placeholder="Password" />
-  
+
       <button class="form-button" :disabled="cooldown" @click="login">Login</button>
       <p class="setting-description font-semibold">Version: {{ version }}</p>
     </div>

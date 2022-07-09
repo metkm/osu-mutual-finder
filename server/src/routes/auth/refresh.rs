@@ -1,20 +1,18 @@
 use std::{collections::HashMap, sync::Arc};
 
+use axum::Json;
 use axum::{http::StatusCode, response::IntoResponse, Extension};
-use axum_extra::extract::{cookie::Cookie, CookieJar};
 use tokio_postgres::Client;
 
 use crate::api::get_tokens;
-use crate::database::insert_session;
 use crate::models::server::ServerState;
 use crate::models::session::Session;
-use crate::utils::{gen_random_str, hashmap};
+use crate::utils::{hashmap};
 
 pub async fn refresh(
     Extension(db): Extension<Arc<Client>>,
     Extension(current_session): Extension<Session>,
     Extension(server_state): Extension<Arc<ServerState>>,
-    jar: CookieJar,
 ) -> Result<impl IntoResponse, (StatusCode, &'static str)> {
     let client = reqwest::Client::new();
 
@@ -23,24 +21,24 @@ pub async fn refresh(
         "client_id"     => &server_state.client_id,
         "client_secret" => &server_state.client_secret,
         "refresh_token" => &current_session.refresh_token,
-        "redirect_uri"  => "http://127.0.0.1:3000/api/authorize"
+        "redirect_uri"  => "http://localhost:3001/api/authorize"
     };
 
-    let Ok(tokens) = get_tokens(&client, &params).await else {
-        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't refresh tokens!"))
-    };
+    let tokens = get_tokens(&client, &params).await?;
 
-    let session_str = gen_random_str();
-    insert_session(
-        &db,
-        &current_session.user_id,
-        &current_session.friend_ids,
-        &session_str,
-        &tokens.access_token,
-        &tokens.refresh_token,
-    )
-    .await?;
-
-    let updated_jar = jar.add(Cookie::new("osu_session", session_str));
-    Ok((StatusCode::OK, updated_jar, "Ok!"))
+    if db
+        .execute(
+            "UPDATE sessions SET access_token=$1, refresh_token=$2 WHERE osu_session=$3",
+            &[&tokens.access_token, &tokens.refresh_token, &current_session.osu_session],
+        )
+        .await
+        .is_err()
+    {
+        return Err((
+            StatusCode::INTERNAL_SERVER_ERROR,
+            "Can't update session tokens!",
+        ));
+    }
+    
+    Ok((StatusCode::OK, Json(tokens)))
 }

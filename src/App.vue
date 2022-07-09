@@ -9,10 +9,13 @@ import { checkUpdate, installUpdate } from "@tauri-apps/api/updater";
 import { notify, notifyRemove } from "./plugin/notification";
 
 import TitleBar from "./components/AppTitleBar.vue";
+import axios from "axios";
 
 const router = useRouter();
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
+axios.defaults.baseURL = import.meta.env.DEV ? "http://localhost:3001" : "https://sibylku.xyz";
+axios.defaults.withCredentials = true;
 
 onMounted(() => {
   let params = new URLSearchParams(window.location.search);
@@ -46,7 +49,15 @@ onMounted(async () => {
     notify(updateText)
   }
 
-  if (settingsStore.uploaded) return;
+  if (settingsStore.uploaded) {
+    // refresh token 
+    axios.patch<{ access_token: string, refresh_token: string }>("/api/refresh").then(response => {
+      authStore.access_token = response.data.access_token;
+      authStore.refresh_token = response.data.refresh_token;
+    })
+
+    return;
+  }
 
   notify("Would you like to upload your friend list to database?", {
     acceptText: "Yes!",
@@ -65,7 +76,7 @@ event.listen("tauri://update-status", (res) => {
 });
 
 if (import.meta.env.DEV) {
-  router.push({ path: "/settings" });
+  router.push({ path: "/" });
 } else {
   router.push({ path: "/" });
 }
