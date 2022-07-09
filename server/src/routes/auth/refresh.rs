@@ -7,7 +7,7 @@ use tokio_postgres::Client;
 use crate::api::get_tokens;
 use crate::models::server::ServerState;
 use crate::models::session::Session;
-use crate::utils::{hashmap};
+use crate::utils::hashmap;
 
 pub async fn refresh(
     Extension(db): Extension<Arc<Client>>,
@@ -21,7 +21,7 @@ pub async fn refresh(
         "client_id"     => &server_state.client_id,
         "client_secret" => &server_state.client_secret,
         "refresh_token" => &current_session.refresh_token,
-        "redirect_uri"  => "http://localhost:3001/api/authorize"
+        "redirect_uri"  => &server_state.auth_redirect_uri
     };
 
     let tokens = get_tokens(&client, &params).await?;
