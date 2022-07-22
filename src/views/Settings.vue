@@ -18,18 +18,20 @@ const goBack = () => {
 
 <template>
   <div id="settings" class="page overflow-y-auto">
-    <div class="grid grid-cols-3 items-center  py-2">
+    <div class="flex justify-between">
       <div class="form-button w-24" @click="goBack">
         <img src="../assets/back.svg" />
         <p>Back</p>
       </div>
 
-      <p class="font-semibold text-center">Settings</p>
+      <div class="h-10 flex items-center gap-2 p-1" v-if="userStore.user">
+        <img 
+          :src="userStore.user.avatar_url"
+          class="h-full rounded-lg justify-self-end"
+        />
+        <p>{{ userStore.user?.username }}</p>
+      </div>
 
-      <img v-if="userStore.user" 
-        :src="userStore.user.avatar_url"
-        class="h-10 rounded-full justify-self-end"
-      />
     </div>
 
     <div class="flex flex-col gap-2 mt-2">

@@ -1,31 +1,49 @@
 <script setup lang="ts">
 import { appWindow } from "@tauri-apps/api/window";
-import { onMounted } from "vue";
+import { onMounted, computed, ref } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const isMaximized = ref(false);
+
+const currentRoute = computed(() => route.name);
 
 onMounted(() => {
   appWindow.show();
 });
+
+appWindow.onResized(async () => {
+  isMaximized.value = await appWindow.isMaximized();
+});
 </script>
 
 <template>
-  <div data-tauri-drag-region style="-webkit-app-region: drag" class="w-full h-5 shadow-sm dark:bg-neutral-800 flex-shrink-0 flex justify-end">
-    <div class="h-full" @click="appWindow.minimize">
-      <svg class="hover:bg-neutral-200 dark:hover:bg-neutral-900 h-full w-7" viewBox="0 0 40 40" fill="none">
-        <rect x="9" y="18" width="22" height="4" rx="2" class="fill-black dark:fill-white" /> 
-      </svg>
-    </div>
+  <div data-tauri-drag-region class="h-8 bg-neutral-100 dark:bg-neutral-800 flex items-center select-none text-neutral-600 dark:text-neutral-300 text-xs">
+    <p data-tauri-drag-region class="flex-1 pl-2">Mutual Finder - {{ currentRoute }}</p>
 
-    <div class="h-full" @click="appWindow.toggleMaximize">
-      <svg class="hover:bg-neutral-200 dark:hover:bg-neutral-900 h-full w-7" fill="none" viewBox="0 0 40 40" >
-        <rect x="10" y="10" width="20" height="20" rx="2" class="dark:stroke-white stroke-black" stroke-width="3"/>
-      </svg>
-    </div>
+    <div data-tauri-drag-region class="h-full flex-1 flex items-center justify-end window-controls">
+      <button class="window-control-btn" @click="appWindow.minimize">
+        <svg x="0px" y="0px" viewBox="0 0 10.2 1">
+          <rect x="0" y="50%" width="10.2" height="1" />
+        </svg>
+      </button>
 
-    <div class="h-full" @click="appWindow.close">
-      <svg class="hover:bg-red-500 h-full w-7 " viewBox="0 0 40 40">
-        <path d="M10 10L30 30" class="dark:stroke-white stroke-black" stroke-width="3" stroke-linecap="round"/>
-        <path d="M30 10L10 30" class="dark:stroke-white stroke-black" stroke-width="3" stroke-linecap="round"/>
-      </svg>
+      <button class="window-control-btn" @click="appWindow.toggleMaximize">
+        <svg viewBox="0 0 10 10" v-if="!isMaximized">
+          <path d="M0,0v10h10V0H0z M9,9H1V1h8V9z" />
+        </svg>
+
+        <svg viewBox="0 0 10.2 10.1" v-else>
+          <path d="M2.1,0v2H0v8.1h8.2v-2h2V0H2.1z M7.2,9.2H1.1V3h6.1V9.2z M9.2,7.1h-1V2H3.1V1h6.1V7.1z" />
+        </svg>
+      </button>
+
+      <button class="window-control-btn hover:bg-[#e81123] group" @click="appWindow.close">
+        <svg viewBox="0 0 10 10">
+          <polygon class="group-hover:fill-white"
+            points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1" />
+        </svg>
+      </button>
     </div>
   </div>
 </template>

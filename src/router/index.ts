@@ -10,22 +10,22 @@ export default createRouter({
   routes: [
     {
       path: "/",
-      name: "login",
+      name: "Login",
       component: Login
     },
     {
       path: "/verify",
-      name: "verify",
+      name: "Verify",
       component: Verify
     },
     {
       path: "/mutuals",
-      name: "mutuals",
+      name: "Mutuals",
       component: Mutuals
     },
     {
       path: "/settings",
-      name: "settings",
+      name: "Settings",
       component: Settings
     }
   ]

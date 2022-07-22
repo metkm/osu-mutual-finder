@@ -7,7 +7,7 @@ defineProps({
 <template>
   <div class="flex flex-col flex-1 overflow-hidden gap-1  rounded-lg p-2">
     <div class="flex items-center justify-between">
-      <p class="font-semibold text-2xl">{{ title }}</p>
+      <p class="text-2xl">{{ title }}</p>
       <slot></slot>
     </div>
 
