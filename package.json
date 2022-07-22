@@ -19,7 +19,7 @@
     "pinia-plugin-persistedstate": "^1.6.1"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.3",
+    "@tauri-apps/cli": "^1.0.4",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
