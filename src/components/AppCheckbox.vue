@@ -9,11 +9,10 @@ defineProps<{
 
 <template>
   <div class="flex flex-col items-center">
-    <label :for="label" class="flex items-center gap-2">
-      <input type="checkbox" :id="label" v-model="toggled"
-        class="form-tick appearance-none w-5 h-5 rounded dark:bg-white bg-neutral-200 checked:bg-green-500" @change="onChange">
-      <p>{{ label }}</p>
-    </label>
+    <div class="flex items-center gap-2">
+      <input type="checkbox" :id="label" v-model="toggled" class="form-tick" @change="onChange">
+      <label :for="label">{{ label }}</label>
+    </div>
     <p class="setting-description">{{ description }}</p>
   </div>
 </template>

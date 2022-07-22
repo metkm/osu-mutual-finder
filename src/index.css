@@ -46,13 +46,9 @@
   }
 
   .form-tick {
-    background-image: url("./assets/tick.svg");
-    @apply appearance-none;
-    @apply w-5 h-5;
-    @apply rounded;
-    @apply bg-white;
-    @apply checked:bg-green-500;
-    @apply transition-all;
+    @apply appearance-none transition-all;
+    @apply w-5 h-5 rounded-md;
+    @apply border-2 dark:border-neutral-800 checked:bg-green-500;
   }
 
   .setting {

@@ -18,7 +18,7 @@ appWindow.onResized(async () => {
 </script>
 
 <template>
-  <div data-tauri-drag-region class="h-8 bg-neutral-100 dark:bg-neutral-800 flex items-center select-none text-neutral-600 dark:text-neutral-300 text-xs">
+  <div class="h-8 flex items-center select-none text-xs">
     <p data-tauri-drag-region class="flex-1 pl-2">Mutual Finder - {{ currentRoute }}</p>
 
     <div data-tauri-drag-region class="h-full flex-1 flex items-center justify-end window-controls">

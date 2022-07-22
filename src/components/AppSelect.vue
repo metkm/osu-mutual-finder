@@ -27,9 +27,9 @@ const onlick = (val: string) => {
       </svg>
     </button>
     <ul
-      class="absolute bottom-12 w-full max-h-48 overflow-y-auto rounded border dark:border-neutral-800 bg-dark mt-2 shadow transition-all"
+      class="absolute bottom-12 w-full max-h-48 overflow-y-auto rounded border dark:border-neutral-800 bg-theme-sec mt-2 shadow transition-all"
       :class="{ 'opacity-100': visible, 'hidden opacity-0': !visible }">
-      <li v-for="item in items.sort()" @click="() => onlick(item)" class="dark:hover:bg-neutral-900 hover:bg-neutral-100 p-1">{{ item }}</li>
+      <li v-for="item in items.sort()" @click="() => onlick(item)" class="dark:hover:bg-neutral-800 hover:bg-neutral-200 p-1">{{ item }}</li>
     </ul>
   </div>
 </template>
