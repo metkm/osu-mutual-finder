@@ -9,7 +9,9 @@ const isMaximized = ref(false);
 const currentRoute = computed(() => route.name);
 
 onMounted(() => {
-  appWindow.show();
+  setTimeout(() => {
+    appWindow.show();
+  }, 80);
 });
 
 appWindow.onResized(async () => {
