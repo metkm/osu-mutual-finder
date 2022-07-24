@@ -28,7 +28,7 @@ const openLink = () => {
 
 <template>
   <a @click="openLink" target="_blank"
-    class="flex flex-col shadow-md dark:bg-neutral-900 p-1 rounded-md">
+    class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md">
     <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" />
 
     <div class="flex px-2 gap-1 -mt-3">
