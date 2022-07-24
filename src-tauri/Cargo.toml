@@ -16,8 +16,8 @@ tauri-build = { version = "1.0.3", features = [] }
 
 [dependencies]
 serde_json = "1.0.82"
-serde = { version = "1.0.138", features = ["derive"] }
-tauri = { version = "1.0.3", features = ["devtools", "http-request", "process-relaunch", "shell-open", "updater", "window-close", "window-maximize", "window-minimize", "window-show", "window-start-dragging", "window-unmaximize"] }
+serde = { version = "1.0.140", features = ["derive"] }
+tauri = { version = "1.0.5", features = ["devtools", "http-request", "process-relaunch", "shell-open", "updater", "window-close", "window-maximize", "window-minimize", "window-show", "window-start-dragging", "window-unmaximize"] }
 
 reqwest = { version = "0.11.11", features = ["json"] }
 lazy_static = "1.4.0"
