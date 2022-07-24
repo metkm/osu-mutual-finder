@@ -40,8 +40,10 @@ const randomNumber = (): number => {
 }
 
 const threads: Threads = {}
-const getUserElements = async (page: number, country?: string): Promise<Element[]> => {
-  const response = await http.fetch<string>(`https://osu.ppy.sh/rankings/${gamemode.value}/performance?page=${page}${country ? `&country=${country}` : ''}`, {
+const getUserElements = async (page: number, country: string): Promise<Element[]> => {
+  let countryParam = country == "GLOBAL" ? "" : `&country=${country}`;
+
+  const response = await http.fetch<string>(`https://osu.ppy.sh/rankings/${gamemode.value}/performance?page=${page}${countryParam}`, {
     method: "GET",
     responseType: 2
   })
@@ -84,49 +86,32 @@ const add = async (element: Element) => {
   }
 }
 
-const startCheck = async (id: number, country?: string) => {
-  let limit = {
-    countryCode: "?",
-    start: 1,
-    end: 200,
-    index: 0
-  }
+const startCheck = async (id: number, country: string) => {
+  let limit = settingsStore.getLimit(country) || { countryCode: country, end: 200, start: 1, index: 0 };
   
-  if (country) {
-    let countryLimit = settingsStore.getLimit(country);
-    if (countryLimit) {
-      limit = countryLimit;
-    }
-  }
-
   for (let page = limit.start; page <= limit.end; page++) {
     currentPage.value = page;
 
-    let slice_index = country ? settingsStore.getLimit(country)?.index : limit.index;
-    let elements = (await getUserElements(page, country)).slice(slice_index);
+    let elements = (await getUserElements(page, country)).slice(limit.index);
 
     for (const [index, element] of elements.entries()) {
       if (!threads[id]) return;
 
       await add(element);
-      if (country) {
-        settingsStore.updateLimit({
-          countryCode: country,
-          start: page,
-          end: limit.end,
-          index
-        });
-      }
-    }
-
-    if (country) {
       settingsStore.updateLimit({
-        countryCode: country,
+        countryCode: limit.countryCode,
         start: page,
         end: limit.end,
-        index: 0
-      })
+        index
+      });
     }
+
+    settingsStore.updateLimit({
+      countryCode: country,
+      start: page,
+      end: limit.end,
+      index: 0
+    })
 
     // page change sleep. Just in case.
     await sleep(2000);
@@ -135,7 +120,7 @@ const startCheck = async (id: number, country?: string) => {
 
 const start = async (id: number) => {
   if (check.value == Check.Global) {
-    await startCheck(id);
+    await startCheck(id, "GLOBAL");
   } else {
     for (let country of countries.value) {
       await startCheck(id, country);
@@ -149,10 +134,10 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  if (import.meta.env.DEV) {
-    checked.value = [10440852];
-    return
-  };
+  // if (import.meta.env.DEV) {
+  //   checked.value = [10440852];
+  //   return
+  // };
 
   // Disable all threads
   for (const item in threads) {

@@ -348,5 +348,8 @@ export const jsonCountries: WebCountry[] = [
   { flag_url: "1f1f3-1f1fa.svg", code: "NU", name: "Niue" },
   { flag_url: "1f1f5-1f1f3.svg", code: "PN", name: "Pitcairn" },
   { flag_url: "1f1e8-1f1eb.svg", code: "CF", name: "Central African Republic" },
+
+  // GLOBAL RANKING TO KEEP TRACK OF WHERE THE PROGRAM IS LEFT
+  { flag_url: "global.svg", code: "GLOBAL", name: "Global" },
 ]
 
