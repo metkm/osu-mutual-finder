@@ -1,6 +1,6 @@
 [package]
 name = "app"
-version = "1.3.6"
+version = "1.3.7"
 description = "A way to find mutuals in osu!"
 authors = ["sibyl666"]
 license = "MIT"
