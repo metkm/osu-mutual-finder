@@ -88,6 +88,7 @@
     @apply h-full flex items-center justify-center;
     width: 48px;
 
+    @apply cursor-default;
     @apply dark:hover:bg-white hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10;
   }
 
