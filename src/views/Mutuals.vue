@@ -41,7 +41,7 @@ const randomNumber = (): number => {
 
 const threads: Threads = {}
 const getUserElements = async (page: number, country?: string): Promise<Element[]> => {
-  const response = await http.fetch<string>(`https://osu.ppy.sh/rankings/${gamemode.value}/performance?page=${page}&country=${country}`, {
+  const response = await http.fetch<string>(`https://osu.ppy.sh/rankings/${gamemode.value}/performance?page=${page}${country ? `&country=${country}` : ''}`, {
     method: "GET",
     responseType: 2
   })
@@ -102,7 +102,7 @@ const startCheck = async (id: number, country?: string) => {
   for (let page = limit.start; page <= limit.end; page++) {
     currentPage.value = page;
 
-    let slice_index = country ? settingsStore.getLimit(country)?.index : 0;
+    let slice_index = country ? settingsStore.getLimit(country)?.index : limit.index;
     let elements = (await getUserElements(page, country)).slice(slice_index);
 
     for (const [index, element] of elements.entries()) {
@@ -129,7 +129,7 @@ const startCheck = async (id: number, country?: string) => {
     }
 
     // page change sleep. Just in case.
-    await sleep(1500);
+    await sleep(2000);
   }
 }
 
