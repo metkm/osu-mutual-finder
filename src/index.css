@@ -7,7 +7,7 @@
   html, body {
     @apply dark:bg-black;
     @apply bg-opacity-75;
-    @apply w-full h-full;
+    @apply w-full h-full relative;
     @apply overflow-hidden;
     font-family: 'Inter', sans-serif;
   }
