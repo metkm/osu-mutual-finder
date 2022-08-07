@@ -13,7 +13,7 @@ pub async fn refresh(
     Extension(db): Extension<Arc<Client>>,
     Extension(current_session): Extension<Session>,
     Extension(server_state): Extension<Arc<ServerState>>,
-) -> Result<impl IntoResponse, (StatusCode, &'static str)> {
+) -> Result<impl IntoResponse, impl IntoResponse> {
     let client = reqwest::Client::new();
 
     let params: HashMap<&str, &str> = hashmap! {
