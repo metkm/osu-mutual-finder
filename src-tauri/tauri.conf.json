@@ -80,6 +80,8 @@
         "title": "Mutual Finder",
         "fullscreen": false,
         "height": 600,
+        "minHeight": 250,
+        "minWidth": 250,
         "width": 800,
         "resizable": true,
         "decorations": false,
