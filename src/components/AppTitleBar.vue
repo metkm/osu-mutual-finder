@@ -21,7 +21,7 @@ appWindow.onResized(async () => {
 </script>
 
 <template>
-  <div id="titlebar" class="h-8 flex items-center justify-between select-none text-xs">
+  <div data-tauri-drag-region id="titlebar" class="h-8 flex items-center justify-between select-none text-xs">
     <div data-tauri-drag-region class="flex-1 h-full">
       <button class="window-control-btn" v-if="route.name == 'Settings'" @click="router.back">
         <svg viewBox="0 0 10 10" fill="white" xmlns="http://www.w3.org/2000/svg">
