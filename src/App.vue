@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { useAuthStore, useSettingsStore } from "./store";
 import { onMounted } from "vue";
 
@@ -10,11 +9,12 @@ import { notify, notifyRemove } from "./plugin/notification";
 
 import TitleBar from "./components/AppTitleBar.vue";
 import axios from "axios";
+import DevRouter from "./components/DevRouter.vue";
 
-const router = useRouter();
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
-axios.defaults.baseURL = import.meta.env.DEV ? "http://localhost:3001" : "https://sibylku.xyz";
+const ISDEV = import.meta.env.DEV;
+axios.defaults.baseURL = ISDEV ? "http://localhost:3001" : "https://sibylku.xyz";
 axios.defaults.withCredentials = true;
 
 onMounted(() => {
@@ -74,16 +74,12 @@ onMounted(async () => {
 event.listen("tauri://update-status", (res) => {
   console.log(res);
 });
-
-if (import.meta.env.DEV) {
-  router.push({ path: "/settings" });
-} else {
-  router.push({ path: "/" });
-}
 </script>
 
 <template>
   <TitleBar />
+  <DevRouter v-if="ISDEV" />
+
   <div class="flex-1 overflow-hidden">
     <suspense>
       <template #default>
