@@ -3,7 +3,7 @@ import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 
 import { ref, onActivated, onDeactivated, computed } from "vue";
-import { addFriend, removeFriend, sleep } from "../utils";
+import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
 import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
@@ -33,10 +33,6 @@ const mutuals = ref<number[]>([]);
 
 const toSettings = () => {
   router.push({ path: "/settings" })
-}
-
-const randomNumber = (): number => {
-  return Math.floor(Math.random() * 500);
 }
 
 const threads: Threads = {}
@@ -144,7 +140,7 @@ onActivated(() => {
     threads[item] = false;
   }
 
-  let id = randomNumber();
+  let id = randomNumber(500);
   threads[id] = true;
 
   start(id);

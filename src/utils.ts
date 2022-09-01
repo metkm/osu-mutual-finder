@@ -105,6 +105,10 @@ export const clampNumber = (n: number, min: number, max: number) => {
   return Math.min(Math.max(n, min), max);
 }
 
+export const randomNumber = (num: number) => {
+  return Math.floor(Math.random() * num)
+}
+
 export const jsonCountries: WebCountry[] = [
   { flag_url: "1f1fa-1f1f8.svg", code: "US", name: "United States" },
   { flag_url: "1f1f7-1f1fa.svg", code: "RU", name: "Russian Federation" },
