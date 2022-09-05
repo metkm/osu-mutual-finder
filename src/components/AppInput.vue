@@ -17,6 +17,6 @@ defineEmits(["update:modelValue"]);
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       class="p-2 bg-theme-sec peer w-full input-number" 
     />
-    <div class="h-1 transition-all bg-green-600 absolute bottom-0 w-0 peer-focus:w-full" />
+    <div class="h-0.5 transition-all bg-green-600 absolute bottom-0 w-0 peer-focus:w-full" />
   </div>
 </template>
