@@ -18,7 +18,7 @@ events.on("notify", ({ text, options }) => {
     }
   });
 
-  setTimeout(() => removeNotification(text), options?.delay || 5000)
+  setTimeout(() => removeNotification(text), options?.delay || 50000)
 })
 
 events.on("notifyRemove", ({ text }) => {
@@ -27,18 +27,17 @@ events.on("notifyRemove", ({ text }) => {
 </script>
 
 <template>
-  <transition-group tag="div" class="absolute bottom-5 flex flex-col gap-2 max-w-md" name="notif" appear>
-    <div v-for="notification in notifications" :key="notification.message"
-      class="bg-theme-sec ml-5 overflow-hidden rounded min-w-[20rem] shadow py-2 px-3 border-2 border-neutral-200 dark:border-neutral-800">
-      <div class="p-1">
-        <p class="font-semibold">{{ notification.message }}</p>
-        <p v-if="notification.options?.description" class="text-neutral-400">{{ notification.options.description }}</p>
+  <transition-group tag="div" class="absolute bottom-5 left-3 flex flex-col gap-2 max-w-md" name="notif" appear>
+    <div v-for="notification in notifications" :key="notification.message" class="rounded-md overflow-hidden border border-neutral-800">
+      <div class="p-3">
+        <p class="">{{ notification.message }}</p>
+        <p v-if="notification.options?.description" class="text-neutral-400 text-sm">{{ notification.options.description }}</p>
       </div>
-      <div v-if="notification.options?.acceptText || notification.options?.rejectText" class="flex gap-2 p-1">
+      <div v-if="notification.options?.acceptText || notification.options?.rejectText" class="flex">
         <button v-if="notification.options?.acceptText" @click="notification.options?.acceptCallback"
-          class="form-button p-1">{{ notification.options.acceptText }}</button>
+          class="form-button rounded-none p-1">{{ notification.options.acceptText }}</button>
         <button v-if="notification.options?.rejectCallback" @click="notification.options?.rejectCallback"
-          class="form-button p-1">{{ notification.options.rejectText }}</button>
+          class="form-button p-1 bg-red-500">{{ notification.options.rejectText }}</button>
       </div>
     </div>
   </transition-group>
