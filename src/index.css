@@ -37,9 +37,9 @@
     @apply flex items-center justify-center rounded;
     @apply transition-all;
     @apply bg-green-600 text-white;
-    @apply focus:outline-2 focus:outline-green-700 focus:dark:outline-green-900;
     @apply hover:bg-neutral-500 dark:hover:bg-neutral-800;
     @apply disabled:opacity-25 disabled:bg-neutral-800;
+    @apply focus-outline;
   }
 
   .input-number::-webkit-inner-spin-button {
@@ -50,6 +50,7 @@
     @apply appearance-none transition-all;
     @apply w-5 h-5 rounded-md;
     @apply border-2 dark:border-neutral-800 checked:bg-green-500;
+    @apply focus-outline;
   }
 
   .setting {
@@ -97,5 +98,9 @@
     width: 10px;
     height: 10px;
     @apply fill-black dark:fill-white;
+  }
+
+  .focus-outline {
+    @apply focus:outline-2 focus:outline-green-700 focus:dark:outline-green-900;
   }
 }
