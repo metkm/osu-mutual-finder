@@ -37,6 +37,7 @@
     @apply flex items-center justify-center rounded;
     @apply transition-all;
     @apply bg-green-600 text-white;
+    @apply focus:outline-2 focus:outline-green-900;
     @apply hover:bg-neutral-500 dark:hover:bg-neutral-800;
     @apply disabled:opacity-25 disabled:bg-neutral-800;
   }
