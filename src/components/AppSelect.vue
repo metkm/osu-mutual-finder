@@ -18,7 +18,7 @@ const onlick = (val: string) => {
 </script>
 <template>
   <div class="relative">
-    <button class="border dark:border-neutral-800 p-2 rounded w-full relative flex justify-center items-center"
+    <button class="border dark:border-neutral-800 p-2 rounded w-full relative flex justify-center items-center focus-outline"
       @click="toggleVisible">
       <p>{{ placeholder }}</p>
 
