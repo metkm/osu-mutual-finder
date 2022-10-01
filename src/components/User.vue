@@ -28,8 +28,12 @@ const openLink = () => {
 
 <template>
   <li class="list-none" :aria-label="`user ${userDetails.username}`">
-    <a @click="openLink" target="_blank"
-      class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md">
+    <a 
+      aria-label="user"
+      @click="openLink"
+      target="_blank"
+      class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md"
+    >
       <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" alt="user banner" />
 
       <div class="flex px-2 gap-1 -mt-3">
@@ -43,7 +47,7 @@ const openLink = () => {
             >
               #{{userDetails.statistics.global_rank}}
             </p>
-            <p class="font-semibold text-lg truncate">{{ userDetails.username }}</p>
+            <p class="font-semibold text-lg truncate" aria-label="username">{{ userDetails.username }}</p>
           </div>
 
           <img v-if="country" class="h-9 flag" :src="countryFromCode(country.code)!" alt="country flag" />

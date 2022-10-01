@@ -94,9 +94,14 @@ const login = async () => {
       <p class="setting-description text-center">Version: {{ version }}</p>
     </form>
 
-    <div v-if="mutuals && mutuals.length > 0" class="w-full overflow-y-auto rounded-lg">
-      <h1 class="font-semibold">Found mutuals from the database.</h1>
-      <User v-for="user in mutuals" :user="user" :userId="user.id" />
-    </div>
+    <section
+      v-if="mutuals && mutuals.length > 0"
+      class="max-h-96 flex flex-col"
+    >
+      <h1 class="text-center mt-4">Found mutuals from the database</h1>
+      <ul class="flex flex-1 flex-col gap-1 overflow-y-auto">
+        <User v-for="user in mutuals" :user="user" :userId="user.id" />
+      </ul>
+    </section>
   </div>
 </template>

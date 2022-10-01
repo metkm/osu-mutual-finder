@@ -174,7 +174,7 @@ const clearChecked = () => {
       </AppSide>
     </div>
 
-    <p class="text-center" aria-label="Current status of checking">Checking {{ checking }} - Page {{ currentPage }}</p>
+    <p class="text-center" aria-label="current status of checking">Checking {{ checking }} - Page {{ currentPage }}</p>
     <button class="form-button max-w-full" @click="toSettings">
       Settings
     </button>
