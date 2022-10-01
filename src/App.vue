@@ -80,7 +80,7 @@ event.listen("tauri://update-status", (res) => {
   <TitleBar />
   <DevRouter v-if="ISDEV" />
 
-  <div class="flex-1 overflow-hidden">
+  <main class="flex-1 overflow-hidden">
     <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
@@ -96,7 +96,7 @@ event.listen("tauri://update-status", (res) => {
         <p>Loading...</p>
       </template>
     </suspense>
+  </main>
 
-    <Notification />
-  </div>
+  <Notification />
 </template>

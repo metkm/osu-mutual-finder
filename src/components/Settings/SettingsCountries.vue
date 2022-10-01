@@ -40,20 +40,22 @@ watch(check, newCheck => {
     <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
       <!-- <p class="font-semibold">Countries</p> -->
       <div class="flex gap-2 h-full max-h-96">
-        <div class="flex flex-col flex-1 gap-2 select-none">
-          <p>Countries to Add</p>
-          <AppInput v-model="searchQuery" type="text" placeholder="Search" />
+        <div class="flex flex-col flex-1 gap-2">
+          <h1>Countries to Add</h1>
+          <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
-          <div class="listbox">
-            <Country v-for="country in searchQueryResults" :key="country.code" :code="country.code" @dblclick="addCountry(country.code)" />
-          </div>
+          <ol class="listbox">
+            <Country v-for="country in searchQueryResults" :key="country.code" :code="country.code" @click="addCountry(country.code)" />
+          </ol>
         </div>
 
-        <div class="flex flex-col flex-1 select-none">
-          <p>Countries to Check</p>
-          <div class="listbox">
-            <Country v-for="code in countriesToCheck" :key="code" :code="code" @dblclick="removeCountry(code)" />
-          </div>
+        <div class="w-0.5 h-full bg-neutral-200"></div>
+
+        <div class="flex flex-col flex-1 gap-2">
+          <h1>Countries to Check</h1>
+          <ol class="listbox">
+            <Country v-for="code in countriesToCheck" :key="code" :code="code" @click="removeCountry(code)" />
+          </ol>
         </div>
       </div>
     </div>

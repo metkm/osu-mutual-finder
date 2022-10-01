@@ -3,7 +3,6 @@ import { computed, ref, watch } from "vue";
 import { useSettingsStore } from "../../store";
 import { jsonCountries } from "../../utils";
 import AppInput from "../AppInput.vue";
-import AppSelect from "../AppSelect.vue";
 const settingsStore = useSettingsStore();
 
 const limits = computed(() => settingsStore.limits);
@@ -51,6 +50,12 @@ watch(selected, val => {
       </div>
     </div>
 
-    <AppSelect :placeholder="'Select a country'" :items="jsonCountries.map(x => x.code)" v-model="selected" />
+    <select 
+      class="border p-2 rounded dark:border-neutral-800 dark:bg-neutral-900 bg-neutral-100 focus-outline"
+      v-model="selected"
+    >
+      <option disabled value="">Select a country to add limit</option>
+      <option v-for="country in jsonCountries">{{ country.code }}</option>
+    </select>
   </div>
 </template>

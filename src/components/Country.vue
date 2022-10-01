@@ -9,8 +9,8 @@ const country = jsonCountries.find(country => country.code == props.code);
 </script>
 
 <template>
-  <div v-if="country" class="listbox-item">
-    <p class="w-8">{{ country.code }}</p>
+  <button v-if="country" class="listbox-item gap-2">
+    <p class="w-12 text-left truncate">{{ country.code }}</p>
     <p>{{ country.name }}</p>
-  </div>
+  </button>
 </template>

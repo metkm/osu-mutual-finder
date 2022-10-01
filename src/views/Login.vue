@@ -35,6 +35,8 @@ if (authStore.access_token) {
 }
 
 const login = async () => {
+  if (!username.value && !password.value) return;
+
   const client = await http.getClient();
   const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
 
@@ -84,16 +86,16 @@ const login = async () => {
 <template>
   <!-- <div id="login" class="page overflow-y-auto flex flex-col items-center justify-center gap-2 max-w-lg mx-auto"> -->
   <div id="login" class="page flex flex-col justify-center max-w-lg mx-auto">
-    <div class="flex flex-col gap-2">
-      <AppInput v-model="username" type="text" placeholder="Username" />
-      <AppInput v-model="password" type="text" placeholder="Password" />
+    <form class="flex flex-col gap-2">
+      <AppInput v-model="username" type="text" placeholder="Username" required />
+      <AppInput v-model="password" type="text" placeholder="Password" required />
 
-      <button class="form-button" :disabled="cooldown" @click="login">Login</button>
+      <button class="form-button" type="submit" :disabled="cooldown" @click.prevent="login">Login</button>
       <p class="setting-description text-center">Version: {{ version }}</p>
-    </div>
+    </form>
 
     <div v-if="mutuals && mutuals.length > 0" class="w-full overflow-y-auto rounded-lg">
-      <p class="font-semibold">Found mutuals from the database.</p>
+      <h1 class="font-semibold">Found mutuals from the database.</h1>
       <User v-for="user in mutuals" :user="user" :userId="user.id" />
     </div>
   </div>
