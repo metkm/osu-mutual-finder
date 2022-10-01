@@ -13,7 +13,7 @@ watch(gamemode, mode => {
 </script>
 
 <template>
-  <div class="setting">
+  <div aria-label="gamemode setting" class="setting">
     <h1>Gamemode</h1>
 
     <div class="flex flex-col gap-1">

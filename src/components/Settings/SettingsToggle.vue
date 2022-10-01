@@ -9,7 +9,7 @@ const addBlacklist = ref(settingsStore.addBlacklist);
 </script>
 
 <template>
-  <div class="setting">
+  <div aria-label="togglable settings" class="setting">
     <div class="flex justify-evenly text-center">
       <AppCheckbox :label="'Add Friend'" :toggled="addFriend"
         :description="'When a mutual is found, keep it as friend or remove it.'" :onChange="settingsStore.toggleAddFriend" />

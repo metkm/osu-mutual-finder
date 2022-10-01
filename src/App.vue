@@ -80,15 +80,17 @@ event.listen("tauri://update-status", (res) => {
   <TitleBar />
   <DevRouter v-if="ISDEV" />
 
-  <main class="flex-1 overflow-hidden">
+  <div class="flex-1 overflow-hidden">
     <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
           <keep-alive>
-            <component 
-              :is="Component" 
-              :key="route.meta.usePathKey ? route.path : undefined" 
-            />
+            <main class="h-full w-full" :aria-label="route.name?.toString()">
+              <component 
+                :is="Component" 
+                :key="route.meta.usePathKey ? route.path : undefined" 
+              />
+            </main>
           </keep-alive>
         </router-view>
       </template>
@@ -96,7 +98,7 @@ event.listen("tauri://update-status", (res) => {
         <p>Loading...</p>
       </template>
     </suspense>
-  </main>
+  </div>
 
   <Notification />
 </template>

@@ -31,7 +31,7 @@ watch(check, newCheck => {
 </script>
 
 <template>
-  <div class="setting">
+  <div aria-label="country setting" class="setting">
     <div class="flex flex-1 justify-around">
       <AppRadio :label="Check.Country" v-model="check" />
       <AppRadio :label="Check.Global" v-model="check" />
@@ -40,23 +40,23 @@ watch(check, newCheck => {
     <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
       <!-- <p class="font-semibold">Countries</p> -->
       <div class="flex gap-2 h-full max-h-96">
-        <div class="flex flex-col flex-1 gap-2">
+        <section aria-label="countries to add" class="flex flex-col flex-1 gap-2">
           <h1>Countries to Add</h1>
           <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
           <ol class="listbox">
             <Country v-for="country in searchQueryResults" :key="country.code" :code="country.code" @click="addCountry(country.code)" />
           </ol>
-        </div>
+        </section>
 
         <div class="w-0.5 h-full bg-neutral-200"></div>
 
-        <div class="flex flex-col flex-1 gap-2">
+        <section aria-label="countries added" class="flex flex-col flex-1 gap-2">
           <h1>Countries to Check</h1>
           <ol class="listbox">
             <Country v-for="code in countriesToCheck" :key="code" :code="code" @click="removeCountry(code)" />
           </ol>
-        </div>
+        </section>
       </div>
     </div>
   </div>

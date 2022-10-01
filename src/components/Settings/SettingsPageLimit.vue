@@ -30,7 +30,7 @@ watch(selected, val => {
 </script>
 
 <template>
-  <div class="setting relative">
+  <div aria-label="page limit setting" class="setting relative">
     <div class="listbox max-h-72">
       <div class="flex items-center justify-around">
         <p>Code</p>

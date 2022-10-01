@@ -155,31 +155,31 @@ const clearChecked = () => {
 </script>
 
 <template>
-  <div id="mutuals" class="page flex flex-col gap-1">
+  <main id="mutuals" class="page flex flex-col gap-1">
     <div class="flex flex-grow w-full gap-2 overflow-hidden">
       <AppSide :title="'Found Mutuals'">
         <template v-slot:users>
           <User v-for="userId in mutuals" :userId="userId" :key="userId" />
         </template>
 
-        <button class="p-2 rounded text-white bg-red-600 hover:bg-red-800 transition-all" @click="clearMutuals">Clear</button>
+        <button class="clear-button" aria-label="clear found mutuals" @click="clearMutuals">Clear</button>
       </AppSide>
 
-      <AppSide :title="'Checked'">
+      <AppSide :title="'Checked Users'">
         <template v-slot:users>
           <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
         </template>
 
-        <button class="p-2 rounded text-white bg-red-600 hover:bg-red-800 transition-all" @click="clearChecked">Clear</button>
+        <button class="clear-button" aria-label="clear checked mutuals" @click="clearChecked">Clear</button>
       </AppSide>
     </div>
 
-    <p class="text-center">Checking {{ checking }} - Page {{ currentPage }}</p>
+    <p class="text-center" aria-label="Current status of checking">Checking {{ checking }} - Page {{ currentPage }}</p>
     <button class="form-button max-w-full" @click="toSettings">
       Settings
     </button>
 
-  </div>
+  </main>
 </template>
 
 <style>

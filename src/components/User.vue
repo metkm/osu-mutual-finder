@@ -27,7 +27,7 @@ const openLink = () => {
 </script>
 
 <template>
-  <li>
+  <li class="list-none" :aria-label="`user ${userDetails.username}`">
     <a @click="openLink" target="_blank"
       class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md">
       <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" alt="user banner" />

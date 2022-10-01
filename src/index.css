@@ -105,4 +105,10 @@
   .focus-outline {
     @apply focus:outline-2 focus:outline-green-700 focus:dark:outline-green-900;
   }
+
+  .clear-button {
+    @apply bg-red-600 hover:bg-red-800 transition-all;
+    @apply p-2 rounded;
+    @apply text-white;
+  }
 }

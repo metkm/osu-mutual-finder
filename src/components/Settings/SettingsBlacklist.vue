@@ -31,11 +31,11 @@ const clearBlacklist = () => {
         <button class="form-button bg-red-600 hover:bg-red-800" @click="clearBlacklist">Clear Blacklist</button>
       </div>
 
-      <div class="listbox select-none max-h-72">
-        <p v-for="id in settingsStore.blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="listbox-item">
+      <ul aria-label="blacklisted ids" class="listbox select-none max-h-72">
+        <li v-for="id in settingsStore.blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="listbox-item">
           {{ id }}
-        </p>
-      </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

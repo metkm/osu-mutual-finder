@@ -21,7 +21,7 @@ const removeFriendClick = () => {
 }
 </script>
 <template>
-  <div class="setting">
+  <div aria-label="remove friend setting" class="setting">
     <div class="flex flex-col gap-2 max-w-md">
       <AppInput type="number" placeholder="User Id" v-model.number="userId" />
       <button class="form-button" :disabled="cooldown" @click="removeFriendClick">Remove Friend</button>
