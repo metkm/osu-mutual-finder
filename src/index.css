@@ -105,6 +105,7 @@
 
   .focus-outline {
     @apply focus:outline-2 focus:outline-green-700 focus:dark:outline-green-900;
+    @apply outline-offset-0;
   }
 
   .clear-button {
