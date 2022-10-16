@@ -25,7 +25,7 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
 <style>
 .array-enter-active,
 .array-leave-active {
-  transition: all 500ms ease;
+  transition: all 150ms ease;
 }
 
 .array-leave-active {
@@ -34,15 +34,15 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
 
 .array-enter-from {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(10px);
 }
 
 .array-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(10px);
 }
 
 .array-move {
-  transition: all 500ms ease;
+  transition: all 150ms ease;
 }
 </style>

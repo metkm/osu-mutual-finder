@@ -62,7 +62,8 @@
   }
 
   .listbox {
-    @apply overflow-y-auto;
+    @apply relative;
+    @apply overflow-y-auto overflow-x-hidden;
     @apply flex-1 rounded;
     @apply px-2 py-1;
   }
