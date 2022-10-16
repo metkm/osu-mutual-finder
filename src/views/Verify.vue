@@ -66,7 +66,7 @@ const verify = async () => {
     <p class="setting-description">Check your emails</p>
     <AppInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
 
-    <button class="form-button" type="submit" @click.prevent="verify">Login</button>
+    <button class="form-button" type="submit" @click.prevent="verify">Verify</button>
     <p v-if="error" class="font-semibold text-red-500">{{ error }}</p>
   </form>
 </template>
