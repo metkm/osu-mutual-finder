@@ -54,7 +54,7 @@ const handleBeforeLeave = (element: Element) => {
           </transition-group>
         </section>
 
-        <div class="w-0.5 h-full bg-neutral-200"></div>
+        <div class="w-1 rounded-full h-full bg-neutral-200 dark:bg-neutral-900"></div>
 
         <section aria-label="countries added" class="flex flex-col flex-1 gap-2">
           <h1>Countries to Check</h1>
