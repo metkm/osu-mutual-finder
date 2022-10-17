@@ -51,7 +51,7 @@ watch(selected, val => {
     </div>
 
     <select 
-      class="border p-2 rounded dark:border-neutral-800 dark:bg-neutral-900 bg-neutral-100 focus-outline"
+      class="border p-2 rounded dark:border-neutral-800 dark:bg-neutral-900 focus-outline"
       v-model="selected"
     >
       <option disabled value="">Select a country to add limit</option>

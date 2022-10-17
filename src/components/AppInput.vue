@@ -10,7 +10,7 @@ defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <div class="relative rounded overflow-hidden w-full">
+  <div class="relative rounded-lg overflow-hidden w-full border dark:border-neutral-900">
     <input
       v-bind="$attrs"
       :value="modelValue"

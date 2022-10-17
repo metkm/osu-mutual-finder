@@ -49,9 +49,9 @@ const handleBeforeLeave = (element: Element) => {
           <h1>Countries to Add</h1>
           <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
-          <transition-group name="array" tag="ol" class="listbox">
+          <ul class="listbox">
             <Country v-for="country in searchQueryResults" :key="country.code" :code="country.code" @click="addCountry(country.code)" />
-          </transition-group>
+          </ul>
         </section>
 
         <div class="w-1 rounded-full h-full bg-neutral-200 dark:bg-neutral-900"></div>

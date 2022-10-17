@@ -49,7 +49,7 @@
   .form-tick {
     @apply appearance-none transition-all;
     @apply w-5 h-5 rounded-md;
-    @apply border-2 dark:border-neutral-800 checked:bg-green-500;
+    @apply border dark:border-neutral-800 checked:bg-green-500;
     @apply focus-outline;
   }
 
@@ -86,7 +86,7 @@
 
 @layer utilities {
   .bg-theme-sec {
-    @apply bg-neutral-100 dark:bg-neutral-900;
+    @apply dark:bg-neutral-900;
   }
 
   .window-control-btn {
