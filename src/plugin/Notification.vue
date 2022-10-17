@@ -18,7 +18,7 @@ events.on("notify", ({ text, options }) => {
     }
   });
 
-  setTimeout(() => removeNotification(text), options?.delay || 50000)
+  setTimeout(() => removeNotification(text), options?.delay || 5000)
 })
 
 events.on("notifyRemove", ({ text }) => {
