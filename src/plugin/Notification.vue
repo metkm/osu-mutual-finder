@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { events } from "./notification";
 import { Notification } from "../types";
+import { handleBeforeLeave } from "../animation";
 
 const notifications = ref<Notification[]>([]);
 
@@ -27,12 +28,12 @@ events.on("notifyRemove", ({ text }) => {
 </script>
 
 <template>
-  <transition-group tag="div" class="absolute bottom-5 left-3 flex flex-col gap-2 max-w-md" name="notif" appear>
+  <transition-group tag="div" class="absolute bottom-5 left-3 flex flex-col gap-1 max-w-md" name="notif" appear @before-leave="handleBeforeLeave">
     <div v-for="notification in notifications" 
         :key="notification.message" 
         class="rounded-md overflow-hidden border 
         dark:border-neutral-800 
-        bg-neutral-100 dark:bg-neutral-900"
+        bg-theme-sec"
       >
       <div class="p-3">
         <p>{{ notification.message }}</p>

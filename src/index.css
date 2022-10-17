@@ -86,7 +86,7 @@
 
 @layer utilities {
   .bg-theme-sec {
-    @apply dark:bg-neutral-900;
+    @apply bg-white dark:bg-neutral-900;
   }
 
   .window-control-btn {

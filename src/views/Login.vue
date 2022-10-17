@@ -84,7 +84,6 @@ const login = async () => {
 </script>
 
 <template>
-  <!-- <div id="login" class="page overflow-y-auto flex flex-col items-center justify-center gap-2 max-w-lg mx-auto"> -->
   <div id="login" class="page flex flex-col justify-center max-w-lg mx-auto">
     <form aria-label="login form" class="flex flex-col gap-2">
       <AppInput v-model="username" type="text" placeholder="Username" required />

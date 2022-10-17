@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSettingsStore } from "../../store";
 import { computed, ref, watch } from "vue";
+import { handleBeforeLeave } from "../../animation";
 import { jsonCountries } from "../../utils";
 import { Check } from "../../types";
 import AppRadio from "../AppRadio.vue";
@@ -28,15 +29,10 @@ const removeCountry = (countryCode: string) => {
 watch(check, newCheck => {
   settingsStore.check = newCheck;
 })
-
-const handleBeforeLeave = (element: Element) => {
-  // @ts-ignore
-  element.setAttribute("style", `width: ${element.offsetWidth!}px`);
-}
 </script>
 
 <template>
-  <div aria-label="country setting" class="setting">
+  <div aria-label="country setting" class="setting relative">
     <div class="flex flex-1 justify-around">
       <AppRadio :label="Check.Country" v-model="check" />
       <AppRadio :label="Check.Global" v-model="check" />
