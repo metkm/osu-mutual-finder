@@ -5,7 +5,7 @@
 
 @layer base {
   html, body {
-    @apply dark:bg-black;
+    @apply dark:bg-black transition-colors duration-300;
     @apply bg-opacity-75;
     @apply w-full h-full relative;
     @apply overflow-hidden;
@@ -87,6 +87,7 @@
 @layer utilities {
   .bg-theme-sec {
     @apply bg-white dark:bg-neutral-900;
+    @apply transition-colors duration-300;
   }
 
   .window-control-btn {

@@ -32,7 +32,7 @@ appWindow.onResized(async () => {
 
     <p data-tauri-drag-region class="flex-1 truncate flex justify-center items-center">Mutual Finder - {{ currentRoute }}</p>
 
-    <div data-tauri-drag-region class="h-full flex-1 flex items-center justify-end window-controls">
+    <div data-tauri-drag-region class="h-full flex-1 flex items-center justify-end">
       <button aria-label="minimize window" class="window-control-btn" @click="appWindow.minimize">
         <svg x="0px" y="0px" viewBox="0 0 10.2 1">
           <rect x="0" y="50%" width="10.2" height="1" />
