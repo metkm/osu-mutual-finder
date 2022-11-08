@@ -1,5 +1,3 @@
-#![feature(let_else)]
-
 mod api;
 mod database;
 mod middlewares;
