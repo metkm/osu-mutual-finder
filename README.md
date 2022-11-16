@@ -1,5 +1,9 @@
 [![Github All Releases](https://img.shields.io/github/downloads/sibyl666/osu-mutual-finder/total.svg)]()
 
+The program currently does not work because of some changes that are made to osu! website.
+---
+---
+
 Be sure to add countries to check from settings. You can double click to country name to add it.
 
 It doesn't store your passwords in any way. If you are still can't trust it what you can do is since it's already open source you can read the code and build the app yourself.
