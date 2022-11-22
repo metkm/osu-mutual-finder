@@ -4,6 +4,7 @@ import { UserObject, UserObjectAdded, WebCountry } from "./types";
 
 const xsrfTokenRegex = /XSRF-TOKEN=(.*?);/;
 const sessionTokenRegex = /osu_session=(.*?);/;
+const cookieRegex = /(?<key>.*?)=(?<value>.*?);/;
 
 export const getTokens = async (headers: Record<string, string[]>) => {
   let xsrfMatch = xsrfTokenRegex.exec(headers["set-cookie"][0]);
@@ -11,6 +12,29 @@ export const getTokens = async (headers: Record<string, string[]>) => {
 
   if (!xsrfMatch || !sessionMatch) return [];
   return [xsrfMatch[1], sessionMatch[1]]
+}
+
+export const getCookies = (headers: Record<string, string[]>) => {
+  let cookies: Record<string, string> = {};
+
+  for (const cookie of headers["set-cookie"]) {
+    let match = cookie.match(cookieRegex);
+    if (!match || !match.groups) continue;
+    
+    cookies[match.groups.key] = match.groups.value;
+  }
+
+  return cookies;
+}
+
+export const parseCookies = (cookies: Record<string, string>) => {
+  let cookieString = "";
+
+  for (const [key, value] of Object.entries(cookies)) {
+    cookieString += `${key}=${value}; `;
+  }
+
+  return cookieString;
 }
 
 export async function sleep(ms: number): Promise<void> {
