@@ -11,10 +11,10 @@ const addBlacklist = ref(settingsStore.addBlacklist);
 <template>
   <div aria-label="togglable settings" class="setting">
     <div class="flex justify-evenly text-center">
-      <AppCheckbox :label="'Add Friend'" :toggled="addFriend"
-        :description="'When a mutual is found, keep it as friend or remove it.'" :onChange="settingsStore.toggleAddFriend" />
-      <AppCheckbox :label="'Add To Blacklist'" :toggled="addBlacklist"
-        :description="'Add to blacklist when the user is checked once.'" :onChange="settingsStore.toggleAddBlacklist" />
+      <AppCheckbox :label="'Add Friend'" v-model="settingsStore.addFriend"
+        :description="'When a mutual is found, keep it as friend or remove it.'" />
+      <AppCheckbox :label="'Add To Blacklist'" v-model="settingsStore.addBlacklist"
+        :description="'Add to blacklist when the user is checked once.'" />
     </div>
   </div>
 </template>

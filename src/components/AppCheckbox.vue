@@ -1,11 +1,5 @@
 <script setup lang="ts">
-defineProps<{
-  label: string,
-  description: string,
-  toggled: boolean,
-  onChange: () => void;
-}>();
-
+defineProps(['modelValue', 'label', 'description'])
 defineEmits(["update:modelValue"]);
 </script>
 
@@ -14,10 +8,10 @@ defineEmits(["update:modelValue"]);
     <div class="flex items-center gap-2">
       <input 
         type="checkbox"
-        :id="label"
         class="form-tick"
-        @change="onChange"
-        @input="$emit('update:modelValue', ($event.target! as HTMLInputElement).value)"
+        :id="label"
+        :checked="modelValue"
+        @change="$emit('update:modelValue', ($event.target! as HTMLInputElement).checked)"
       >
       <label :for="label">{{ label }}</label>
     </div>

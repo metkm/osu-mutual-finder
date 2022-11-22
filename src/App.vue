@@ -84,14 +84,14 @@ event.listen("tauri://update-status", (res) => {
     <suspense>
       <template #default>
         <router-view v-slot="{ Component, route }">
-          <keep-alive>
-            <main class="h-full w-full" :aria-label="route.name?.toString()">
+          <main class="h-full w-full" :aria-label="route.name?.toString()">
+            <KeepAlive>
               <component 
                 :is="Component" 
                 :key="route.meta.usePathKey ? route.path : undefined" 
               />
-            </main>
-          </keep-alive>
+            </KeepAlive>
+          </main>
         </router-view>
       </template>
       <template #fallback>
