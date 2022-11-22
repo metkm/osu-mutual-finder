@@ -2,15 +2,33 @@ import { http } from "@tauri-apps/api";
 import { useAuthStore } from "./store";
 import { UserObject, UserObjectAdded, WebCountry } from "./types";
 
-const xsrfTokenRegex = /XSRF-TOKEN=(.*?);/;
-const sessionTokenRegex = /osu_session=(.*?);/;
+const cookieRegex = /(?<key>.*?)=(?<value>.*?);/;
 
-export const getTokens = async (headers: Record<string, string[]>) => {
-  let xsrfMatch = xsrfTokenRegex.exec(headers["set-cookie"][0]);
-  let sessionMatch = sessionTokenRegex.exec(headers["set-cookie"][1]);
+export const getCookies = (headers: Record<string, string[]>) => {
+  let cookies: Record<string, string> = {};
 
-  if (!xsrfMatch || !sessionMatch) return [];
-  return [xsrfMatch[1], sessionMatch[1]]
+  for (const cookie of headers["set-cookie"]) {
+    let match = cookie.match(cookieRegex);
+    if (!match || !match.groups || match.groups.value === "deleted") continue;
+
+    if (match.groups.key === "osu_session" && match.groups.value.length < 262) {
+      continue;
+    }
+    
+    cookies[match.groups.key] = match.groups.value;
+  }
+
+  return cookies;
+}
+
+export const parseCookies = (cookies: Record<string, string>) => {
+  let cookieString = "";
+
+  for (const [key, value] of Object.entries(cookies)) {
+    cookieString += `${key}=${value}; `;
+  }
+
+  return cookieString.slice(0, -2);
 }
 
 export async function sleep(ms: number): Promise<void> {
@@ -68,9 +86,9 @@ export async function addFriend(userId: number, token: string, session: string):
       }
     });
 
-    let [newToken, newSession] = await getTokens(response.rawHeaders);
-    authStore.session = newSession;
-    authStore.token = newToken;
+    let cookies = getCookies(response.rawHeaders);
+    authStore.session = cookies["osu_session"];
+    authStore.token = cookies["XSRF-TOKEN"];
 
     return response.data
   } catch(error: any) {
@@ -96,9 +114,9 @@ export async function removeFriend(userId: number, token: string, session: strin
     }
   });
 
-  let [newToken, newSession] = await getTokens(response.rawHeaders);
-  authStore.session = newSession;
-  authStore.token = newToken;
+  let cookies = getCookies(response.rawHeaders);
+  authStore.session = cookies["osu_session"];
+  authStore.token = cookies["XSRF-TOKEN"];
 }
 
 export const clampNumber = (n: number, min: number, max: number) => {

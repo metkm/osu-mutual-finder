@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore, useSettingsStore } from "../store";
 
 import AppInput from "../components/AppInput.vue";
-import { getTokens } from "../utils";
+import { getCookies } from "../utils";
 import { UserObject } from "../types";
 
 const router = useRouter();
@@ -52,9 +52,9 @@ const verify = async () => {
     return;
   }
 
-  let [token, session] = await getTokens(response.rawHeaders);
-  authStore.session = session;
-  authStore.token = token;
+  let cookies = getCookies(response.rawHeaders);
+  authStore.session = cookies["osu_session"];
+  authStore.token = cookies["XSRF-TOKEN"];
   
   await router.push("/mutuals");
 }

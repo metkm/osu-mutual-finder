@@ -4,12 +4,13 @@ import { http } from "@tauri-apps/api";
 import { app } from "@tauri-apps/api";
 import { SessionLoginUser, UserObject } from "../types";
 import { useAuthStore, useSettingsStore, useUserStore } from "../store";
-import { getTokens } from "../utils";
+import { getCookies, parseCookies } from "../utils";
 
 import axios from "axios";
 import router from "../router";
 import AppInput from "../components/AppInput.vue";
 import User from "../components/User.vue";
+import { notify } from "../plugin/notification";
 
 interface Login {
   header: string,
@@ -40,11 +41,12 @@ const login = async () => {
   const client = await http.getClient();
   const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
 
-  let [token, session] = await getTokens(response.rawHeaders);
+  let cookies = getCookies(response.rawHeaders);
+  let cookieString = parseCookies(cookies);
 
   const sessionResponse = await client.post<Login>("https://osu.ppy.sh/session", {
     payload: {
-      "_token": token,
+      "_token": cookies["XSRF-TOKEN"],
       "username": username.value,
       "password": password.value
     },
@@ -52,12 +54,16 @@ const login = async () => {
   }, {
     headers: {
       "referer": "https://osu.ppy.sh",
-      "cookie": `osu_session=${session}`
+      "cookie": cookieString
     }
   });
 
-  // error handling here.
-  if (sessionResponse.status != 200) {
+  // // error handling here.
+  if (sessionResponse.status !== 200) {
+    notify(`Login request returned ${sessionResponse.status} code.`, {
+      description: "This is probably because of a change made on osu! website. You can open a github issue."
+    });
+
     return;
   }
 
@@ -65,20 +71,28 @@ const login = async () => {
     settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
   }
 
-  userStore.user = sessionResponse.data.user;
-  [token, session] = await getTokens(sessionResponse.rawHeaders);
+  cookies = getCookies(sessionResponse.rawHeaders);
+  cookieString = parseCookies(cookies);
 
-  const verificationResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
+  const verifResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
     headers: {
-      "cookie": `osu_session=${session}`
+      "cookie": cookieString
     }
-  });
+  })
 
-  [token, session] = await getTokens(verificationResponse.rawHeaders);
-  authStore.session = session;
-  authStore.token = token;
+  if (verifResponse.status !== 401) {
+    notify(`Verification request returned ${verifResponse.status} code.`, {
+      description: "The expected code is 401"
+    });
 
-  router.push("/verify")
+    return;
+  }
+
+  cookies = getCookies(verifResponse.rawHeaders);
+  authStore.session = cookies["osu_session"];
+  authStore.token = cookies["XSRF-TOKEN"];
+
+  router.push("/verify");
 }
 
 </script>
