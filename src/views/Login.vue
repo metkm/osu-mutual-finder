@@ -4,7 +4,7 @@ import { http } from "@tauri-apps/api";
 import { app } from "@tauri-apps/api";
 import { SessionLoginUser, UserObject } from "../types";
 import { useAuthStore, useSettingsStore, useUserStore } from "../store";
-import { getTokens, getCookies, parseCookies } from "../utils";
+import { getCookies, parseCookies } from "../utils";
 
 import axios from "axios";
 import router from "../router";
@@ -71,7 +71,8 @@ const login = async () => {
     settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
   }
 
-  cookieString = parseCookies(getCookies(sessionResponse.rawHeaders));
+  cookies = getCookies(sessionResponse.rawHeaders);
+  cookieString = parseCookies(cookies);
 
   const verifResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
     headers: {
@@ -87,36 +88,11 @@ const login = async () => {
     return;
   }
 
-  cookies = getCookies(verifResponse.rawHeaders)
-  cookieString = parseCookies(cookies);
+  cookies = getCookies(verifResponse.rawHeaders);
+  authStore.session = cookies["osu_session"];
+  authStore.token = cookies["XSRF-TOKEN"];
 
-  const codeRequest = await client.post("https://osu.ppy.sh/home/account/reissue-code", {
-    payload: {},
-    type: "Json"
-  }, {
-    headers: {
-      "cookie": cookieString,
-      "x-csrf-token": cookies["XSRF-TOKEN"],
-      "x-requested-with": "XMLHttpRequest"
-    }
-  });
-
-  console.log(codeRequest);
-
-  // userStore.user = sessionResponse.data.user;
-  // [token, session] = await getTokens(sessionResponse.rawHeaders);
-
-  // const verificationResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
-  //   headers: {
-  //     "cookie": `osu_session=${session}`
-  //   }
-  // });
-
-  // [token, session] = await getTokens(verificationResponse.rawHeaders);
-  // authStore.session = session;
-  // authStore.token = token;
-
-  // router.push("/verify")
+  router.push("/verify");
 }
 
 </script>
