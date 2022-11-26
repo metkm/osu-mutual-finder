@@ -1,5 +1,3 @@
-[![Github All Releases](https://img.shields.io/github/downloads/metkm/osu-mutual-finder/total.svg)]()
-
 Be sure to add countries to check from settings. You can double click to country name to add it.
 
 It doesn't store your passwords in any way. If you are still can't trust it what you can do is since it's already open source you can read the code and build the app yourself.
