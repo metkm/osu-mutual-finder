@@ -1,4 +1,4 @@
-[![Github All Releases](https://img.shields.io/github/downloads/sibyl666/osu-mutual-finder/total.svg)]()
+[![Github All Releases](https://img.shields.io/github/downloads/metkm/osu-mutual-finder/total.svg)]()
 
 Be sure to add countries to check from settings. You can double click to country name to add it.
 
