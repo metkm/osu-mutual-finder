@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use axum::RequestExt;
 use axum::extract::{FromRequest, State};
 use axum::http::Request;
 use axum::middleware::Next;
@@ -7,15 +8,14 @@ use axum::response::Response;
 use axum_extra::extract::CookieJar;
 
 use diesel::r2d2::{ConnectionManager, PooledConnection};
-use diesel::PgConnection;
+use diesel::{PgConnection, RunQueryDsl, QueryDsl};
+use diesel::prelude::*;
 
 use reqwest::StatusCode;
 use tokio_postgres::Client;
 
-use crate::models::AppState;
-
-// use crate::models::session::Session;
-
+use crate::models::{AppState, Session};
+use crate::schema::sessions;
 
 pub async fn session<B>(
     State(state): State<Arc<AppState>>,
@@ -24,14 +24,19 @@ pub async fn session<B>(
     next: Next<B>
 ) -> Result<Response, StatusCode>
 where
-    B: Send,
+    B: Send + 'static,
 {
-    // let mut request_parts = RequestPart
+    let jar = CookieJar::from_headers(req.headers());
 
-    // let connection = req.extensions()
-    //     .get::<Arc<AppState>>()
-    //     .unwrap()
-    //     .to_owned();
+    let Some(session_string) = jar.get("osu_session") else {
+        return Err(StatusCode::UNAUTHORIZED)
+    };
+
+    let mut connection = state.connection_pool.get().unwrap();
+
+    let x = sessions::table
+        .filter(sessions::osu_session.eq(session_string.value()))
+        .load::<Session>(&mut connection);
 
     Ok(next.run(req).await)
 
