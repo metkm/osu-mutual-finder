@@ -11,9 +11,10 @@ itertools = "0.10.3"
 dotenvy = "0.15.1"
 reqwest = { version = "0.11.11", features=["json"] }
 serde = { version = "1", features=["derive"] }
+diesel = { version = "2.0.0", features = ["postgres", "r2d2"] }
 
-axum = "0.5.13"
-axum-extra = { version = "0.3.6", features=["cookie"] }
+axum = "0.6.0"
+axum-extra = { version = "0.4.0", features=["cookie"] }
 tower-http = { version = "0.3.4", features=["cors"] }
 
 tokio = { version = "1.20.1", features=["full"] }

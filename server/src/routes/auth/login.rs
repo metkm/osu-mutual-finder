@@ -1,13 +1,13 @@
 use std::sync::Arc;
 
-use axum::Extension;
+use axum::extract::State;
 use axum::response::{Redirect, IntoResponse};
 use reqwest::{StatusCode, Url};
 
-use crate::models::server::ServerState;
+use crate::models::AppState;
 
 pub async fn login(
-    Extension(server_state): Extension<Arc<ServerState>>
+    State(server_state): State<Arc<AppState>>
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let params = vec![
         ("scope", "friends.read public"),
