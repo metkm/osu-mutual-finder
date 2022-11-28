@@ -56,7 +56,7 @@ impl From<OsuUser> for User {
     }
 }
 
-#[derive(Queryable, Insertable, Deserialize, Serialize)]
+#[derive(Queryable, Insertable, Deserialize, Serialize, Debug, Clone)]
 #[diesel(table_name = sessions)]
 pub struct Session {
     pub user_id: i32,

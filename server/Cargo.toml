@@ -13,11 +13,9 @@ reqwest = { version = "0.11.11", features=["json"] }
 serde = { version = "1", features=["derive"] }
 diesel = { version = "2.0.0", features = ["postgres", "r2d2"] }
 
-axum = "0.6.0"
+axum = { version = "0.6.0", features = ["macros"] }
 axum-extra = { version = "0.4.0", features=["cookie"] }
 tower-http = { version = "0.3.4", features=["cors"] }
 
 tokio = { version = "1.20.1", features=["full"] }
-tokio-postgres = { version = "0.7.6", features=["array-impls"] }
-postgres-types = { version = "0.2.3", features = ["derive"] }
 time = "0.3.12"

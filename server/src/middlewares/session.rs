@@ -37,7 +37,7 @@ where
         .first::<Session>(connection) else {
             return Err(StatusCode::UNAUTHORIZED)
         };
-        
+    
     req.extensions_mut()
         .insert(session);
 

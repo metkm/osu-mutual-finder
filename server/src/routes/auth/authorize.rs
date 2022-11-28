@@ -38,7 +38,7 @@ pub async fn authorize(
 
     let tokens = get_tokens(&client, &params).await?;
     let (user, mut friends) = get_me_and_friends(&client, &tokens).await?;
-    let friend_ids = friends.iter().map(|user| user.user_id).collect();
+    let friend_ids = friends.iter().map(|user| Some(user.user_id)).collect();
     friends.push(user.clone());
 
     let mut connection = state.connection_pool.get().unwrap();
