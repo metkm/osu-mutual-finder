@@ -1,10 +1,9 @@
 pub mod osu;
 
 use diesel::{Queryable, Insertable};
-use diesel::pg::{PgConnection, sql_types::Array};
+use diesel::pg::PgConnection;
 use diesel::r2d2::{Pool, ConnectionManager};
 use serde::{Deserialize, Serialize};
-use diesel::prelude::*;
 
 use crate::database::establish_connection_pool;
 use crate::schema::*;
