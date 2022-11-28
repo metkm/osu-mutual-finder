@@ -20,9 +20,10 @@ async fn main() {
     let cors = CorsLayer::very_permissive().allow_credentials(true);
 
     let state = Arc::new(AppState::new());
+    let session_layer = middleware::from_fn_with_state(state.clone(), middlewares::session::session);
 
     let app = Router::new()
-        .route_layer(middleware::from_fn_with_state(state.clone(), middlewares::session::session))
+        .route_layer(session_layer)
         .route("/api/login", get(routes::auth::login))
         .route("/api/authorize", get(routes::auth::authorize))
         .with_state(state)

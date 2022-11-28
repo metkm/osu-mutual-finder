@@ -3,7 +3,7 @@
 diesel::table! {
     sessions (user_id) {
         user_id -> Int4,
-        friend_ids -> Array<Int4>,
+        friend_ids -> Array<Nullable<Int4>>,
         osu_session -> Text,
         access_token -> Text,
         refresh_token -> Text,

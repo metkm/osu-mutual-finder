@@ -60,7 +60,8 @@ impl From<OsuUser> for User {
 #[diesel(table_name = sessions)]
 pub struct Session {
     pub user_id: i32,
-    pub friend_ids: Vec<i32>,
+    // https://diesel.rs/guides/migration_guide.html#2-0-0-nullability-of-array-elements
+    pub friend_ids: Vec<Option<i32>>,
     pub osu_session: String,
     pub access_token: String,
     pub refresh_token: String
