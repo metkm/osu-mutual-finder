@@ -35,11 +35,4 @@ async fn main() {
         .serve(app.into_make_service())
         .await
         .unwrap();
-
-    // let app = Router::new()
-    //     .route("/api/mutuals", get(mutuals::get_mutuals))
-    //     .route("/api/refresh", patch(auth::refresh))
-    //     .route_layer(middleware::from_fn(middlewares::session::session))
-    //     .route("/api/authorize", get(auth::authorize))
-    //     .route("/api/login", get(auth::login))
 }
