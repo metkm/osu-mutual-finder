@@ -9,7 +9,7 @@ mod api;
 use axum::{Router, middleware};
 use axum::routing::{get, patch};
 use tower_http::cors::CorsLayer;
-use tower_http::trace::{TraceLayer, DefaultOnRequest};
+use tower_http::trace::{TraceLayer, DefaultOnRequest, DefaultOnResponse};
 use tracing::Level;
 
 use models::AppState;
@@ -25,7 +25,13 @@ async fn main() {
     let session_layer = middleware::from_fn_with_state(state.clone(), middlewares::session::session);
 
     tracing_subscriber::fmt::init();
-    let trace_layer = TraceLayer::new_for_http();
+    let trace_layer = TraceLayer::new_for_http()
+        .on_request(
+            DefaultOnRequest::new().level(Level::INFO)
+        )
+        .on_response(
+            DefaultOnResponse::new().level(Level::INFO)
+        );
 
     let app = Router::new()
         .route("/api/mutuals", get(routes::mutuals::get_mutuals))
