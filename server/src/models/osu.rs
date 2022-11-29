@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use super::User;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Tokens {
     pub token_type: String,
@@ -26,4 +28,21 @@ pub struct OsuUser {
     pub username: String,
     pub cover: Cover,
     pub statistics: Statistics,
+}
+
+impl From<User> for OsuUser {
+    fn from(user: User) -> Self {
+        Self {
+            avatar_url: user.avatar_url,
+            country_code: user.country_code,
+            id: user.user_id,
+            username: user.username,
+            cover: Cover {
+                url: user.cover_url
+            },
+            statistics: Statistics {
+                global_rank: Some(user.global_rank)
+            },
+        }
+    }
 }

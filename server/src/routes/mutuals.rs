@@ -11,6 +11,7 @@ use diesel::ExpressionMethods;
 use reqwest::StatusCode;
 
 use crate::models::User;
+use crate::models::osu::OsuUser;
 use crate::models::{Session, AppState}; 
 use crate::schema::sessions;
 use crate::schema::users;
@@ -39,7 +40,12 @@ pub async fn get_mutuals(
 
     match friend_query_result {
         Ok(friends) => {
-            return Ok((StatusCode::OK, Json(friends)))
+            let osu_v = friends
+                .into_iter()
+                .map(OsuUser::from)
+                .collect();
+
+            return Ok((StatusCode::OK, Json(osu_v)))
         },
         Err(error) => {
             match error {
