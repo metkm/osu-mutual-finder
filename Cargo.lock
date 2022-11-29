@@ -2721,6 +2721,8 @@ dependencies = [
  "time",
  "tokio",
  "tower-http",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -3344,6 +3346,7 @@ dependencies = [
  "tower",
  "tower-layer",
  "tower-service",
+ "tracing",
 ]
 
 [[package]]

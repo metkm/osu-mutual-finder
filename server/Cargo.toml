@@ -15,7 +15,9 @@ diesel = { version = "2.0.0", features = ["postgres", "r2d2"] }
 
 axum = { version = "0.6.0", features = ["macros"] }
 axum-extra = { version = "0.4.0", features=["cookie"] }
-tower-http = { version = "0.3.4", features=["cors"] }
+tower-http = { version = "0.3.4", features=["cors", "trace"] }
 
 tokio = { version = "1.20.1", features=["full"] }
 time = "0.3.12"
+tracing = "0.1.37"
+tracing-subscriber = "0.3.16"
