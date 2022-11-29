@@ -31,7 +31,7 @@ where
 
     let connection = &mut state.connection_pool.get().unwrap();
     let value = session_string.value().to_string();
-
+    
     let Ok(session) = sessions::table
         .filter(sessions::osu_session.eq(value))
         .first::<Session>(connection) else {

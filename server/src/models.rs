@@ -1,6 +1,6 @@
 pub mod osu;
 
-use diesel::{Queryable, Insertable};
+use diesel::{Queryable, Insertable, AsChangeset};
 use diesel::pg::PgConnection;
 use diesel::r2d2::{Pool, ConnectionManager};
 use serde::{Deserialize, Serialize};
@@ -56,7 +56,7 @@ impl From<OsuUser> for User {
     }
 }
 
-#[derive(Queryable, Insertable, Deserialize, Serialize, Debug, Clone)]
+#[derive(Queryable, Insertable, Deserialize, Serialize, Debug, Clone, AsChangeset)]
 #[diesel(table_name = sessions)]
 pub struct Session {
     pub user_id: i32,

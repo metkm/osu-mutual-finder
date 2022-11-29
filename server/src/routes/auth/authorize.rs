@@ -14,13 +14,12 @@ use crate::utils::gen_random_str;
 use crate::api::{get_tokens, get_me_and_friends};
 use crate::models::{AppState, Session};
 
-use crate::schema;
+use crate::schema::{sessions, users};
 
 pub async fn authorize(
     Query(params): Query<HashMap<String, String>>,
     State(state): State<Arc<AppState>>,
     jar: CookieJar
-
 ) -> Result<impl IntoResponse, impl IntoResponse> {
 
     let Some(code) = params.get("code") else {
@@ -42,7 +41,7 @@ pub async fn authorize(
     friends.push(user.clone());
 
     let mut connection = state.connection_pool.get().unwrap();
-    diesel::insert_into(schema::users::table)
+    diesel::insert_into(users::table)
         .values(friends)
         .on_conflict_do_nothing()
         .execute(&mut connection)
@@ -62,8 +61,11 @@ pub async fn authorize(
         refresh_token: tokens.refresh_token
     };
 
-    diesel::insert_into(schema::sessions::table)
-        .values(session)
+    diesel::insert_into(sessions::table)
+        .values(&session)
+        .on_conflict(sessions::user_id)
+        .do_update()
+        .set(&session)
         .execute(&mut connection)
         .ok();
 
@@ -74,6 +76,7 @@ pub async fn authorize(
         .same_site(SameSite::None)
         .expires(expire_date)
         .finish();
-
-    Ok((jar.add(cookie), Redirect::permanent(&redirect_uri)))
+    
+    let updated_jar = jar.add(cookie);
+    Ok((updated_jar, Redirect::permanent(&redirect_uri)))
 }

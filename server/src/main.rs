@@ -23,6 +23,7 @@ async fn main() {
     let session_layer = middleware::from_fn_with_state(state.clone(), middlewares::session::session);
 
     let app = Router::new()
+        .route("/api/mutuals", get(routes::mutuals::get_mutuals))
         .route("/api/refresh", patch(routes::auth::refresh))
         .route_layer(session_layer)
         .route("/api/login", get(routes::auth::login))
