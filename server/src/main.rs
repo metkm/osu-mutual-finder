@@ -1,65 +1,50 @@
-mod api;
-mod database;
 mod middlewares;
+mod database;
 mod models;
+mod schema;
 mod routes;
 mod utils;
+mod api;
 
-use models::user;
-use routes::{auth, mutuals};
-
-use axum::middleware;
+use axum::{Router, middleware};
 use axum::routing::{get, patch};
-use axum::{Extension, Router};
-
-use std::{net::SocketAddr, sync::Arc};
-use tokio_postgres::{connect, NoTls};
 use tower_http::cors::CorsLayer;
-use utils::load_env_variables;
+use tower_http::trace::{TraceLayer, DefaultOnRequest, DefaultOnResponse};
+use tracing::Level;
+
+use models::AppState;
+use std::net::SocketAddr;
+use std::sync::Arc;
 
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let state = load_env_variables();
+async fn main() {
     let cors = CorsLayer::very_permissive().allow_credentials(true);
 
-    let connection_string = format!(
-        "host=localhost user=postgres password={} dbname=mutuals",
-        &state.db_password
-    );
-    let (client, connection) = connect(&connection_string, NoTls).await?;
+    let state = Arc::new(AppState::new());
+    let session_layer = middleware::from_fn_with_state(state.clone(), middlewares::session::session);
 
-    tokio::spawn(async move {
-        if let Err(e) = connection.await {
-            eprintln!("Connection error: {}", e);
-        }
-    });
-
-    client
-        .batch_execute(
-    "CREATE TABLE IF NOT EXISTS users (user_id INTEGER UNIQUE PRIMARY KEY, username TEXT, global_rank INTEGER, country_code TEXT, avatar_url TEXT, cover_url TEXT);
-        CREATE TABLE IF NOT EXISTS sessions (user_id INTEGER REFERENCES users(user_id), friend_ids INTEGER[], osu_session TEXT, access_token TEXT, refresh_token TEXT)")
-        .await?;
-
-    let shared_client = Arc::new(client);
-    let shared_state = Arc::new(state);
+    tracing_subscriber::fmt::init();
+    let trace_layer = TraceLayer::new_for_http()
+        .on_request(
+            DefaultOnRequest::new().level(Level::INFO)
+        )
+        .on_response(
+            DefaultOnResponse::new().level(Level::INFO)
+        );
 
     let app = Router::new()
-        .route("/api/mutuals", get(mutuals::get_mutuals))
-        .route("/api/refresh", patch(auth::refresh))
-        .route_layer(middleware::from_fn(middlewares::session::session))
-        .route("/api/authorize", get(auth::authorize))
-        .route("/api/login", get(auth::login))
-        .layer(Extension(shared_client))
-        .layer(Extension(shared_state))
+        .route("/api/mutuals", get(routes::mutuals::get_mutuals))
+        .route("/api/refresh", patch(routes::auth::refresh))
+        .route_layer(session_layer)
+        .route("/api/login", get(routes::auth::login))
+        .route("/api/authorize", get(routes::auth::authorize))
+        .with_state(state)
+        .layer(trace_layer)
         .layer(cors);
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3001));
-
-    axum::Server::bind(&addr)
+    axum::Server::bind(&SocketAddr::from(([127, 0, 0, 1], 3001)))
         .serve(app.into_make_service())
         .await
         .unwrap();
-
-    Ok(())
 }

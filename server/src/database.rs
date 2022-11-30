@@ -1,24 +1,23 @@
-use reqwest::StatusCode;
-use tokio_postgres::Client;
+use dotenvy;
 
-pub async fn insert_session(
-    db: &Client,
-    id: &i32,
-    ids: &Vec<i32>,
-    session_str: &str,
-    access_token: &str,
-    refresh_token: &str,
-) -> Result<(), (StatusCode, &'static str)> {
-    if db
-        .execute(
-            "INSERT INTO sessions VALUES ($1, $2, $3, $4, $5)",
-            &[&id, &ids, &session_str, &access_token, &refresh_token],
-        )
-        .await
-        .is_err()
-    {
-        return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't add session!"));
+use diesel::PgConnection;
+use diesel::r2d2::{ConnectionManager, Pool};
+
+pub fn establish_connection_pool() -> Pool<ConnectionManager<PgConnection>> {
+    let env_file = if cfg!(debug_assertions) {
+        ".dev.env"
+    } else {
+        ".prod.env"
     };
 
-    Ok(())
+    dotenvy::from_filename(env_file).expect("Couldn't load .env file");
+
+    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL env varible must be set");
+
+    let connection_manager = ConnectionManager::<PgConnection>::new(&database_url);
+    let pool = Pool::builder()
+        .build(connection_manager)
+        .expect("Failed to create a connection pool");
+
+    pool
 }

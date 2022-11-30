@@ -3,8 +3,10 @@ use std::collections::HashMap;
 use reqwest::{Client, StatusCode};
 use tokio::join;
 
-use crate::models::Tokens;
-use crate::user::OsuUser;
+use crate::models::osu::{Tokens, OsuUser};
+use crate::models::User;
+
+type Error = (StatusCode, &'static str);
 
 async fn get_me(client: &Client, token: &str) -> Result<OsuUser, reqwest::Error> {
     let response = client
@@ -14,7 +16,6 @@ async fn get_me(client: &Client, token: &str) -> Result<OsuUser, reqwest::Error>
         .await?;
 
     let me = response.json::<OsuUser>().await?;
-
     Ok(me)
 }
 
@@ -26,14 +27,14 @@ async fn get_friends(client: &Client, token: &str) -> Result<Vec<OsuUser>, reqwe
         .await?;
 
     let friends = response.json::<Vec<OsuUser>>().await?;
-
     Ok(friends)
 }
+
 
 pub async fn get_me_and_friends(
     client: &Client,
     tokens: &Tokens,
-) -> Result<(OsuUser, Vec<OsuUser>), (StatusCode, &'static str)> {
+) -> Result<(User, Vec<User>), Error> {
     let (user, friends) = join!(
         get_me(client, &tokens.access_token),
         get_friends(client, &tokens.access_token)
@@ -47,13 +48,16 @@ pub async fn get_me_and_friends(
         return Err((StatusCode::INTERNAL_SERVER_ERROR, "Can't get friends!"));
     };
 
-    Ok((user, friends))
+    Ok((
+        User::from(user),
+        friends.into_iter().map(User::from).collect()
+    ))
 }
 
 pub async fn get_tokens(
     client: &Client,
     params: &HashMap<&str, &str>
-) -> Result<Tokens, (StatusCode, &'static str)> {
+) -> Result<Tokens, Error> {
     let Ok(response) = client
         .post("https://osu.ppy.sh/oauth/token")
         .json(params)
