@@ -10,7 +10,9 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| {
             if let Some(window) = app.get_window("main") {
-                set_shadow(&window, true);
+                if set_shadow(&window, true).is_err() {
+                    println!("error while adding shadow to window");
+                }
             }
 
             Ok(())
