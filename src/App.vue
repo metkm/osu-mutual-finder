@@ -51,12 +51,19 @@ onMounted(async () => {
 
   if (settingsStore.uploaded) {
     // refresh token 
-    axios.patch<{ access_token: string, refresh_token: string }>("/api/refresh").then(response => {
+
+    try {
+      const response = await axios.patch<{ access_token: string, refresh_token: string }>("/api/refresh")
+
       authStore.access_token = response.data.access_token;
       authStore.refresh_token = response.data.refresh_token;
-    })
+    } catch (err) {
+      if (!axios.isAxiosError(err)) return;
 
-    return;
+      authStore.access_token = "";
+      authStore.refresh_token = "";
+      settingsStore.uploaded = false;
+    }
   }
 
   notify("Would you like to upload your friend list to database?", {
