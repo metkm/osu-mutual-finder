@@ -85,7 +85,7 @@ event.listen("tauri://update-status", (res) => {
 
 <template>
   <TitleBar />
-  <!-- <DevRouter v-if="ISDEV" /> -->
+  <DevRouter v-if="ISDEV" />
 
   <div class="flex-1 overflow-hidden">
     <suspense>
