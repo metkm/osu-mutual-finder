@@ -27,7 +27,7 @@ const openLink = () => {
 </script>
 
 <template>
-  <li class="list-none" :aria-label="`user ${userDetails.username}`">
+  <li class="list-none cursor-pointer" :aria-label="`user ${userDetails.username}`">
     <a 
       aria-label="user"
       @click="openLink"

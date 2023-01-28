@@ -17,7 +17,7 @@
   }
 
   ::-webkit-scrollbar {
-    @apply border-2 border-transparent border-solid;
+    @apply border-2 ;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -111,7 +111,7 @@
 
   .clear-button {
     @apply bg-red-600 hover:bg-red-800 transition-all;
-    @apply p-2 rounded;
+    @apply p-1 px-4 rounded;
     @apply text-white;
   }
 }

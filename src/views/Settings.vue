@@ -9,7 +9,7 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
 
 <template>
   <div id="settings" class="page overflow-y-auto">
-    <div class="flex flex-col gap-2 mt-2">
+    <div class="flex flex-col gap-2">
       <SettingsToggle />
       <SettingsBlacklist />
       <div class="flex justify-center gap-2">

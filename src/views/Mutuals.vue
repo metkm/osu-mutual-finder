@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
+import SettingsIcon from "../components/icons/Settings.vue";
 
 import { ref, onActivated, onDeactivated, computed } from "vue";
 import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
@@ -155,9 +156,9 @@ const clearChecked = () => {
 </script>
 
 <template>
-  <main id="mutuals" class="page flex flex-col gap-1">
-    <div class="flex flex-grow w-full gap-2 overflow-hidden">
-      <AppSide :title="'Found Mutuals'">
+  <main id="mutuals" class="page p-0 flex flex-col">
+    <div class="flex flex-grow w-full overflow-hidden divide-x dark:divide-neutral-800">
+      <AppSide :title="'Found Mutuals'" :desc="`Total of ${mutuals.length}`">
         <template v-slot:users>
           <User v-for="userId in mutuals" :userId="userId" :key="userId" />
         </template>
@@ -165,20 +166,17 @@ const clearChecked = () => {
         <button class="clear-button" aria-label="clear found mutuals" @click="clearMutuals">Clear</button>
       </AppSide>
 
-      <AppSide :title="'Checked Users'">
+      <AppSide :title="'Checked Users'" :desc="`Checking ${checking} - Page ${currentPage}`">
         <template v-slot:users>
           <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
         </template>
 
-        <button class="clear-button" aria-label="clear checked mutuals" @click="clearChecked">Clear</button>
+        <div class="flex gap-2">
+          <button class="clear-button" aria-label="clear checked mutuals" @click="clearChecked">Clear</button>
+          <button class="form-button py-0 px-2 flex items-center gap-1" @click="toSettings"><SettingsIcon /> Settings</button>
+        </div>
       </AppSide>
     </div>
-
-    <p class="text-center" aria-label="current status of checking">Checking {{ checking }} - Page {{ currentPage }}</p>
-    <button class="form-button max-w-full" @click="toSettings">
-      Settings
-    </button>
-
   </main>
 </template>
 
