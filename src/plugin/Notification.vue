@@ -28,7 +28,7 @@ events.on("notifyRemove", ({ text }) => {
 </script>
 
 <template>
-  <transition-group tag="div" class="absolute bottom-5 left-3 flex flex-col gap-1 max-w-md" name="notif" appear @before-leave="handleBeforeLeave">
+  <transition-group tag="div" class="absolute bottom-3 left-3 flex flex-col gap-1 max-w-md" name="notif" appear @before-leave="handleBeforeLeave">
     <div v-for="notification in notifications" 
         :key="notification.message" 
         class="rounded-md overflow-hidden border 
