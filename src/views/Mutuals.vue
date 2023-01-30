@@ -8,11 +8,14 @@ import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
 import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
-import { useAuthStore, useSettingsStore } from "../store";
+import { useAuthStore, useSettingsStore, useUserStore } from "../store";
 import { http } from "@tauri-apps/api";
+import ButtonIcon from "../components/ui/ButtonIcon.vue";
+import Clear from "../components/icons/Clear.vue";
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
+const userStore = useUserStore();
 const router = useRouter();
 
 const blacklistedIds = computed(() => settingsStore.blacklistIds);
@@ -30,7 +33,7 @@ const token = computed(() => authStore.token);
 const checking = ref(0);
 const currentPage = ref(1);
 const checked = ref<number[]>([]);
-const mutuals = ref<number[]>([]);
+const mutuals = ref<number[]>([10440852]);
 
 const toSettings = () => {
   router.push({ path: "/settings" })
@@ -146,35 +149,43 @@ onActivated(() => {
 
   start(id);
 })
-
-const clearMutuals = () => {
-  mutuals.value = [];
-}
-const clearChecked = () => {
-  checked.value = [];
-}
 </script>
 
 <template>
-  <main id="mutuals" class="page p-0 flex flex-col">
-    <div class="flex flex-grow w-full overflow-hidden divide-x dark:divide-neutral-800">
-      <AppSide :title="'Found Mutuals'" :desc="`Total of ${mutuals.length}`">
-        <template v-slot:users>
-          <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+  <main class="page p-0 flex flex-col">
+    <!-- <div v-if="userStore.user" class="flex items-center justify-between p-2">
+      <div class="flex items-center gap-2">
+        <img :src="userStore.user.avatar_url" class="rounded h-10" />
+        <p class="text-sm">{{ userStore.user.username }}</p>
+      </div>
+
+      <ButtonIcon @click="toSettings">
+        <SettingsIcon />
+      </ButtonIcon>
+    </div> -->
+
+    <div class="flex grow overflow-hidden">
+      <AppSide title="Found Mutuals" :desc="`Total of found mutuals ${mutuals.length}`">
+        <template v-slot:buttons>
+          <ButtonIcon @click="mutuals = []">
+            <Clear />
+          </ButtonIcon>
         </template>
 
-        <button class="clear-button" aria-label="clear found mutuals" @click="clearMutuals">Clear</button>
+        <User v-for="userId in mutuals" :userId="userId" :key="userId" />
       </AppSide>
+      <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
+        <template v-slot:buttons>
+          <ButtonIcon @click="checked = []">
+            <Clear />
+          </ButtonIcon>
 
-      <AppSide :title="'Checked Users'" :desc="`Checking ${checking} - Page ${currentPage}`">
-        <template v-slot:users>
-          <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
+          <ButtonIcon @click="toSettings">
+            <SettingsIcon />
+          </ButtonIcon>
         </template>
 
-        <div class="flex gap-2">
-          <button class="clear-button" aria-label="clear checked mutuals" @click="clearChecked">Clear</button>
-          <button class="form-button py-0 px-2 flex items-center gap-1" @click="toSettings"><SettingsIcon /> Settings</button>
-        </div>
+        <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
       </AppSide>
     </div>
   </main>

@@ -71,6 +71,7 @@ const login = async () => {
     settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
   }
 
+  userStore.user = sessionResponse.data.user;
   cookies = getCookies(sessionResponse.rawHeaders);
   cookieString = parseCookies(cookies);
 
