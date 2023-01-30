@@ -4,5 +4,5 @@ It doesn't store your passwords in any way. If you are still can't trust it what
 
 # Some screenshots!
 
-![mutuals](https://user-images.githubusercontent.com/54271295/181880676-e83f4cb7-9e66-421b-ac66-40460cb08097.png)
+![mutuals](https://user-images.githubusercontent.com/54271295/215283839-d6751112-21a9-4b5a-b7b5-8bae26b6914b.png)
 ![settings](https://user-images.githubusercontent.com/54271295/181880677-24d09633-95c0-4ae9-a715-7fc9da76865c.png)
