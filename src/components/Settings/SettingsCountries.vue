@@ -39,8 +39,7 @@ watch(check, newCheck => {
     </div>
 
     <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
-      <!-- <p class="font-semibold">Countries</p> -->
-      <div class="flex gap-2 h-full max-h-96">
+      <div class="flex gap-2 h-full max-h-96 divide-x">
         <section aria-label="countries to add" class="flex flex-col flex-1 gap-2">
           <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
@@ -50,18 +49,16 @@ watch(check, newCheck => {
           </ul>
         </section>
 
-        <div class="w-1 rounded-full h-full bg-neutral-200 dark:bg-neutral-900"></div>
-
         <section aria-label="countries added" class="flex flex-col flex-1 justify-center gap-2">
-          <p class="setting-description max-w-xs mx-auto opacity-75 text-center" v-if="countriesToCheck.length == 0">
+          <p class="text-neutral-500 max-w-xs mx-auto opacity-75 text-center" v-if="countriesToCheck.length == 0">
             The countries that program will check will be listed here.
             You can click on a country name once
             to add it.
           </p>
 
-          <transition-group v-else name="array" tag="ol" class="listbox" @before-leave="handleBeforeLeave">
+          <TransitionGroup v-else name="array" tag="ol" class="listbox" @before-leave="handleBeforeLeave">
             <Country v-for="code in countriesToCheck" :key="code" :code="code" @click="removeCountry(code)" />
-          </transition-group>
+          </TransitionGroup>
         </section>
       </div>
     </div>

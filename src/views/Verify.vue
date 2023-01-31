@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore, useSettingsStore } from "../store";
 
 import AppInput from "../components/AppInput.vue";
+import BaseButton from "../components/ui/BaseButton.vue";
 import { getCookies } from "../utils";
 import { UserObject } from "../types";
 
@@ -62,11 +63,13 @@ const verify = async () => {
 </script>
 
 <template>
-  <form aria-label="verify form" id="verify" class="page flex flex-col items-center justify-center gap-2 max-w-lg mx-auto">
-    <p class="setting-description">Check your emails</p>
-    <AppInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
-
-    <button class="form-button" type="submit" @click.prevent="verify">Verify</button>
-    <p v-if="error" class="font-semibold text-red-500">{{ error }}</p>
-  </form>
+  <div class="page flex flex-col justify-center max-w-lg mx-auto">
+    <form aria-label="verify form" class="flex flex-col gap-2">
+      <p class="text-neutral-500 text-center">Check your emails</p>
+      <AppInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
+  
+      <BaseButton type="submit" @click.prevent="verify">Verify</BaseButton>
+      <p v-if="error" class="font-semibold text-red-500">{{ error }}</p>
+    </form>
+  </div>
 </template>

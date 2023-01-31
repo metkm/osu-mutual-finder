@@ -3,6 +3,7 @@ import AppInput from '../AppInput.vue';
 import { computed, ref } from 'vue';
 import { removeFriend } from '../../utils';
 import { useAuthStore } from '../../store';
+import BaseButton from '../ui/BaseButton.vue';
 
 const authStore = useAuthStore();
 
@@ -24,7 +25,9 @@ const removeFriendClick = () => {
   <div aria-label="remove friend setting" class="setting">
     <div class="flex flex-col gap-2 max-w-md">
       <AppInput type="number" placeholder="User Id" v-model.number="userId" />
-      <button class="form-button" :disabled="cooldown" @click="removeFriendClick">Remove Friend</button>
+      <BaseButton :disabled="cooldown" @click="removeFriendClick">
+        Remove friend
+      </BaseButton>
     </div>
   </div>
 </template>

@@ -31,17 +31,6 @@
     @apply overflow-hidden;
   }
 
-  .form-button {
-    @apply max-w-lg w-full;
-    @apply py-2 px-2 select-none;
-    @apply flex items-center justify-center rounded;
-    @apply transition-all;
-    @apply bg-green-600 text-white;
-    @apply hover:bg-neutral-500 dark:hover:bg-neutral-800;
-    @apply disabled:opacity-25 disabled:bg-neutral-800;
-    @apply focus-outline;
-  }
-
   .input-number::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
@@ -73,16 +62,11 @@
     @apply hover:bg-neutral-200 dark:hover:bg-neutral-800;
     @apply focus-outline;
   }
-
-  .setting-description {
-    @apply text-neutral-500;
-  }
 }
 
 @layer utilities {
   .bg-theme-sec {
-    @apply bg-white dark:bg-neutral-900;
-    @apply transition-colors duration-300;
+    @apply dark:bg-neutral-900;
   }
 
   .window-control-btn {

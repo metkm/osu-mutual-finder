@@ -5,12 +5,13 @@ import { app } from "@tauri-apps/api";
 import { SessionLoginUser, UserObject } from "../types";
 import { useAuthStore, useSettingsStore, useUserStore } from "../store";
 import { getCookies, parseCookies } from "../utils";
-
+import { notify } from "../plugin/notification";
 import axios from "axios";
 import router from "../router";
+
 import AppInput from "../components/AppInput.vue";
 import User from "../components/User.vue";
-import { notify } from "../plugin/notification";
+import BaseButton from "../components/ui/BaseButton.vue";
 
 interface Login {
   header: string,
@@ -104,8 +105,8 @@ const login = async () => {
       <AppInput v-model="username" type="text" placeholder="Username" required />
       <AppInput v-model="password" type="text" placeholder="Password" required />
 
-      <button class="form-button" type="submit" :disabled="cooldown" @click.prevent="login">Login</button>
-      <p class="setting-description text-center">Version: {{ version }}</p>
+      <BaseButton type="submit" @click.prevent="login" :disabled="cooldown">Login</BaseButton>
+      <p class="text-neutral-500 text-center">Version: {{ version }}</p>
     </form>
 
     <section

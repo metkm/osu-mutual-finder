@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { events } from "./notification";
 import { Notification } from "../types";
 import { handleBeforeLeave } from "../animation";
+import BaseButton from "../components/ui/BaseButton.vue";
 
 const notifications = ref<Notification[]>([]);
 
@@ -32,18 +33,28 @@ events.on("notifyRemove", ({ text }) => {
     <div v-for="notification in notifications" 
         :key="notification.message" 
         class="rounded-md overflow-hidden border 
-        dark:border-neutral-800 
-        bg-theme-sec"
-      >
+        dark:border-neutral-800 bg-theme">
       <div class="p-3">
         <p>{{ notification.message }}</p>
         <p v-if="notification.options?.description" class="text-neutral-400 text-sm">{{ notification.options.description }}</p>
       </div>
-      <div v-if="notification.options?.acceptText || notification.options?.rejectText" class="flex">
-        <button v-if="notification.options?.acceptText" @click="notification.options?.acceptCallback"
-          class="form-button rounded-none p-1">{{ notification.options.acceptText }}</button>
-        <button v-if="notification.options?.rejectCallback" @click="notification.options?.rejectCallback"
-          class="form-button p-1 bg-red-500">{{ notification.options.rejectText }}</button>
+      <div v-if="notification.options?.acceptText || notification.options?.rejectText" class="grid grid-flow-col auto-cols-fr">
+        <BaseButton
+          v-if="notification.options?.acceptText"
+          @click="notification.options?.acceptCallback"
+          class="rounded-none"
+        >
+          {{ notification.options.acceptText }}
+        </BaseButton>
+
+        <BaseButton
+          v-if="notification.options.rejectText"
+          @click="notification.options?.rejectCallback"
+          class="rounded-none"
+          :red="true"
+        >
+          {{ notification.options.rejectText }}
+        </BaseButton>
       </div>
     </div>
   </transition-group>

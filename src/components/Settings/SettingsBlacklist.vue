@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useSettingsStore } from "../../store";
+import BaseButton from "../ui/BaseButton.vue";
 import AppInput from "../AppInput.vue";
 
 const settingsStore = useSettingsStore();
@@ -14,9 +15,6 @@ const addToBlacklist = () => {
 const removeBlacklist = (userId: number) => {
   settingsStore.toggleBlacklistId(userId);
 };
-const clearBlacklist = () => {
-  settingsStore.blacklistIds = [];
-}
 </script>
 
 <template>
@@ -24,11 +22,16 @@ const clearBlacklist = () => {
     <div class="flex gap-4">
       <div class="flex flex-col gap-2">
         <p>Blacklist</p>
-        <p class="setting-description">User IDs to skip automatically</p>
+        <p class="text-neutral-500">User IDs to skip automatically</p>
         <AppInput type="number" placeholder="User id" v-model="userId" />
         
-        <button class="form-button" @click="addToBlacklist">Add to Blacklist</button>
-        <button class="form-button bg-red-600 hover:bg-red-800" @click="clearBlacklist">Clear Blacklist</button>
+        <BaseButton @click="addToBlacklist">
+          Add to Blacklist
+        </BaseButton>
+
+        <BaseButton :red="true" @click="settingsStore.blacklistIds = []">
+          Clear Blacklist
+        </BaseButton>
       </div>
 
       <ul aria-label="blacklisted ids" class="listbox select-none max-h-72">

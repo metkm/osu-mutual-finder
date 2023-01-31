@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useSettingsStore } from "../../store";
 import AppCheckbox from "../AppCheckbox.vue";
 const settingsStore = useSettingsStore();
-
-const addFriend = ref(settingsStore.addFriend);
-const addBlacklist = ref(settingsStore.addBlacklist);
 </script>
 
 <template>
