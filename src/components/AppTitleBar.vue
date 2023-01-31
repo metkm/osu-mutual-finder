@@ -24,16 +24,19 @@ appWindow.onResized(async () => {
 </script>
 
 <template>
-  <nav data-tauri-drag-region id="titlebar" class="h-8 relative flex items-center justify-between select-none text-xs border-b dark:border-neutral-800">
+  <nav 
+    data-tauri-drag-region 
+    id="titlebar" 
+    class="relative flex items-center h-8 text-xs select-none border-b dark:border-neutral-800"
+    >
     <TransitionGroup data-tauri-drag-region name="buttons" tag="div" class="flex flex-1 h-full items-center justify-start">
-      <div v-if="route.name == 'Settings'" class="h-full">
+      <div v-if="route.name == 'Settings'" key="control" class="h-full">
         <button aria-label="go back" class="window-control-btn" @click="router.back">
           <Back />
         </button>
       </div>
   
-      <p data-tauri-drag-region class="pl-2">Mutual Finder - {{ route.name }}</p>
-      <!-- <p data-tauri-drag-region class="flex-1 truncate flex justify-center items-center drop-shadow">Mutual Finder - {{ route.name }}</p> -->
+      <p data-tauri-drag-region key="title" class="pl-2">Mutual Finder - {{ route.name }}</p>
     </TransitionGroup>
 
     <div data-tauri-drag-region class="h-full flex-1 flex items-center justify-end">

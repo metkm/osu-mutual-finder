@@ -8,14 +8,13 @@ import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
 import { Threads, Check } from "../types";
 
 import { useRouter } from "vue-router";
-import { useAuthStore, useSettingsStore, useUserStore } from "../store";
+import { useAuthStore, useSettingsStore } from "../store";
 import { http } from "@tauri-apps/api";
 import ButtonIcon from "../components/ui/ButtonIcon.vue";
 import Clear from "../components/icons/Clear.vue";
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
-const userStore = useUserStore();
 const router = useRouter();
 
 const blacklistedIds = computed(() => settingsStore.blacklistIds);
@@ -153,17 +152,6 @@ onActivated(() => {
 
 <template>
   <main class="page p-0 flex flex-col">
-    <div
-      v-if="userStore.user?.cover_url"
-      class="absolute top-0 inset-x-0 h-28 -z-10 opacity-30 dark:opacity-60"
-      :style="{
-        backgroundImage: `url(${userStore.user.cover_url})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        maskImage: `linear-gradient(to top, transparent, black)`
-      }"
-    />
-
     <div class="flex grow overflow-hidden">
       <AppSide title="Found Mutuals" :desc="`Total of ${mutuals.length}`">
         <template v-slot:buttons>
