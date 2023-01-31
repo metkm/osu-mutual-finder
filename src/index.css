@@ -17,12 +17,12 @@
   }
 
   ::-webkit-scrollbar {
-    @apply bg-neutral-900;
+    @apply bg-neutral-100 dark:bg-neutral-900;
     @apply w-2;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-800;
+    @apply bg-neutral-200 dark:bg-neutral-800;
   }
 
   .page {
@@ -74,11 +74,6 @@
     @apply focus-outline;
   }
 
-  .flag {
-    @apply contrast-75;
-    @apply rounded;
-  }
-
   .setting-description {
     @apply text-neutral-500;
   }
@@ -107,11 +102,5 @@
   .focus-outline {
     @apply focus:outline-2 focus:outline-green-700 focus:dark:outline-green-900;
     @apply outline-offset-0;
-  }
-
-  .clear-button {
-    @apply bg-red-600 hover:bg-red-800 transition-all;
-    @apply p-1 px-4 rounded;
-    @apply text-white;
   }
 }

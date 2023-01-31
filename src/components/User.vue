@@ -50,7 +50,7 @@ const openLink = () => {
             <p class="font-semibold text-lg truncate" aria-label="username">{{ userDetails.username }}</p>
           </div>
 
-          <img v-if="country" class="h-9 flag" :src="countryFromCode(country.code)!" alt="country flag" />
+          <img v-if="country" class="h-9 rounded contrast-75" :src="countryFromCode(country.code)!" alt="country flag" />
         </div>
       </div>
     </a>
