@@ -17,12 +17,12 @@
   }
 
   ::-webkit-scrollbar {
-    @apply border-2 ;
+    @apply bg-neutral-900;
+    @apply w-2;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply shadow-neutral-200 dark:shadow-neutral-700 shadow-scroll;
-    @apply border-4 border-transparent border-solid rounded-full;
+    @apply bg-neutral-800;
   }
 
   .page {
