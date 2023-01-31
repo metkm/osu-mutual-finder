@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { getUser } from "../utils";
-import { jsonCountries } from "../utils";
-import { open } from "@tauri-apps/api/shell";
+import { getUser, jsonCountries } from "../utils";
 import { UserObject } from "../types";
+import { open } from "@tauri-apps/api/shell";
 
 const props = defineProps<{
   userId: number,
@@ -27,31 +26,16 @@ const openLink = () => {
 </script>
 
 <template>
-  <li class="cursor-pointer" :aria-label="`user ${userDetails.username}`">
-    <a 
-      aria-label="user"
-      @click="openLink"
-      target="_blank"
-      class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md"
-    >
-      <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" alt="user banner" />
+  <li class="h-min cursor-pointer rounded overflow-hidden dark:bg-neutral-900">
+    <a @click="openLink">
+      <img :src="userDetails.cover.url" class="h-10 w-full object-cover" />
 
-      <div class="flex px-2 gap-1 -mt-3">
-        <img :src="userDetails.avatar_url" class="w-16 h-16 rounded-md" alt="user avatar" />
+      <div class="flex items-end gap-2 p-1.5 -mt-8">
+        <img :src="userDetails.avatar_url" class="rounded h-14 object-cover" />
+        <p>{{ userDetails.username }}</p>
+        <p v-if="true" class="text-sm text-neutral-500">#12345</p>
 
-        <div class="flex flex-grow items-end overflow-hidden">
-          <div class="overflow-hidden flex-1 px-1">
-            <p 
-              v-if="userDetails.statistics.global_rank" 
-              class="text-sm font-semibold text-neutral-500 -my-1"
-            >
-              #{{userDetails.statistics.global_rank}}
-            </p>
-            <p class="font-semibold text-lg truncate" aria-label="username">{{ userDetails.username }}</p>
-          </div>
-
-          <img v-if="country" class="h-9 rounded contrast-75" :src="countryFromCode(country.code)!" alt="country flag" />
-        </div>
+        <img v-if="country" :src="countryFromCode(country.code)" class="h-6 contrast-75 ml-auto" />
       </div>
     </a>
   </li>
