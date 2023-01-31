@@ -18,7 +18,7 @@ defineProps<{
 
     <ul 
       aria-label="user list" 
-      class="flex flex-col gap-1 flex-1 overflow-y-auto p-2"
+      class="grid xl:grid-cols-2 p-2 gap-2 overflow-y-auto"
     >
       <slot></slot>
     </ul>

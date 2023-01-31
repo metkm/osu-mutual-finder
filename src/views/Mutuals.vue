@@ -23,7 +23,7 @@ const { session, token } = storeToRefs(authStore);
 
 const checking = ref(0);
 const currentPage = ref(1);
-const checked = ref<number[]>([]);
+const checked = ref<number[]>([10440852]);
 const mutuals = ref<number[]>([10440852]);
 
 const toSettings = () => {

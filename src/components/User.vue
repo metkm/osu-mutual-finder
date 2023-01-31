@@ -27,7 +27,7 @@ const openLink = () => {
 </script>
 
 <template>
-  <li v-for="x in 20" class="cursor-pointer" :aria-label="`user ${userDetails.username}`">
+  <li class="cursor-pointer" :aria-label="`user ${userDetails.username}`">
     <a 
       aria-label="user"
       @click="openLink"
