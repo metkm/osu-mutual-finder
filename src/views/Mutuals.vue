@@ -2,7 +2,7 @@
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 import SettingsIcon from "../components/icons/Settings.vue";
-import ButtonIcon from "../components/ui/ButtonIcon.vue";
+import BaseButtonIcon from "../components/ui/BaseButtonIcon.vue";
 import Clear from "../components/icons/Clear.vue";
 import { http } from "@tauri-apps/api";
 
@@ -23,8 +23,8 @@ const { session, token } = storeToRefs(authStore);
 
 const checking = ref(0);
 const currentPage = ref(1);
-const checked = ref<number[]>([10440852]);
-const mutuals = ref<number[]>([10440852]);
+const checked = ref<number[]>([]);
+const mutuals = ref<number[]>([]);
 
 const toSettings = () => {
   router.push({ path: "/settings" })
@@ -147,9 +147,9 @@ onActivated(() => {
     <div class="flex grow overflow-hidden">
       <AppSide title="Found Mutuals" :desc="`Total of ${mutuals.length}`">
         <template v-slot:buttons>
-          <ButtonIcon @click="mutuals = []">
+          <BaseButtonIcon @click="mutuals = []">
             <Clear />
-          </ButtonIcon>
+          </BaseButtonIcon>
         </template>
 
         <User v-for="userId in mutuals" :userId="userId" :key="userId" />
@@ -157,13 +157,13 @@ onActivated(() => {
 
       <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
         <template v-slot:buttons>
-          <ButtonIcon @click="checked = []">
+          <BaseButtonIcon @click="checked = []">
             <Clear />
-          </ButtonIcon>
+          </BaseButtonIcon>
 
-          <ButtonIcon @click="toSettings">
+          <BaseButtonIcon @click="toSettings">
             <SettingsIcon />
-          </ButtonIcon>
+          </BaseButtonIcon>
         </template>
 
         <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
