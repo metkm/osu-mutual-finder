@@ -17,12 +17,12 @@
   }
 
   ::-webkit-scrollbar {
-    @apply bg-neutral-100 dark:bg-neutral-900;
+    @apply bg-neutral-200 dark:bg-neutral-900;
     @apply w-2;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-200 dark:bg-neutral-800;
+    @apply bg-neutral-300 dark:bg-neutral-800;
   }
 
   .page {
@@ -65,7 +65,7 @@
 }
 
 @layer utilities {
-  .bg-theme-sec {
+  .bg-theme {
     @apply dark:bg-neutral-900;
   }
 

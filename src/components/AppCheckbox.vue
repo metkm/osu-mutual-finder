@@ -15,6 +15,6 @@ defineEmits(["update:modelValue"]);
       >
       <label :for="label">{{ label }}</label>
     </div>
-    <p class="setting-description">{{ description }}</p>
+    <p class="text-neutral-500">{{ description }}</p>
   </div>
 </template>

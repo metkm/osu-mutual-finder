@@ -32,8 +32,8 @@ const openLink = () => {
 
       <div class="flex items-end gap-2 p-1.5 -mt-8">
         <img :src="userDetails.avatar_url" class="rounded h-14 object-cover" />
-        <p>{{ userDetails.username }}</p>
-        <p v-if="true" class="text-sm text-neutral-500">#12345</p>
+        <p class="truncate">{{ userDetails.username }}</p>
+        <p v-if="true" class="text-sm text-neutral-500">#{{ userDetails.statistics.global_rank }}</p>
 
         <img v-if="country" :src="countryFromCode(country.code)" class="h-6 contrast-75 ml-auto" />
       </div>

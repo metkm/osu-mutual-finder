@@ -39,7 +39,7 @@ watch(check, newCheck => {
     </div>
 
     <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
-      <div class="flex gap-2 h-full max-h-96 divide-x">
+      <div class="flex gap-2 h-full max-h-96 divide-x dark:divide-neutral-800">
         <section aria-label="countries to add" class="flex flex-col flex-1 gap-2">
           <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
