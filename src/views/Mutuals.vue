@@ -2,32 +2,24 @@
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 import SettingsIcon from "../components/icons/Settings.vue";
-
-import { ref, onActivated, onDeactivated, computed } from "vue";
-import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
-import { Threads, Check } from "../types";
-
-import { useRouter } from "vue-router";
-import { useAuthStore, useSettingsStore } from "../store";
-import { http } from "@tauri-apps/api";
 import ButtonIcon from "../components/ui/ButtonIcon.vue";
 import Clear from "../components/icons/Clear.vue";
+import { http } from "@tauri-apps/api";
+
+import { ref, onActivated, onDeactivated } from "vue";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+
+import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
+import { useAuthStore, useSettingsStore } from "../store";
+import { Threads, Check } from "../types";
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
-const blacklistedIds = computed(() => settingsStore.blacklistIds);
-const countries = computed(() => settingsStore.countries);
-const friendIds = computed(() => settingsStore.friends);
-const gamemode = computed(() => settingsStore.gamemode);
-const check = computed(() => settingsStore.check);
-
-const shouldAdd = computed(() => settingsStore.addFriend);
-const shouldBlacklist = computed(() => settingsStore.addBlacklist);
-
-const session = computed(() => authStore.session);
-const token = computed(() => authStore.token);
+const { blacklistIds, countries, friends, gamemode, check, addFriend: keepFriend, addBlacklist } = storeToRefs(settingsStore);
+const { session, token } = storeToRefs(authStore);
 
 const checking = ref(0);
 const currentPage = ref(1);
@@ -55,8 +47,8 @@ const add = async (element: Element) => {
   let id = parseInt(element.getAttribute("data-user-id")!);
   checking.value = id;
 
-  if (friendIds.value.includes(id) || blacklistedIds.value.includes(id)) return;
-  if (shouldBlacklist.value) {
+  if (friends.value.includes(id) || blacklistIds.value.includes(id)) return;
+  if (addBlacklist.value) {
     settingsStore.toggleBlacklistId(id);
   }
 
@@ -74,7 +66,7 @@ const add = async (element: Element) => {
       return;
     }
 
-    if (!shouldAdd.value) {
+    if (!keepFriend.value) {
       await removeFriend(id, token.value, session.value);
     }
 
@@ -87,7 +79,7 @@ const add = async (element: Element) => {
 
 const startCheck = async (id: number, country: string) => {
   let limit = settingsStore.getLimit(country) || { countryCode: country, end: 200, start: 1, index: 0 };
-  
+
   for (let page = limit.start; page <= limit.end; page++) {
     currentPage.value = page;
 
@@ -159,10 +151,10 @@ onActivated(() => {
             <Clear />
           </ButtonIcon>
         </template>
-      
+
         <User v-for="userId in mutuals" :userId="userId" :key="userId" />
       </AppSide>
-      
+
       <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
         <template v-slot:buttons>
           <ButtonIcon @click="checked = []">
