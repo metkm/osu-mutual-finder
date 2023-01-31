@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { appWindow } from "@tauri-apps/api/window";
-import { onMounted, computed, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Back from "./icons/Back.vue";
+import Close from "./icons/Close.vue";
+import Minimize from "./icons/Minimize.vue";
+import Maximize from "./icons/Maximize.vue";
+import UnMaximize from "./icons/UnMaximize.vue";
 
 const route = useRoute();
 const router = useRouter();
 const isMaximized = ref(false);
-
-const currentRoute = computed(() => route.name);
 
 onMounted(() => {
   setTimeout(() => {
@@ -24,36 +27,24 @@ appWindow.onResized(async () => {
   <nav data-tauri-drag-region id="titlebar" class="h-8 flex items-center justify-between select-none text-xs border-b dark:border-neutral-800">
     <div data-tauri-drag-region class="flex-1 h-full">
       <button aria-label="go back" class="window-control-btn" v-if="route.name == 'Settings'" @click="router.back">
-        <svg viewBox="0 0 10 10" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.10938 5.00172L7.10177 0L7.96875 0.874793L3.80755 5.00172L7.96875 9.12864L7.09834 10L2.10938 5.00172Z"/>
-        </svg>
+        <Back />
       </button>
     </div>
 
-    <p data-tauri-drag-region class="flex-1 truncate flex justify-center items-center">Mutual Finder - {{ currentRoute }}</p>
+    <!-- <p data-tauri-drag-region class="flex-1 truncate flex justify-center items-center drop-shadow">Mutual Finder - {{ currentRoute }}</p> -->
 
     <div data-tauri-drag-region class="h-full flex-1 flex items-center justify-end">
       <button aria-label="minimize window" class="window-control-btn" @click="appWindow.minimize">
-        <svg x="0px" y="0px" viewBox="0 0 10.2 1">
-          <rect x="0" y="50%" width="10.2" height="1" />
-        </svg>
+        <Minimize />
       </button>
 
       <button aria-label="toggle maximize window" class="window-control-btn" @click="appWindow.toggleMaximize">
-        <svg viewBox="0 0 10 10" v-if="!isMaximized">
-          <path d="M0,0v10h10V0H0z M9,9H1V1h8V9z" />
-        </svg>
-
-        <svg viewBox="0 0 10.2 10.1" v-else>
-          <path d="M2.1,0v2H0v8.1h8.2v-2h2V0H2.1z M7.2,9.2H1.1V3h6.1V9.2z M9.2,7.1h-1V2H3.1V1h6.1V7.1z" />
-        </svg>
+        <UnMaximize v-if="isMaximized" />
+        <Maximize v-else />
       </button>
 
       <button aria-label="close window" class="window-control-btn hover:bg-[#e81123] group" @click="appWindow.close">
-        <svg viewBox="0 0 10 10">
-          <polygon class="group-hover:fill-white"
-            points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1" />
-        </svg>
+        <Close />
       </button>
     </div>
   </nav>

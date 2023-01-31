@@ -27,12 +27,12 @@ const openLink = () => {
 </script>
 
 <template>
-  <li v-for="x in 20" class="list-none cursor-pointer" :aria-label="`user ${userDetails.username}`">
+  <li v-for="x in 20" class="cursor-pointer" :aria-label="`user ${userDetails.username}`">
     <a 
       aria-label="user"
       @click="openLink"
       target="_blank"
-      class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md drop-shadow-lg"
+      class="flex flex-col shadow-md dark:bg-neutral-900 bg-neutral-50 p-1 rounded-md"
     >
       <img :src="userDetails.cover.url" class="flex h-10 object-cover rounded-md" alt="user banner" />
 

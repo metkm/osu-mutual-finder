@@ -153,27 +153,28 @@ onActivated(() => {
 
 <template>
   <main class="page p-0 flex flex-col">
-    <!-- <div v-if="userStore.user" class="flex items-center justify-between p-2">
-      <div class="flex items-center gap-2">
-        <img :src="userStore.user.avatar_url" class="rounded h-10" />
-        <p class="text-sm">{{ userStore.user.username }}</p>
-      </div>
-
-      <ButtonIcon @click="toSettings">
-        <SettingsIcon />
-      </ButtonIcon>
-    </div> -->
+    <div
+      v-if="userStore.user?.cover_url"
+      class="absolute top-0 inset-x-0 h-28 -z-10 opacity-30 dark:opacity-60"
+      :style="{
+        backgroundImage: `url(${userStore.user.cover_url})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        maskImage: `linear-gradient(to top, transparent, black)`
+      }"
+    />
 
     <div class="flex grow overflow-hidden">
-      <AppSide title="Found Mutuals" :desc="`Total of found mutuals ${mutuals.length}`">
+      <AppSide title="Found Mutuals" :desc="`Total of ${mutuals.length}`">
         <template v-slot:buttons>
           <ButtonIcon @click="mutuals = []">
             <Clear />
           </ButtonIcon>
         </template>
-
+      
         <User v-for="userId in mutuals" :userId="userId" :key="userId" />
       </AppSide>
+      
       <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
         <template v-slot:buttons>
           <ButtonIcon @click="checked = []">
@@ -190,15 +191,3 @@ onActivated(() => {
     </div>
   </main>
 </template>
-
-<style>
-.mutuals-enter-from {
-  opacity: 0;
-  transform: translateY(40px);
-}
-
-.mutuals-move {
-  transition: all 1s ease;
-  position: absolute;
-}
-</style>

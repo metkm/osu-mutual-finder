@@ -7,9 +7,9 @@ defineProps<{
 
 <template>
   <div class="flex flex-col flex-1 overflow-hidden">
-    <div class="grid grid-flow-col auto-cols-fr items-center bg-neutral-800 p-1 py-0.5">
-      <p class="ml-2 text-sm">{{ title }}</p>
-      <p class="text-neutral-400 text-center text-sm">{{ desc }}</p>
+    <div class="grid grid-flow-col auto-cols-fr items-center border-b dark:border-neutral-800 backdrop-blur-lg p-1 py-0.5">
+      <p class="ml-2 text-sm truncate">{{ title }}</p>
+      <p class="text-neutral-400 text-center text-sm truncate">{{ desc }}</p>
 
       <div class="flex gap-0.5 justify-self-end">
         <slot name="buttons"></slot>
