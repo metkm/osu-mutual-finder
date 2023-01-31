@@ -8,8 +8,8 @@ import { checkUpdate, installUpdate } from "@tauri-apps/api/updater";
 import { notify, notifyRemove } from "./plugin/notification";
 
 import TitleBar from "./components/AppTitleBar.vue";
-import axios from "axios";
 import DevRouter from "./components/DevRouter.vue";
+import axios from "axios";
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
@@ -32,21 +32,19 @@ onMounted(() => {
 
 onMounted(async () => {
   const { shouldUpdate, manifest } = await checkUpdate();
-  const updateText = shouldUpdate ? `Update Available. v${manifest?.version}` : "No update available";
-  notify("Checking for updates..");
 
   if (shouldUpdate) {
+    let updateText = `Update available. v${manifest?.version}`;
+
     notify(updateText, {
       acceptText: "Update now",
       acceptCallback: async () => {
         notifyRemove(updateText);
+
         await installUpdate();
         await relaunch();
-      },
-      delay: 10000
+      }
     });
-  } else {
-    notify(updateText)
   }
 
   if (settingsStore.uploaded) {
@@ -85,7 +83,7 @@ event.listen("tauri://update-status", (res) => {
 
 <template>
   <TitleBar />
-  <!-- <DevRouter v-if="ISDEV" /> -->
+  <DevRouter v-if="ISDEV" />
 
   <div class="flex-1 overflow-hidden">
     <suspense>
