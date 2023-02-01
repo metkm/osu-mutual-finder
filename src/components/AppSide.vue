@@ -15,12 +15,7 @@ defineProps<{
         <slot name="buttons"></slot>
       </div>
     </div>
-
-    <ul 
-      aria-label="user list" 
-      class="grid xl:grid-cols-2 p-2 gap-2 overflow-y-auto"
-    >
-      <slot></slot>
-    </ul>
+    
+    <slot></slot>
   </div>
 </template>

@@ -13,6 +13,7 @@ import { storeToRefs } from "pinia";
 import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
 import { useAuthStore, useSettingsStore } from "../store";
 import { Threads, Check } from "../types";
+import AppList from "../components/AppList.vue";
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
@@ -23,7 +24,7 @@ const { session, token } = storeToRefs(authStore);
 
 const checking = ref(0);
 const currentPage = ref(1);
-const checked = ref<number[]>([]);
+const checked = ref<number[]>([10440852]);
 const mutuals = ref<number[]>([]);
 
 const toSettings = () => {
@@ -125,10 +126,12 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  // if (import.meta.env.DEV) {
-  //   checked.value = [10440852];
-  //   return
-  // };
+  if (import.meta.env.DEV) {
+    for (let index = 0; index < 50; index++) {
+      checked.value.push(10440852);
+    }
+    return
+  };
 
   // Disable all threads
   for (const item in threads) {
@@ -166,7 +169,14 @@ onActivated(() => {
           </BaseButtonIcon>
         </template>
 
-        <User v-slot:users v-for="userId in checked" :userId="userId" :key="userId" />
+        <AppList :items="checked" :itemHeight="76" v-slot="{ item }">
+          <User :userId="item" :user="{
+            username: 'sibyl',
+            avatar_url: 'owo.png',
+            cover: { url: 'hey.png', custom_url: 'test' },
+            country: { code: 'TR', name: 'Turkey' }
+          }" />
+        </AppList>
       </AppSide>
     </div>
   </main>
