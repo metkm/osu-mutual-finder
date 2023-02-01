@@ -28,6 +28,12 @@ onMounted(() => {
     authStore.refresh_token = refresh_token;
     settingsStore.uploaded = true;
   }
+
+  // this is because of changes made. should remove countries if they are not object. Older versions were just country codes in an array
+  settingsStore.countries.forEach((country, index) => {
+    if (typeof country === "object") return;
+    settingsStore.countries.splice(index, 1);
+  })
 });
 
 onMounted(async () => {
