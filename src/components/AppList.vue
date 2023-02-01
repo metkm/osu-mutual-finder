@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, toRefs, computed, onMounted } from 'vue';
+import { throttle } from '../throttle';
 
 const props = defineProps<{
   items: any[],
@@ -42,12 +43,15 @@ const resizeHandler = () => {
 }
 
 onMounted(() => {
-  new ResizeObserver(resizeHandler).observe(rootElement.value as Element)
+  new ResizeObserver(resizeHandler).observe(rootElement.value as Element);
+  if (!rootElement.value) return;
+
+  rootElement.value.addEventListener("scroll", throttle(scrollHandler, 100), false)
 })
 </script>
 
 <template>
-  <div ref="rootElement" class="overflow-y-auto p-2" @scroll="scrollHandler">
+  <div ref="rootElement" class="overflow-y-auto p-2">
     <ul aria-label="user list" class="flex flex-col gap-1" :style="{
       height: `${totalHeight}px`,
       paddingTop: `${startOffset * itemHeight}px`
