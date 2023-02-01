@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import User from "../components/User.vue";
-import UserSkeleton from "../components/UserSkeleton.vue";
 import AppSide from "../components/AppSide.vue";
 import AppList from "../components/AppList.vue";
 import SettingsIcon from "../components/icons/Settings.vue";
@@ -80,13 +79,13 @@ const add = async (element: Element) => {
   }
 }
 
-const startCheck = async (id: number, country: string) => {
-  let limit = settingsStore.getLimit(country) || { countryCode: country, end: 200, start: 1, index: 0 };
+const startCheck = async (id: number, code: string) => {
+  let limit = settingsStore.getLimit(code) || { countryCode: code, end: 200, start: 1, index: 0 };
 
   for (let page = limit.start; page <= limit.end; page++) {
     currentPage.value = page;
 
-    let elements = (await getUserElements(page, country)).slice(limit.index);
+    let elements = (await getUserElements(page, code)).slice(limit.index);
 
     for (const [index, element] of elements.entries()) {
       if (!threads[id]) return;
@@ -101,7 +100,7 @@ const startCheck = async (id: number, country: string) => {
     }
 
     settingsStore.updateLimit({
-      countryCode: country,
+      countryCode: code,
       start: page,
       end: limit.end,
       index: 0
@@ -117,7 +116,7 @@ const start = async (id: number) => {
     await startCheck(id, "GLOBAL");
   } else {
     for (let country of countries.value) {
-      await startCheck(id, country);
+      await startCheck(id, country.code);
       await sleep(2500);
     }
   }
