@@ -158,7 +158,9 @@ onActivated(() => {
           </BaseButtonIcon>
         </template>
 
-        <User v-for="user in mutuals" :user="user" :key="user.id" />
+        <div class="flex flex-col gap-1 overflow-y-auto p-2">
+          <User v-for="user in mutuals" :user="user" :key="user.id" />
+        </div>
       </AppSide>
 
       <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
