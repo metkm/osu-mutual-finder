@@ -14,6 +14,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 
+const cooldown = ref(false);
 const code = ref(null);
 const error = ref("");
 
@@ -34,6 +35,8 @@ const updateFriends = async () => {
 
 onMounted(updateFriends);
 const verify = async () => {
+  cooldown.value = true;
+
   const client = await http.getClient();
   const response = await client.post("https://osu.ppy.sh/home/account/verify", {
     payload: {
@@ -48,6 +51,7 @@ const verify = async () => {
     }
   });
 
+  cooldown.value = false;
   if (response.status != 200) {
     error.value = "Can't verify the key. Check if it's correct. If you're BN or GMT (anything with extra permissions) this is expected.";
     return;
@@ -68,7 +72,7 @@ const verify = async () => {
       <p class="text-neutral-500 text-center">Check your emails</p>
       <AppInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
   
-      <BaseButton type="submit" @click.prevent="verify">Verify</BaseButton>
+      <BaseButton :disabled="cooldown" type="submit" @click.prevent="verify">Verify</BaseButton>
       <p v-if="error" class="font-semibold text-red-500">{{ error }}</p>
     </form>
   </div>

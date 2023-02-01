@@ -39,6 +39,7 @@ if (authStore.access_token) {
 const login = async () => {
   if (!username.value && !password.value) return;
 
+  cooldown.value = true;
   const client = await http.getClient();
   const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
 
@@ -59,6 +60,7 @@ const login = async () => {
     }
   });
 
+  cooldown.value = false;
   // // error handling here.
   if (sessionResponse.status !== 200) {
     notify(`Login request returned ${sessionResponse.status} code.`, {

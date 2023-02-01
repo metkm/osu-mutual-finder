@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { getUser, jsonCountries } from "../utils";
+import { jsonCountries } from "../utils";
 import { UserObject } from "../types";
 import { open } from "@tauri-apps/api/shell";
 
-const props = defineProps<{
-  userId: number,
-  user?: UserObject
+const { user } = defineProps<{
+  user: UserObject
 }>();
 
-const userDetails = props.user || await getUser(props.userId);
 const country = jsonCountries.find(country => {
-  if (userDetails.country_code == country.code) {
+  if (user.country_code == country.code) {
     return country
   }
 })
@@ -21,19 +19,19 @@ const countryFromCode = (code: string) => {
 }
 
 const openLink = () => {
-  open(`https://osu.ppy.sh/users/${props.userId}`);
+  open(`https://osu.ppy.sh/users/${user.id}`);
 }
 </script>
 
 <template>
   <li class="shadow h-min cursor-pointer rounded overflow-hidden bg-theme">
     <a @click="openLink">
-      <img :src="userDetails.cover.url" class="h-10 w-full object-cover" />
+      <img :src="user.cover.url" class="h-10 w-full object-cover" />
 
       <div class="flex items-end gap-2 p-1.5 -mt-8">
-        <img :src="userDetails.avatar_url" class="rounded h-14 object-cover" />
-        <p class="truncate">{{ userDetails.username }}</p>
-        <p v-if="userDetails.statistics?.global_rank" class="text-sm text-neutral-500">#{{ userDetails.statistics.global_rank }}</p>
+        <img :src="user.avatar_url" class="rounded h-14 object-cover" />
+        <p class="truncate">{{ user.username }}</p>
+        <p v-if="user.statistics?.global_rank" class="text-sm text-neutral-500">#{{ user.statistics.global_rank }}</p>
 
         <img v-if="country" :src="countryFromCode(country.code)" class="h-6 contrast-75 ml-auto" />
       </div>

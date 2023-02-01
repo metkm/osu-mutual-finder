@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import User from "../components/User.vue";
+import UserSkeleton from "../components/UserSkeleton.vue";
 import AppSide from "../components/AppSide.vue";
+import AppList from "../components/AppList.vue";
 import SettingsIcon from "../components/icons/Settings.vue";
 import BaseButtonIcon from "../components/ui/BaseButtonIcon.vue";
 import Clear from "../components/icons/Clear.vue";
@@ -10,10 +12,9 @@ import { ref, onActivated, onDeactivated } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
-import { addFriend, removeFriend, sleep, randomNumber } from "../utils";
+import { addFriend, removeFriend, sleep, randomNumber, getUser } from "../utils";
 import { useAuthStore, useSettingsStore } from "../store";
-import { Threads, Check } from "../types";
-import AppList from "../components/AppList.vue";
+import { Threads, Check, UserObject } from "../types";
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
@@ -24,8 +25,8 @@ const { session, token } = storeToRefs(authStore);
 
 const checking = ref(0);
 const currentPage = ref(1);
-const checked = ref<number[]>([]);
-const mutuals = ref<number[]>([]);
+const checked = ref<UserObject[]>([]);
+const mutuals = ref<UserObject[]>([]);
 
 const toSettings = () => {
   router.push({ path: "/settings" })
@@ -57,7 +58,8 @@ const add = async (element: Element) => {
     let newFriendList = await addFriend(id, token.value, session.value);
     if (!newFriendList) return;
 
-    checked.value.push(id);
+    const user = await getUser(id);
+    checked.value.push(user);
 
     let friend = newFriendList.find(fr => fr.target_id == id);
     if (!friend) return;
@@ -71,7 +73,7 @@ const add = async (element: Element) => {
       await removeFriend(id, token.value, session.value);
     }
 
-    mutuals.value.push(id);
+    mutuals.value.push(user);
   } catch (err: any) {
     console.log(err);
     console.log("can't add", id, err.response.data, err.response.status)
@@ -126,6 +128,8 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
+  // if (import.meta.env.DEV) return;
+
   // if (import.meta.env.DEV) {
   //   for (let index = 0; index < 50; index++) {
   //     checked.value.push(10440852);
@@ -155,7 +159,7 @@ onActivated(() => {
           </BaseButtonIcon>
         </template>
 
-        <User v-for="userId in mutuals" :userId="userId" :key="userId" />
+        <User v-for="user in mutuals" :user="user" :key="user.id" />
       </AppSide>
 
       <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
@@ -170,7 +174,7 @@ onActivated(() => {
         </template>
 
         <AppList :items="checked" :itemHeight="76" v-slot="{ item }">
-          <User :userId="item" :key="item" />
+          <User :user="item" :key="item.id" />
         </AppList>
       </AppSide>
     </div>
