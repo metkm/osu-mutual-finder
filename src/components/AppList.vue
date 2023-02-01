@@ -8,7 +8,7 @@ const props = defineProps<{
 
 const { items: baseItems, itemHeight } = toRefs(props);
 
-const nodePadding = 10;
+const nodePadding = 4;
 
 const scrollTop = ref(0);
 const rootElement = ref<HTMLElement | null>(null);
@@ -47,8 +47,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="rootElement" class="overflow-y-auto" @scroll="scrollHandler">
-    <ul aria-label="user list" class="" :style="{
+  <div ref="rootElement" class="overflow-y-auto p-2" @scroll="scrollHandler">
+    <ul aria-label="user list" class="flex flex-col gap-1" :style="{
       height: `${totalHeight}px`,
       paddingTop: `${startOffset * itemHeight}px`
     }">

@@ -24,7 +24,7 @@ const { session, token } = storeToRefs(authStore);
 
 const checking = ref(0);
 const currentPage = ref(1);
-const checked = ref<number[]>([10440852]);
+const checked = ref<number[]>([]);
 const mutuals = ref<number[]>([]);
 
 const toSettings = () => {
@@ -126,12 +126,12 @@ onDeactivated(() => {
   console.log("deactivated");
 });
 onActivated(() => {
-  if (import.meta.env.DEV) {
-    for (let index = 0; index < 50; index++) {
-      checked.value.push(10440852);
-    }
-    return
-  };
+  // if (import.meta.env.DEV) {
+  //   for (let index = 0; index < 50; index++) {
+  //     checked.value.push(10440852);
+  //   }
+  //   return
+  // };
 
   // Disable all threads
   for (const item in threads) {
@@ -170,12 +170,7 @@ onActivated(() => {
         </template>
 
         <AppList :items="checked" :itemHeight="76" v-slot="{ item }">
-          <User :userId="item" :user="{
-            username: 'sibyl',
-            avatar_url: 'owo.png',
-            cover: { url: 'hey.png', custom_url: 'test' },
-            country: { code: 'TR', name: 'Turkey' }
-          }" />
+          <User :userId="item" :key="item" />
         </AppList>
       </AppSide>
     </div>
