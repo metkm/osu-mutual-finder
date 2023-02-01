@@ -17,7 +17,7 @@ const openLink = () => {
 </script>
 
 <template>
-  <li class="shadow dark:shadow-none h-min cursor-pointer rounded overflow-hidden bg-theme">
+  <li class="shadow list-none dark:shadow-none h-min cursor-pointer rounded overflow-hidden bg-theme">
     <a @click="openLink">
       <img :src="user.cover.url" class="h-10 w-full object-cover" />
 
