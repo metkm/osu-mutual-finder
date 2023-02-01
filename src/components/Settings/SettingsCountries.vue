@@ -3,7 +3,7 @@ import { useSettingsStore } from "../../store";
 import { computed, ref, watch } from "vue";
 import { handleBeforeLeave } from "../../animation";
 import { jsonCountries } from "../../utils";
-import { Check } from "../../types";
+import { Check, Country as CountryInterface } from "../../types";
 import AppRadio from "../AppRadio.vue";
 import AppInput from "../AppInput.vue";
 import Country from "../Country.vue";
@@ -19,11 +19,11 @@ const searchQueryResults = computed(() => {
   })
 })
 
-const addCountry = (countryCode: string) => {
-  settingsStore.toggleCountry(countryCode);
+const addCountry = (country: CountryInterface) => {
+  settingsStore.toggleCountry(country);
 };
-const removeCountry = (countryCode: string) => {
-  settingsStore.toggleCountry(countryCode);
+const removeCountry = (country: CountryInterface) => {
+  settingsStore.toggleCountry(country);
 }
 
 watch(check, newCheck => {
@@ -44,8 +44,8 @@ watch(check, newCheck => {
           <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
           <ul class="listbox">
-            <Country v-for="country in searchQueryResults" :key="country.code" :code="country.code"
-              @click="addCountry(country.code)" />
+            <Country v-for="country in searchQueryResults" :key="country.code" :country="country"
+              @click="addCountry(country)" />
           </ul>
         </section>
 
@@ -57,7 +57,8 @@ watch(check, newCheck => {
           </p>
 
           <TransitionGroup v-else name="array" tag="ol" class="listbox" @before-leave="handleBeforeLeave">
-            <Country v-for="code in countriesToCheck" :key="code" :code="code" @click="removeCountry(code)" />
+            <Country v-for="country in countriesToCheck" :key="country.code" :country="country"
+              @click="removeCountry(country)" />
           </TransitionGroup>
         </section>
       </div>

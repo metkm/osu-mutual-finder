@@ -111,7 +111,7 @@ const login = async () => {
       <p class="text-neutral-500 text-center">Version: {{ version }}</p>
     </form>
 
-    <section
+    <!-- <section
       v-if="mutuals && mutuals.length > 0"
       class="max-h-96 flex flex-col"
     >
@@ -119,6 +119,6 @@ const login = async () => {
       <ul class="flex flex-1 flex-col gap-1 overflow-y-auto">
         <User v-for="user in mutuals" :user="user" :userId="user.id" />
       </ul>
-    </section>
+    </section> -->
   </div>
 </template>

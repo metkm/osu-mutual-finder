@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Check, Gamemode } from "../types";
+import { Check, Country, Gamemode, WebCountry } from "../types";
 import { clampNumber } from "../utils";
 
 interface Limit {
@@ -31,7 +31,7 @@ export const useSettingsStore = defineStore("settings", {
   state: () => ({
     friends: [] as number[],
     blacklistIds: [] as number[],
-    countries: [] as string[],
+    countries: [] as Country[],
     limits: [] as Limit[],
     addFriend: false,
     addBlacklist: false,
@@ -49,8 +49,8 @@ export const useSettingsStore = defineStore("settings", {
     toggleBlacklistId(userId: number) {
       toggleSetting(this.blacklistIds, userId);
     },
-    toggleCountry(countryCode: string) {
-      toggleSetting(this.countries, countryCode)
+    toggleCountry(country: Country) {
+      toggleSetting(this.countries, country)
     },
     addLimit(newLimit: Limit) {
       clampLimit(newLimit);

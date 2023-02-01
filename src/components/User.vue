@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { jsonCountries } from "../utils";
 import { UserObject } from "../types";
 import { open } from "@tauri-apps/api/shell";
 
@@ -7,15 +6,9 @@ const { user } = defineProps<{
   user: UserObject
 }>();
 
-const country = jsonCountries.find(country => {
-  if (user.country_code == country.code) {
-    return country
-  }
-})
-
 const countryFromCode = (code: string) => {
-  let country = jsonCountries.find(country => country.code == code);
-  return import.meta.env.DEV ? `/flags/${country?.code.toLowerCase()}.svg` : `./flags/${country?.code.toLowerCase()}.svg`;
+  code = code.toLowerCase();
+  return import.meta.env.DEV ? `/flags/${code}.svg` : `./flags/${code}.svg`;
 }
 
 const openLink = () => {
@@ -33,7 +26,7 @@ const openLink = () => {
         <p class="truncate">{{ user.username }}</p>
         <p v-if="user.statistics?.global_rank" class="text-sm text-neutral-500">#{{ user.statistics.global_rank }}</p>
 
-        <img v-if="country" :src="countryFromCode(country.code)" class="h-6 contrast-75 ml-auto" />
+        <img v-if="user.country_code" :src="countryFromCode(user.country_code)" class="h-6 contrast-75 ml-auto" />
       </div>
     </a>
   </li>
