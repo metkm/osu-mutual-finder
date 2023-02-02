@@ -174,8 +174,8 @@ onActivated(() => {
           </BaseButtonIcon>
         </template>
 
-        <AppList :items="checked" :itemHeight="76" v-slot="{ item }">
-          <User :user="item" :key="item.id" />
+        <AppList :items="checked" :itemHeight="76" v-slot="{ item, index }">
+          <User :user="item" :key="index" />
         </AppList>
       </AppSide>
     </div>
