@@ -36,6 +36,37 @@ export const triggerVerification = async (cookie: string) => {
   return true;
 }
 
+export const emailVerification = async (code: string) => {
+  const authStore = useAuthStore();
+
+  const client = await http.getClient();
+  const response = await client.post<{ error: string }>("https://osu.ppy.sh/home/account/verify", {
+    payload: {
+      verification_key: code
+    },
+    type: "Json"
+  }, {
+    headers: {
+      "cookie": `osu_session=${authStore.session}; XSRF-TOKEN=${authStore.token}`,
+      "referer": "https://osu.ppy.sh",
+      "x-csrf-token": authStore.token 
+    }
+  });
+
+  if (!response.ok) {
+    notify(`Verification request returned ${response.status} error code.`, {
+      description: response.data.error
+    });
+    return false;
+  }
+
+  let cookies = getCookies(response.rawHeaders);
+  authStore.session = cookies["osu_session"];
+  authStore.token = cookies["XSRF-TOKEN"];
+
+  return true;
+}
+
 
 export const login = async (username: string, password: string) => {
   const client = await http.getClient();

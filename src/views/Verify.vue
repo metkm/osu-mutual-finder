@@ -1,79 +1,45 @@
 <script setup lang="ts">
-// import { onMounted, ref } from "vue";
-// import { http } from "@tauri-apps/api";
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { emailVerification } from '../api/auth';
+import { updateFriends } from '../api/friends';
 
-// import { useRouter } from "vue-router";
-// import { useAuthStore, useSettingsStore } from "../store";
+import BaseButton from '../components/Ui/BaseButton.vue';
+import BaseInput from '../components/Ui/BaseInput.vue';
 
-// import BaseInput from "../components/Ui/BaseInput.vue";
-// import BaseButton from "../components/Ui/BaseButton.vue";
-// import { getCookies } from "../utils";
-// import { UserObject } from "../types";
+const router = useRouter();
 
-// const router = useRouter();
-// const authStore = useAuthStore();
-// const settingsStore = useSettingsStore();
+onMounted(updateFriends);
 
-// const cooldown = ref(false);
-// const code = ref(null);
-// const error = ref("");
+const code = ref();
+const isLoading = ref(false);
 
-// const updateFriends = async () => {
-//   const client = await http.getClient();
-//   const response = await client.get<string>("https://osu.ppy.sh/home/friends", {
-//     responseType: 2,
-//     headers: {
-//       "cookie": `osu_session=${authStore.session}`
-//     }
-//   });
-
-//   const dom = new DOMParser().parseFromString(response.data, "text/html");
-//   let jsonUsers = JSON.parse(dom.getElementById("json-users")!.innerText) as UserObject[];
-
-//   settingsStore.friends = jsonUsers.map(user => user.id);
-// }
-
-// onMounted(updateFriends);
-// const verify = async () => {
-//   cooldown.value = true;
-
-//   const client = await http.getClient();
-//   const response = await client.post("https://osu.ppy.sh/home/account/verify", {
-//     payload: {
-//       verification_key: code.value
-//     },
-//     type: "Json"
-//   }, {
-//     headers: {
-//       "cookie": `osu_session=${authStore.session}; XSRF-TOKEN=${authStore.token}`,
-//       "referer": "https://osu.ppy.sh",
-//       "x-csrf-token": authStore.token 
-//     }
-//   });
-
-//   cooldown.value = false;
-//   if (response.status != 200) {
-//     error.value = "Can't verify the key. Check if it's correct. If you're BN or GMT (anything with extra permissions) this is expected.";
-//     return;
-//   }
-
-//   let cookies = getCookies(response.rawHeaders);
-//   authStore.session = cookies["osu_session"];
-//   authStore.token = cookies["XSRF-TOKEN"];
+const verifyHandler = async () => {
+  if (!code.value) return;
   
-//   await router.push("/mutuals");
-// }
+  isLoading.value = true;
+  const isSuccess = await emailVerification(code.value);
+  isLoading.value = false;
 
+  if (isSuccess) {
+    router.push("/mutuals");
+  }
+}
 </script>
 
 <template>
-  <!-- <div class="page flex flex-col justify-center max-w-lg mx-auto">
-    <form aria-label="verify form" class="flex flex-col gap-2">
-      <p class="text-neutral-500 text-center">Check your emails</p>
-      <BaseInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
-  
-      <BaseButton :disabled="cooldown" type="submit" @click.prevent="verify">Verify</BaseButton>
-      <p v-if="error" class="font-semibold text-red-500">{{ error }}</p>
+  <div class="page flex flex-col justify-center items-center gap-4 max-w-lg mx-auto">
+    <form aria-label="verify form" class="grid gap-2 w-full text-sm">
+      <div class="flex flex-col">
+        <label for="code" class="ml-1">Verification Code</label>
+        <BaseInput id="code" v-model="code" required />
+      </div>
+      
+      <p class="text-neutral-500 ml-1">Check your emails. There should be verification code.</p>
+
+      <div class="flex justify-end">
+        <BaseButton :disabled="!code" :isLoading="isLoading" @click.prevent="verifyHandler">Verify</BaseButton>
+      </div>
     </form>
-  </div> -->
+  </div>
 </template>
