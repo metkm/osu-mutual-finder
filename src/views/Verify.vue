@@ -5,7 +5,7 @@ import { http } from "@tauri-apps/api";
 import { useRouter } from "vue-router";
 import { useAuthStore, useSettingsStore } from "../store";
 
-import AppInput from "../components/AppInput.vue";
+import BaseInput from "../components/ui/BaseInput.vue";
 import BaseButton from "../components/ui/BaseButton.vue";
 import { getCookies } from "../utils";
 import { UserObject } from "../types";
@@ -70,7 +70,7 @@ const verify = async () => {
   <div class="page flex flex-col justify-center max-w-lg mx-auto">
     <form aria-label="verify form" class="flex flex-col gap-2">
       <p class="text-neutral-500 text-center">Check your emails</p>
-      <AppInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
+      <BaseInput v-model="code" type="text" placeholder="Verification Key" class="form-element" required />
   
       <BaseButton :disabled="cooldown" type="submit" @click.prevent="verify">Verify</BaseButton>
       <p v-if="error" class="font-semibold text-red-500">{{ error }}</p>

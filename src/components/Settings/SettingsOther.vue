@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppInput from '../AppInput.vue';
+import BaseInput from '../ui/BaseInput.vue';
 import { computed, ref } from 'vue';
 import { removeFriend } from '../../utils';
 import { useAuthStore } from '../../store';
@@ -24,7 +24,7 @@ const removeFriendClick = () => {
 <template>
   <div aria-label="remove friend setting" class="setting">
     <div class="flex flex-col gap-2 max-w-md">
-      <AppInput type="number" placeholder="User Id" v-model.number="userId" />
+      <BaseInput type="number" placeholder="User Id" v-model.number="userId" />
       <BaseButton :disabled="cooldown" @click="removeFriendClick">
         Remove friend
       </BaseButton>

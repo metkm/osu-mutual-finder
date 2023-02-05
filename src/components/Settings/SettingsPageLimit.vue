@@ -2,7 +2,7 @@
 import { computed, ref, watch } from "vue";
 import { useSettingsStore } from "../../store";
 import { jsonCountries } from "../../utils";
-import AppInput from "../AppInput.vue";
+import BaseInput from "../ui/BaseInput.vue";
 const settingsStore = useSettingsStore();
 
 const limits = computed(() => settingsStore.limits);
@@ -44,9 +44,9 @@ watch(selected, val => {
         @dblclick="removeLimit(limit.countryCode)"
       >
         <p class="w-full text-center">{{ limit.countryCode }}</p>
-        <AppInput v-model="limit.start" @keyup="change(limit.countryCode)" />
-        <AppInput v-model="limit.end" @keyup="change(limit.countryCode)" />
-        <AppInput v-model="limit.index" @keyup="change(limit.countryCode)" />
+        <BaseInput v-model="limit.start" @keyup="change(limit.countryCode)" />
+        <BaseInput v-model="limit.end" @keyup="change(limit.countryCode)" />
+        <BaseInput v-model="limit.index" @keyup="change(limit.countryCode)" />
       </div>
     </div>
 

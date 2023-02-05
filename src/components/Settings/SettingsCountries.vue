@@ -5,7 +5,7 @@ import { handleBeforeLeave } from "../../animation";
 import { jsonCountries } from "../../utils";
 import { Check, Country as CountryInterface } from "../../types";
 import AppRadio from "../AppRadio.vue";
-import AppInput from "../AppInput.vue";
+import BaseInput from "../ui/BaseInput.vue";
 import Country from "../Country.vue";
 const settingsStore = useSettingsStore();
 
@@ -41,7 +41,7 @@ watch(check, newCheck => {
     <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
       <div class="flex gap-2 h-full max-h-96 divide-x dark:divide-neutral-800">
         <section aria-label="countries to add" class="flex flex-col flex-1 gap-2">
-          <AppInput v-model="searchQuery" type="text" placeholder="Search countries " />
+          <BaseInput v-model="searchQuery" type="text" placeholder="Search countries " />
 
           <ul class="listbox">
             <Country v-for="country in searchQueryResults" :key="country.code" :country="country"

@@ -1,115 +1,147 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { http } from "@tauri-apps/api";
-import { app } from "@tauri-apps/api";
-import { SessionLoginUser, UserObject } from "../types";
-import { useAuthStore, useSettingsStore, useUserStore } from "../store";
-import { getCookies, parseCookies } from "../utils";
-import { notify } from "../plugin/notification";
-import axios from "axios";
-import router from "../router";
 
-import AppInput from "../components/AppInput.vue";
-import User from "../components/User.vue";
+import AppVersion from "../components/AppVersion.vue";
 import BaseButton from "../components/ui/BaseButton.vue";
-
-interface Login {
-  header: string,
-  header_popup: string,
-  user: SessionLoginUser
-}
-
+import BaseInput from "../components/ui/BaseInput.vue";
+import IconLogin from "../components/icons/Login.vue";
 
 const username = ref("");
 const password = ref("");
-const cooldown = ref(false);
-const version = await app.getVersion();
-const settingsStore = useSettingsStore();
-const authStore = useAuthStore();
-const userStore = useUserStore();
-const mutuals = ref<UserObject[] | null>();
 
-if (authStore.access_token) {
-  axios.get<UserObject[]>("/api/mutuals")
-  .then(users => {
-    mutuals.value = users.data;
-  });
-}
+// import { ref } from "vue";
+// import { http } from "@tauri-apps/api";
+// import { app } from "@tauri-apps/api";
+// import { SessionLoginUser, UserObject } from "../types";
+// import { useAuthStore, useSettingsStore, useUserStore } from "../store";
+// import { getCookies, parseCookies } from "../utils";
+// import { notify } from "../plugin/notification";
+// import axios from "axios";
+// import router from "../router";
 
-const login = async () => {
-  if (!username.value && !password.value) return;
+// import BaseInput from "../components/BaseInput.vue";
+// import User from "../components/User.vue";
+// import BaseButton from "../components/ui/BaseButton.vue";
 
-  cooldown.value = true;
-  const client = await http.getClient();
-  const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
+// interface Login {
+//   header: string,
+//   header_popup: string,
+//   user: SessionLoginUser
+// }
 
-  let cookies = getCookies(response.rawHeaders);
-  let cookieString = parseCookies(cookies);
+// const username = ref("");
+// const password = ref("");
+// const cooldown = ref(false);
+// const version = await app.getVersion();
+// const settingsStore = useSettingsStore();
+// const authStore = useAuthStore();
+// const userStore = useUserStore();
+// const mutuals = ref<UserObject[] | null>();
 
-  const sessionResponse = await client.post<Login>("https://osu.ppy.sh/session", {
-    payload: {
-      "_token": cookies["XSRF-TOKEN"],
-      "username": username.value,
-      "password": password.value
-    },
-    type: "Form"
-  }, {
-    headers: {
-      "referer": "https://osu.ppy.sh",
-      "cookie": cookieString
-    }
-  });
+// if (authStore.access_token) {
+//   axios.get<UserObject[]>("/api/mutuals")
+//   .then(users => {
+//     mutuals.value = users.data;
+//   });
+// }
 
-  cooldown.value = false;
-  // // error handling here.
-  if (sessionResponse.status !== 200) {
-    notify(`Login request returned ${sessionResponse.status} code.`, {
-      description: "This is probably because of a change made on osu! website. You can open a github issue."
-    });
+// const login = async () => {
+//   if (!username.value && !password.value) return;
 
-    return;
-  }
+//   cooldown.value = true;
+//   const client = await http.getClient();
+//   const response = await client.get("https://osu.ppy.sh/home", { responseType: 2 });
 
-  if (!userStore.user) {
-    settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
-  }
+//   let cookies = getCookies(response.rawHeaders);
+//   let cookieString = parseCookies(cookies);
 
-  userStore.user = sessionResponse.data.user;
-  cookies = getCookies(sessionResponse.rawHeaders);
-  cookieString = parseCookies(cookies);
+//   const sessionResponse = await client.post<Login>("https://osu.ppy.sh/session", {
+//     payload: {
+//       "_token": cookies["XSRF-TOKEN"],
+//       "username": username.value,
+//       "password": password.value
+//     },
+//     type: "Form"
+//   }, {
+//     headers: {
+//       "referer": "https://osu.ppy.sh",
+//       "cookie": cookieString
+//     }
+//   });
 
-  const verifResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
-    headers: {
-      "cookie": cookieString
-    }
-  })
+//   cooldown.value = false;
+//   // // error handling here.
+//   if (sessionResponse.status !== 200) {
+//     notify(`Login request returned ${sessionResponse.status} code.`, {
+//       description: "This is probably because of a change made on osu! website. You can open a github issue."
+//     });
 
-  if (verifResponse.status !== 401) {
-    notify(`Verification request returned ${verifResponse.status} code.`, {
-      description: "The expected code is 401"
-    });
+//     return;
+//   }
 
-    return;
-  }
+//   if (!userStore.user) {
+//     settingsStore.toggleBlacklistId(sessionResponse.data.user.id)
+//   }
 
-  cookies = getCookies(verifResponse.rawHeaders);
-  authStore.session = cookies["osu_session"];
-  authStore.token = cookies["XSRF-TOKEN"];
+//   userStore.user = sessionResponse.data.user;
+//   cookies = getCookies(sessionResponse.rawHeaders);
+//   cookieString = parseCookies(cookies);
 
-  router.push("/verify");
-}
+//   const verifResponse = await client.get("https://osu.ppy.sh/home/account/edit", {
+//     headers: {
+//       "cookie": cookieString
+//     }
+//   })
+
+//   if (verifResponse.status !== 401) {
+//     notify(`Verification request returned ${verifResponse.status} code.`, {
+//       description: "The expected code is 401"
+//     });
+
+//     return;
+//   }
+
+//   cookies = getCookies(verifResponse.rawHeaders);
+//   authStore.session = cookies["osu_session"];
+//   authStore.token = cookies["XSRF-TOKEN"];
+
+//   router.push("/verify");
+// }
 
 </script>
 
 <template>
-  <div id="login" class="page flex flex-col justify-center max-w-lg mx-auto">
+  <div class="page flex justify-center items-center">
+    <form aria-label="login form" class="grid gap-2 w-full max-w-lg">
+      <div class="flex flex-col text-sm">
+        <label for="username" class="ml-1">Username</label>
+        <BaseInput id="username" v-model="username" required />
+      </div>
+      
+      <div class="flex flex-col text-sm">
+        <label for="password" class="ml-1">Password</label>
+        <BaseInput id="password" v-model="password" required />
+      </div>
+
+      <div class="flex justify-between">
+        <AppVersion />
+
+        <BaseButton type="submit">
+          <IconLogin />
+          <p>Login</p>
+        </BaseButton>
+      </div>
+    </form>
+  </div>
+
+  <!-- <div id="login" class="page flex flex-col justify-center max-w-lg mx-auto">
     <form aria-label="login form" class="flex flex-col gap-2">
-      <AppInput v-model="username" type="text" placeholder="Username" required />
-      <AppInput v-model="password" type="text" placeholder="Password" required />
+      <BaseInput v-model="username" type="text" placeholder="Username" required />
+      <BaseInput v-model="password" type="text" placeholder="Password" required />
 
       <BaseButton type="submit" @click.prevent="login" :disabled="cooldown">Login</BaseButton>
       <p class="text-neutral-500 text-center">Version: {{ version }}</p>
-    </form>
+    </form> -->
 
     <!-- <section
       v-if="mutuals && mutuals.length > 0"
@@ -120,5 +152,5 @@ const login = async () => {
         <User v-for="user in mutuals" :user="user" :userId="user.id" />
       </ul>
     </section> -->
-  </div>
+  <!-- </div> -->
 </template>
