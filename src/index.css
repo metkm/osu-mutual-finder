@@ -8,6 +8,7 @@
     @apply h-full;
     @apply dark:bg-dark;
     @apply overflow-hidden relative;
+    font-family: "Inter";
   }
 
   * {

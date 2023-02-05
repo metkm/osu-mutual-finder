@@ -1,16 +1,46 @@
 <script setup lang="ts">
+import Spinner from '../icons/Spinner.vue';
+
 defineProps<{
-  red?: boolean
+  isLoading: boolean
 }>();
 </script>
 
 <template>
   <button
-    class="
-      flex justify-center gap-2
-      px-4 py-2 rounded text-white
-      bg-green-600 focus-outline
-    ">
-    <slot></slot>
+    class="flex items-center justify-center gap-2 relative overflow-hidden
+    px-4 py-2 rounded
+    bg-green-600 hover:bg-green-700 text-white transition-colors"
+    :class="{ 'bg-neutral-500 opacity-50 pointer-events-none': isLoading }"
+    :disabled="isLoading"
+  >
+    <Transition name="spinner-icon">
+      <div v-if="isLoading">
+        <Spinner />
+      </div>
+      <slot v-else name="icon"></slot>
+    </Transition>
+      <slot></slot>
   </button>
 </template>
+
+<style scoped>
+.spinner-icon-leave-active,
+.spinner-icon-enter-active {
+  transition: all 250ms ease-in-out;
+}
+
+.spinner-icon-leave-active {
+  position: absolute;
+  left: 1rem;
+}
+
+.spinner-icon-enter-from {
+  transform: translateY(-50px);
+}
+
+.spinner-icon-leave-to {
+  opacity: 0;
+  transform: translatey(50px);
+}
+</style>

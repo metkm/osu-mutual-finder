@@ -3,11 +3,22 @@ import { ref } from "vue";
 
 import AppVersion from "../components/AppVersion.vue";
 import BaseButton from "../components/ui/BaseButton.vue";
+import BaseSuspense from "../components/ui/BaseSuspense.vue";
 import BaseInput from "../components/ui/BaseInput.vue";
 import IconLogin from "../components/icons/Login.vue";
 
 const username = ref("");
 const password = ref("");
+
+const isLoading = ref(false);
+
+setTimeout(() => {
+  isLoading.value = true;
+
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 3000)
+}, 1500)
 
 // import { ref } from "vue";
 // import { http } from "@tauri-apps/api";
@@ -112,36 +123,31 @@ const password = ref("");
 
 <template>
   <div class="page flex justify-center items-center">
-    <form aria-label="login form" class="grid gap-2 w-full max-w-lg">
-      <div class="flex flex-col text-sm">
+    <form aria-label="login form" class="grid gap-2 w-full max-w-lg text-sm">
+      <div class="flex flex-col">
         <label for="username" class="ml-1">Username</label>
         <BaseInput id="username" v-model="username" required />
       </div>
       
-      <div class="flex flex-col text-sm">
+      <div class="flex flex-col">
         <label for="password" class="ml-1">Password</label>
         <BaseInput id="password" v-model="password" required />
       </div>
 
-      <div class="flex justify-between">
-        <AppVersion />
+      <div class="flex items-center justify-between">
+        <BaseSuspense>
+          <AppVersion />
+        </BaseSuspense>
 
-        <BaseButton type="submit">
-          <IconLogin />
+        <BaseButton type="submit" :isLoading="isLoading">
+          <template v-slot:icon>
+            <IconLogin />
+          </template>
           <p>Login</p>
         </BaseButton>
       </div>
     </form>
   </div>
-
-  <!-- <div id="login" class="page flex flex-col justify-center max-w-lg mx-auto">
-    <form aria-label="login form" class="flex flex-col gap-2">
-      <BaseInput v-model="username" type="text" placeholder="Username" required />
-      <BaseInput v-model="password" type="text" placeholder="Password" required />
-
-      <BaseButton type="submit" @click.prevent="login" :disabled="cooldown">Login</BaseButton>
-      <p class="text-neutral-500 text-center">Version: {{ version }}</p>
-    </form> -->
 
     <!-- <section
       v-if="mutuals && mutuals.length > 0"
