@@ -25,7 +25,7 @@
   }
 
   .page {
-    @apply min-h-full;
+    @apply h-full;
     @apply p-2 overflow-hidden;
   }
 
