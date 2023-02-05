@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useSettingsStore } from "../../store";
-import BaseButton from "../ui/BaseButton.vue";
-import BaseInput from "../ui/BaseInput.vue";
+import BaseButton from "../Ui/BaseButton.vue";
+import BaseInput from "../Ui/BaseInput.vue";
 
 const settingsStore = useSettingsStore();
 const userId = ref(null);

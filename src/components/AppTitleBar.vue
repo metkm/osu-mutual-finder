@@ -2,11 +2,11 @@
 import { appWindow } from "@tauri-apps/api/window";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import Back from "./icons/Back.vue";
-import Close from "./icons/Close.vue";
-import Minimize from "./icons/Minimize.vue";
-import Maximize from "./icons/Maximize.vue";
-import UnMaximize from "./icons/UnMaximize.vue";
+import Back from "./Icons/Back.vue";
+import Close from "./Icons/Close.vue";
+import Minimize from "./Icons/Minimize.vue";
+import Maximize from "./Icons/Maximize.vue";
+import UnMaximize from "./Icons/UnMaximize.vue";
 
 const route = useRoute();
 const router = useRouter();

@@ -2,7 +2,7 @@
 import { computed, ref, watch } from "vue";
 import { useSettingsStore } from "../../store";
 import { jsonCountries } from "../../utils";
-import BaseInput from "../ui/BaseInput.vue";
+import BaseInput from "../Ui/BaseInput.vue";
 const settingsStore = useSettingsStore();
 
 const limits = computed(() => settingsStore.limits);

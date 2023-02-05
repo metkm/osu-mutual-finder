@@ -1,44 +1,32 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { login } from "../api/auth";
 
 import AppVersion from "../components/AppVersion.vue";
-import BaseButton from "../components/ui/BaseButton.vue";
-import BaseSuspense from "../components/ui/BaseSuspense.vue";
-import BaseInput from "../components/ui/BaseInput.vue";
-import IconLogin from "../components/icons/Login.vue";
+import BaseSuspense from "../components/Ui/BaseSuspense.vue";
+import BaseButton from "../components/Ui/BaseButton.vue";
+import BaseInput from "../components/Ui/BaseInput.vue";
+import IconLogin from "../components/Icons/Login.vue";
 
 const username = ref("");
 const password = ref("");
 
 const isLoading = ref(false);
+const router = useRouter();
 
-setTimeout(() => {
+const loginHandler = async () => {
+  if (!username.value || !password.value) return;
+  
   isLoading.value = true;
+  const isSuccess = await login(username.value, password.value);
+  isLoading.value = false;
 
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 3000)
-}, 1500)
+  if (isSuccess) {
+    router.push("/verify");
+  }
+}
 
-// import { ref } from "vue";
-// import { http } from "@tauri-apps/api";
-// import { app } from "@tauri-apps/api";
-// import { SessionLoginUser, UserObject } from "../types";
-// import { useAuthStore, useSettingsStore, useUserStore } from "../store";
-// import { getCookies, parseCookies } from "../utils";
-// import { notify } from "../plugin/notification";
-// import axios from "axios";
-// import router from "../router";
-
-// import BaseInput from "../components/BaseInput.vue";
-// import User from "../components/User.vue";
-// import BaseButton from "../components/ui/BaseButton.vue";
-
-// interface Login {
-//   header: string,
-//   header_popup: string,
-//   user: SessionLoginUser
-// }
 
 // const username = ref("");
 // const password = ref("");
@@ -139,7 +127,7 @@ setTimeout(() => {
           <AppVersion />
         </BaseSuspense>
 
-        <BaseButton type="submit" :isLoading="isLoading">
+        <BaseButton type="submit" :disabled="(!username || !password)" :isLoading="isLoading" @click.prevent="loginHandler">
           <template v-slot:icon>
             <IconLogin />
           </template>

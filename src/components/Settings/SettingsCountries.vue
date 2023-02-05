@@ -5,7 +5,7 @@ import { handleBeforeLeave } from "../../animation";
 import { jsonCountries } from "../../utils";
 import { Check, Country as CountryInterface } from "../../types";
 import AppRadio from "../AppRadio.vue";
-import BaseInput from "../ui/BaseInput.vue";
+import BaseInput from "../Ui/BaseInput.vue";
 import Country from "../Country.vue";
 const settingsStore = useSettingsStore();
 

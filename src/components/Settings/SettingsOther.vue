@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BaseInput from '../ui/BaseInput.vue';
+import BaseInput from '../Ui/BaseInput.vue';
 import { computed, ref } from 'vue';
 import { removeFriend } from '../../utils';
 import { useAuthStore } from '../../store';
-import BaseButton from '../ui/BaseButton.vue';
+import BaseButton from '../Ui/BaseButton.vue';
 
 const authStore = useAuthStore();
 

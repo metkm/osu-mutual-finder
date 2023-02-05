@@ -2,9 +2,9 @@
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 import AppList from "../components/AppList.vue";
-import SettingsIcon from "../components/icons/Settings.vue";
-import BaseButtonIcon from "../components/ui/BaseButtonIcon.vue";
-import Clear from "../components/icons/Clear.vue";
+import SettingsIcon from "../components/Icons/Settings.vue";
+import BaseButtonIcon from "../components/Ui/BaseButtonIcon.vue";
+import Clear from "../components/Icons/Clear.vue";
 import { http } from "@tauri-apps/api";
 
 import { ref, onActivated, onDeactivated } from "vue";
