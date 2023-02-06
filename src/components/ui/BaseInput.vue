@@ -17,6 +17,6 @@ const updateModelValue = (event: Event) => {
   <input
     :value="modelValue"
     @input="updateModelValue"
-    class="p-2 rounded border dark:border-neutral-800 dark:bg-dark focus-outline"
+    class="p-2 w-full rounded border dark:border-neutral-800 dark:bg-dark focus-outline"
   />
 </template>

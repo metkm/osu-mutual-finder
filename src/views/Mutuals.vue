@@ -76,6 +76,7 @@ import { UserObject, Tasks, Check, UpdateCallback } from "../types";
 import { useSettingsStore } from "../store";
 
 import { getUser, startChecking } from "../api/friends";
+import { randomNumber } from "../utils";
 
 import Clear from "../components/Icons/Clear.vue";
 import SettingsIcon from "../components/Icons/Settings.vue";
@@ -97,7 +98,6 @@ const currentUser = ref(0);
 const currentPage = ref(0);
 
 const tasks = ref<Tasks>({});
-let taskCount = 1;
 
 const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {
   const user = await getUser(foundMutual || checkedUser);
@@ -113,14 +113,14 @@ onActivated(async () => {
     tasks.value[task] = false
   }
 
-  taskCount += 1;
-  tasks.value[taskCount] = true;
+  let id = randomNumber(500);
+  tasks.value[id] = true;
 
   if (settingsStore.check === Check.Global) {
-    await startChecking(taskCount, tasks.value, "GLOBAL", currentUser, currentPage, updateLists);
+    await startChecking(id, tasks.value, "GLOBAL", currentUser, currentPage, updateLists);
   } else {
     for (let country of countries.value) {
-      await startChecking(taskCount, tasks.value, country.code, currentUser, currentPage, updateLists)
+      await startChecking(id, tasks.value, country.code, currentUser, currentPage, updateLists)
     }
   }
 })

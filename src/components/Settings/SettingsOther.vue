@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import BaseInput from '../Ui/BaseInput.vue';
-import { computed, ref } from 'vue';
-import { removeFriend } from '../../utils';
-import { useAuthStore } from '../../store';
+import { ref } from 'vue';
+import { removeFriend } from '../../api/friends';
 import BaseButton from '../Ui/BaseButton.vue';
-
-const authStore = useAuthStore();
 
 const userId = ref(0);
 const cooldown = ref(false);
-const token = computed(() => authStore.token);
-const session = computed(() => authStore.session);
 
 const removeFriendClick = () => {
-  removeFriend(userId.value, token.value, session.value);
+  removeFriend(userId.value);
 
   cooldown.value = true;
   setTimeout(() => {

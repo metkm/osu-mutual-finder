@@ -122,13 +122,13 @@ export const startChecking = async (taskId: number, tasks: Tasks, countryCode: s
     userRankingElements = userRankingElements.slice(limit.index);
 
     for (const [index, element] of userRankingElements.entries()) {
-      if (!tasks[taskId]) return;
+      if (!tasks[taskId]) continue;
 
       let userId = element.getAttribute("data-user-id");
       if (!userId) continue;
       let userIdNumber = parseInt(userId);
 
-      if (settingsStore.friends.includes(userIdNumber) || settingsStore.blacklistIds.includes(userIdNumber)) return;
+      if (settingsStore.friends.includes(userIdNumber) || settingsStore.blacklistIds.includes(userIdNumber)) continue;
       if (settingsStore.addBlacklist) {
         settingsStore.toggleBlacklistId(userIdNumber);
       }
