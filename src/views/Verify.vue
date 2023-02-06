@@ -35,9 +35,8 @@ const verifyHandler = async () => {
         <BaseInput id="code" v-model="code" required />
       </div>
       
-      <p class="text-neutral-500 ml-1">Check your emails. There should be verification code.</p>
-
-      <div class="flex justify-end">
+      <div class="flex">
+        <p class="text-neutral-500 ml-1 mr-auto">Check your emails. There should be verification code.</p>
         <BaseButton :disabled="!code" :isLoading="isLoading" @click.prevent="verifyHandler">Verify</BaseButton>
       </div>
     </form>
