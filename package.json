@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",
-    "axios": "^1.2.2",
+    "ky": "^0.33.2",
     "mitt": "^3.0.0",
     "pinia": "^2.0.28",
     "pinia-plugin-persistedstate": "^2.4.0"

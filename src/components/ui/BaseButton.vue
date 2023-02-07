@@ -8,40 +8,39 @@ defineProps<{
 </script>
 
 <template>
-  <button
-    class="flex items-center justify-center gap-2 relative overflow-hidden
-    px-4 py-2 rounded
-    bg-green-600 hover:bg-green-700 text-white transition-colors
-    disabled:bg-neutral-500 disabled:opacity-50 disabled:pointer-events-none"
-    :disabled="disabled || isLoading"
-  >
-    <Transition name="spinner-icon">
-      <div v-if="isLoading">
-        <Spinner />
+  <button class="
+      flex justify-center items-center relative
+      px-4 py-2 rounded text-white
+      bg-green-600 hover:bg-green-700
+      disabled:opacity-50 disabled:pointer-events-none
+    " :disabled="disabled || isLoading">
+    <TransitionGroup name="icon" tag="div" class="grid grid-flow-col items-center gap-2">
+      <Spinner v-if="isLoading" key="spinner-icon" />
+      <div v-else-if="$slots.icon" key="user-icon">
+        <slot name="icon"></slot>
       </div>
-      <slot v-else name="icon"></slot>
-    </Transition>
-      <slot></slot>
+
+      <div key="content">
+        <slot></slot>
+      </div>
+    </TransitionGroup>
   </button>
 </template>
 
 <style scoped>
-.spinner-icon-leave-active,
-.spinner-icon-enter-active {
-  transition: all 250ms ease-in-out;
+.icon-leave-active,
+.icon-enter-active,
+.icon-move {
+  transition: all 350ms ease;
 }
 
-.spinner-icon-leave-active {
-  position: absolute;
-  left: 1rem;
-}
-
-.spinner-icon-enter-from {
-  transform: translateY(-50px);
-}
-
-.spinner-icon-leave-to {
+.icon-leave-to,
+.icon-enter-from {
   opacity: 0;
-  transform: translatey(50px);
+  scale: 0;
+}
+
+.icon-leave-active {
+  position: absolute;
 }
 </style>
