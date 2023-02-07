@@ -36,7 +36,7 @@ const loginHandler = async () => {
         <label for="username" class="ml-1">Username</label>
         <BaseInput id="username" v-model="username" required />
       </div>
-      
+
       <div class="flex flex-col">
         <label for="password" class="ml-1">Password</label>
         <BaseInput id="password" v-model="password" required />
