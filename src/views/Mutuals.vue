@@ -5,7 +5,8 @@ import { storeToRefs } from "pinia";
 import { UserObject, Tasks, Check, UpdateCallback } from "../types";
 import { useSettingsStore } from "../store";
 
-import { getUser, startChecking } from "../api/friends";
+import { getUser } from "../api/user";
+import { startChecking } from "../api/friends";
 import { randomNumber } from "../utils";
 
 import Clear from "../components/Icons/Clear.vue";
@@ -39,6 +40,8 @@ const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {
 }
 
 onActivated(async () => {
+  if (import.meta.env.DEV) return;
+
   for (const task in tasks.value) {
     tasks.value[task] = false
   }
