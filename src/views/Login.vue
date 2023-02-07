@@ -47,7 +47,12 @@ const loginHandler = async () => {
           <AppVersion />
         </BaseSuspense>
 
-        <BaseButton type="submit" :disabled="(!username || !password)" :isLoading="isLoading" @click.prevent="loginHandler">
+        <BaseButton 
+          type="submit" 
+          :disabled="(!username || !password)" 
+          :isLoading="isLoading" 
+          @click.prevent="loginHandler"
+        >
           <template v-slot:icon>
             <IconLogin />
           </template>
