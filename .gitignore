@@ -10,4 +10,5 @@ yarn.lock
 dist
 build
 electron-builder.env
-*.env
+*.env.*
+.dev.env.*

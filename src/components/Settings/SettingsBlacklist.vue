@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useSettingsStore } from "../../store";
-import BaseButton from "../ui/BaseButton.vue";
-import AppInput from "../AppInput.vue";
+import BaseButton from "../Ui/BaseButton.vue";
+import BaseInput from "../Ui/BaseInput.vue";
 
 const settingsStore = useSettingsStore();
 const userId = ref(null);
@@ -23,13 +23,13 @@ const removeBlacklist = (userId: number) => {
       <div class="flex flex-col gap-2">
         <p>Blacklist</p>
         <p class="text-neutral-500">User IDs to skip automatically</p>
-        <AppInput type="number" placeholder="User id" v-model="userId" />
+        <BaseInput type="number" placeholder="User id" v-model="userId" />
         
         <BaseButton @click="addToBlacklist">
           Add to Blacklist
         </BaseButton>
 
-        <BaseButton :red="true" @click="settingsStore.blacklistIds = []">
+        <BaseButton class="bg-red-500 hover:bg-red-800" @click="settingsStore.blacklistIds = []">
           Clear Blacklist
         </BaseButton>
       </div>

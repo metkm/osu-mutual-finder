@@ -5,11 +5,10 @@
 
 @layer base {
   html, body {
-    @apply dark:bg-black transition-colors duration-300;
-    @apply bg-opacity-75;
-    @apply w-full h-full relative;
-    @apply overflow-hidden;
-    font-family: 'Inter', sans-serif;
+    @apply h-full;
+    @apply dark:bg-dark;
+    @apply overflow-hidden relative;
+    font-family: "Inter";
   }
 
   * {
@@ -26,9 +25,8 @@
   }
 
   .page {
-    @apply h-full w-full;
-    @apply p-2;
-    @apply overflow-hidden;
+    @apply h-full;
+    @apply p-2 overflow-hidden;
   }
 
   .input-number::-webkit-inner-spin-button {
@@ -84,7 +82,7 @@
   }
 
   .focus-outline {
-    @apply focus:outline-2 focus:outline-green-700 focus:dark:outline-green-900;
+    @apply focus:outline-2 focus:outline-green-600 focus:dark:outline-green-900;
     @apply outline-offset-0;
   }
 }

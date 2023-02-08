@@ -1,4 +1,4 @@
-export interface Threads {
+export interface Tasks {
   [key: number]: boolean
 }
 
@@ -14,17 +14,6 @@ export enum Check {
   Global = "Global"
 }
 
-// export interface StoreState {
-//   friends: number[],
-//   blacklistIds: number[],
-//   countries: string[],
-//   addFriend: boolean,
-//   addBlacklist: boolean,
-//   gamemode: Gamemode,
-//   check: Check,
-//   uploaded: boolean
-// }
-
 export interface NotificationOptions {
   delay?: number,
   description?: string,
@@ -38,6 +27,11 @@ export interface Notification {
   message: string,
   options?: NotificationOptions
 }
+
+export type UpdateCallback = (
+  checkedUser: number,
+  foundMutual: number | undefined
+) => void;
 
 export interface Country {
   code: string;

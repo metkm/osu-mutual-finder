@@ -1,150 +1,61 @@
 <script setup lang="ts">
+import { ref, onActivated } from "vue";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { UserObject, Tasks, Check, UpdateCallback } from "../types";
+import { useSettingsStore } from "../store";
+
+import { getUser } from "../api/user";
+import { startChecking } from "../api/friends";
+import { randomNumber } from "../utils";
+
+import Clear from "../components/Icons/Clear.vue";
+import SettingsIcon from "../components/Icons/Settings.vue";
+import BaseButtonIcon from "../components/Ui/BaseButtonIcon.vue";
+
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 import AppList from "../components/AppList.vue";
-import SettingsIcon from "../components/icons/Settings.vue";
-import BaseButtonIcon from "../components/ui/BaseButtonIcon.vue";
-import Clear from "../components/icons/Clear.vue";
-import { http } from "@tauri-apps/api";
 
-import { ref, onActivated, onDeactivated } from "vue";
-import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-
-import { addFriend, removeFriend, sleep, randomNumber, getUser } from "../utils";
-import { useAuthStore, useSettingsStore } from "../store";
-import { Threads, Check, UserObject } from "../types";
-
-const settingsStore = useSettingsStore();
-const authStore = useAuthStore();
 const router = useRouter();
+const settingsStore = useSettingsStore();
 
-const { blacklistIds, countries, friends, gamemode, check, addFriend: keepFriend, addBlacklist } = storeToRefs(settingsStore);
-const { session, token } = storeToRefs(authStore);
+const { countries } = storeToRefs(settingsStore)
 
-const checking = ref(0);
-const currentPage = ref(1);
 const checked = ref<UserObject[]>([]);
 const mutuals = ref<UserObject[]>([]);
 
-const toSettings = () => {
-  router.push({ path: "/settings" })
-}
+const currentUser = ref(0);
+const currentPage = ref(0);
 
-const threads: Threads = {}
-const getUserElements = async (page: number, country: string): Promise<Element[]> => {
-  let countryParam = country == "GLOBAL" ? "" : `&country=${country}`;
+const tasks = ref<Tasks>({});
 
-  const response = await http.fetch<string>(`https://osu.ppy.sh/rankings/${gamemode.value}/performance?page=${page}${countryParam}`, {
-    method: "GET",
-    responseType: 2
-  })
+const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {
+  const user = await getUser(foundMutual || checkedUser);
+  checked.value.push(user);
 
-  let dom = new DOMParser().parseFromString(response.data, "text/html");
-  return Array.from(dom.getElementsByClassName("ranking-page-table__user-link-text js-usercard"));
-}
-
-const add = async (element: Element) => {
-  let id = parseInt(element.getAttribute("data-user-id")!);
-  checking.value = id;
-
-  if (friends.value.includes(id) || blacklistIds.value.includes(id)) return;
-  if (addBlacklist.value) {
-    settingsStore.toggleBlacklistId(id);
-  }
-
-  try {
-    let newFriendList = await addFriend(id, token.value, session.value);
-    if (!newFriendList) return;
-
-    const user = await getUser(id);
-    checked.value.push(user);
-
-    let friend = newFriendList.find(fr => fr.target_id == id);
-    if (!friend) return;
-
-    if (!friend.mutual) {
-      await removeFriend(id, token.value, session.value);
-      return;
-    }
-
-    if (!keepFriend.value) {
-      await removeFriend(id, token.value, session.value);
-    }
-
+  if (foundMutual) {
     mutuals.value.push(user);
-  } catch (err: any) {
-    console.log(err);
-    console.log("can't add", id, err.response.data, err.response.status)
   }
 }
 
-const startCheck = async (id: number, code: string) => {
-  let limit = settingsStore.getLimit(code) || { countryCode: code, end: 200, start: 1, index: 0 };
+onActivated(async () => {
+  if (import.meta.env.DEV) return;
 
-  for (let page = limit.start; page <= limit.end; page++) {
-    currentPage.value = page;
-
-    let elements = (await getUserElements(page, code)).slice(limit.index);
-
-    for (const [index, element] of elements.entries()) {
-      if (!threads[id]) return;
-
-      await add(element);
-      settingsStore.updateLimit({
-        countryCode: limit.countryCode,
-        start: page,
-        end: limit.end,
-        index
-      });
-    }
-
-    settingsStore.updateLimit({
-      countryCode: code,
-      start: page,
-      end: limit.end,
-      index: 0
-    })
-
-    // page change sleep. Just in case.
-    await sleep(2000);
-  }
-}
-
-const start = async (id: number) => {
-  if (check.value == Check.Global) {
-    await startCheck(id, "GLOBAL");
-  } else {
-    for (let country of countries.value) {
-      await startCheck(id, country.code);
-      await sleep(2500);
-    }
-  }
-}
-
-// start();
-onDeactivated(() => {
-  console.log("deactivated");
-});
-onActivated(() => {
-  // if (import.meta.env.DEV) return;
-
-  // if (import.meta.env.DEV) {
-  //   for (let index = 0; index < 50; index++) {
-  //     checked.value.push(10440852);
-  //   }
-  //   return
-  // };
-
-  // Disable all threads
-  for (const item in threads) {
-    threads[item] = false;
+  for (const task in tasks.value) {
+    tasks.value[task] = false
   }
 
   let id = randomNumber(500);
-  threads[id] = true;
+  tasks.value[id] = true;
 
-  start(id);
+  if (settingsStore.check === Check.Global) {
+    await startChecking(id, tasks.value, "GLOBAL", currentUser, currentPage, updateLists);
+  } else {
+    for (let country of countries.value) {
+      await startChecking(id, tasks.value, country.code, currentUser, currentPage, updateLists)
+    }
+  }
 })
 </script>
 
@@ -163,13 +74,13 @@ onActivated(() => {
         </div>
       </AppSide>
 
-      <AppSide title="Checked Users" :desc="`Checking ${checking} - Page ${currentPage}`">
+      <AppSide title="Checked Users" :desc="`Checking ${currentUser} - Page ${currentPage}`">
         <template v-slot:buttons>
           <BaseButtonIcon @click="checked = []">
             <Clear />
           </BaseButtonIcon>
 
-          <BaseButtonIcon @click="toSettings">
+          <BaseButtonIcon @click="router.push('/settings')">
             <SettingsIcon />
           </BaseButtonIcon>
         </template>

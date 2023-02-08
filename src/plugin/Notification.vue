@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { events } from "./notification";
 import { Notification } from "../types";
 import { handleBeforeLeave } from "../animation";
-import BaseButton from "../components/ui/BaseButton.vue";
+import BaseButton from "../components/Ui/BaseButton.vue";
 
 const notifications = ref<Notification[]>([]);
 
