@@ -5,9 +5,9 @@ use diesel::r2d2::{ConnectionManager, Pool};
 
 pub fn establish_connection_pool() -> Pool<ConnectionManager<PgConnection>> {
     let env_file = if cfg!(debug_assertions) {
-        ".dev.env"
+        ".env.development"
     } else {
-        ".prod.env"
+        ".env.production"
     };
 
     dotenvy::from_filename(env_file).expect("Couldn't load .env file");
