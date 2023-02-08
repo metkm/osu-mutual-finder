@@ -31,7 +31,7 @@ defineProps<{
 .icon-leave-active,
 .icon-enter-active,
 .icon-move {
-  transition: all 1000ms ease;
+  transition: all 350ms ease;
 }
 
 .icon-leave-to,
