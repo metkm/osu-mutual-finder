@@ -11,4 +11,4 @@ dist
 build
 electron-builder.env
 *.env.*
-.dev.env
+.dev.env.*
