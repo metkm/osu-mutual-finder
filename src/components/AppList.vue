@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends any">
 import { ref, toRefs, computed, onMounted } from 'vue';
-import { throttle } from '../throttle';
+import { throttle } from '../utils';
 
 const props = defineProps<{
   items: T[],

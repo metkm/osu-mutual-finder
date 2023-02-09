@@ -16,6 +16,23 @@ export const randomNumber = (num: number) => {
   return Math.floor(Math.random() * num)
 }
 
+export const throttle = (
+  callback: (...params: any) => void,
+  limit: number
+) => {
+  let wait = false;
+  return (...args: any) => {
+    if (wait) return;
+
+    wait = true;
+    setTimeout(() => {
+      wait = false;
+    }, limit)
+
+    callback(...args)
+  }
+}
+
 export const jsonCountries: WebCountry[] = [
   { flag_url: "1f1fa-1f1f8.svg", code: "US", name: "United States" },
   { flag_url: "1f1f7-1f1fa.svg", code: "RU", name: "Russian Federation" },
