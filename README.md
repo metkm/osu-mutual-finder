@@ -7,7 +7,9 @@ It doesn't store your passwords in any way. If you are still can't trust it what
 ![mutuals](https://user-images.githubusercontent.com/54271295/215283839-d6751112-21a9-4b5a-b7b5-8bae26b6914b.png)
 ![settings](https://user-images.githubusercontent.com/54271295/181880677-24d09633-95c0-4ae9-a715-7fc9da76865c.png)
 
-# Running the project
+# Running the project for development
+If you are looking for releases to just use the program go to releases https://github.com/metkm/osu-mutual-finder/releases
+
 ### For the app
 `.env.development`
 ```
