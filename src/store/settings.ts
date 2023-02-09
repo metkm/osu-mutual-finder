@@ -40,9 +40,6 @@ export const useSettingsStore = defineStore("settings", {
     uploaded: false
   }),
   actions: {
-    toggleAddFriend() {
-      this.addFriend = !this.addFriend;
-    },
     toggleAddBlacklist() {
       this.addBlacklist = !this.addBlacklist;
     },
@@ -66,6 +63,8 @@ export const useSettingsStore = defineStore("settings", {
       clampLimit(newLimit);
 
       let index = this.limits.findIndex(x => x.countryCode == newLimit.countryCode);
+      console.log("found index", index)
+
       if (index !== -1) {
         this.limits.splice(index, 1, newLimit);        
       } else {

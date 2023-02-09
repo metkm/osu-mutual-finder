@@ -1,32 +1,23 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../store";
 import { jsonCountries } from "../../utils";
-import BaseInput from "../Ui/BaseInput.vue";
-const settingsStore = useSettingsStore();
 
-const limits = computed(() => settingsStore.limits);
+import BaseInput from "../Ui/BaseInput.vue";
+
+const settingsStore = useSettingsStore();
+const { limits } = storeToRefs(settingsStore);
 const selected = ref("");
 
-const change = (code: string) => {
-  let limit = limits.value.find(x => x.countryCode == code);
-  if (limit) {
-    settingsStore.updateLimit(limit);
-  }
-}
-
-const removeLimit = (code: string) => {
-  settingsStore.removeLimit(code);
-}
-
-watch(selected, val => {
-  settingsStore.addLimit({
-    countryCode: val,
+watch(selected, countryCode => {
+  limits.value.push({
+    countryCode,
     start: 1,
     end: 200,
     index: 0
   });
-});
+})
 </script>
 
 <template>
@@ -38,15 +29,11 @@ watch(selected, val => {
       <p>Index</p>
     </div>
     <div class="listbox grid gap-1 max-h-72">
-
-      <div v-for="limit in limits" :key="limit.countryCode"
-        class="flex items-center justify-around gap-2" 
-        @dblclick="removeLimit(limit.countryCode)"
-      >
+      <div v-for="limit in limits" class="flex items-center gap-1">
         <p class="w-full text-center">{{ limit.countryCode }}</p>
-        <BaseInput type="number" v-model="limit.start" @keyup="change(limit.countryCode)" />
-        <BaseInput type="number" v-model="limit.end" @keyup="change(limit.countryCode)" />
-        <BaseInput type="number" v-model="limit.index" @keyup="change(limit.countryCode)" />
+        <BaseInput type="number" min="1" max="199" v-model="limit.start" />
+        <BaseInput type="number" min="2" max="200" v-model="limit.end " />
+        <BaseInput type="number" min="0" max="50" v-model="limit.index" />
       </div>
     </div>
 
