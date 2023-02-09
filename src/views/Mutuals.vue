@@ -15,7 +15,6 @@ import BaseButtonIcon from "../components/Ui/BaseButtonIcon.vue";
 
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
-import AppList from "../components/AppList.vue";
 
 const router = useRouter();
 const settingsStore = useSettingsStore();
@@ -27,10 +26,19 @@ const mutuals = ref<UserObject[]>([]);
 
 const currentUser = ref(0);
 const currentPage = ref(0);
+const currentCooldown = ref(6);
 
 const tasks = ref<Tasks>({});
 
+let cooldownId: NodeJS.Timeout;
 const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {
+  currentCooldown.value = 6;
+  clearInterval(cooldownId);
+
+  cooldownId = setInterval(() => {
+    currentCooldown.value -= 1;
+  }, 1000)
+
   const user = await getUser(foundMutual || checkedUser);
   checked.value.push(user);
 
@@ -60,7 +68,7 @@ onActivated(async () => {
 </script>
 
 <template>
-  <main class="page p-0 flex flex-col">
+  <main class="page p-0 flex flex-col overflow-hidden">
     <div class="flex grow overflow-hidden">
       <AppSide title="Found Mutuals" :desc="`Total of ${mutuals.length}`">
         <template v-slot:buttons>
@@ -69,12 +77,12 @@ onActivated(async () => {
           </BaseButtonIcon>
         </template>
 
-        <div class="flex flex-col gap-1 overflow-y-auto p-2">
+        <div class="overflow-y-auto grid lg:grid-cols-2 gap-2 p-2">
           <User v-for="user in mutuals" :user="user" :key="user.id" />
         </div>
       </AppSide>
 
-      <AppSide title="Checked Users" :desc="`Checking ${currentUser} - Page ${currentPage}`">
+      <AppSide title="Checked Users" :desc="`Cooldown ${currentCooldown} - Checking ${currentUser} - Page ${currentPage}`">
         <template v-slot:buttons>
           <BaseButtonIcon @click="checked = []">
             <Clear />
@@ -85,9 +93,9 @@ onActivated(async () => {
           </BaseButtonIcon>
         </template>
 
-        <AppList :items="checked" :itemHeight="76" v-slot="{ item }">
-          <User :user="item" :key="item.id" />
-        </AppList>
+        <div class="overflow-y-auto grid lg:grid-cols-2 gap-2 p-2">
+          <User v-for="user in checked" :user="user" :key="user.id" />
+        </div>
       </AppSide>
     </div>
   </main>
