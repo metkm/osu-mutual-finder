@@ -31,22 +31,22 @@ watch(selected, val => {
 
 <template>
   <div aria-label="page limit setting" class="setting relative">
-    <div class="listbox max-h-72">
-      <div class="flex items-center justify-around">
-        <p>Code</p>
-        <p>Start</p>
-        <p>End</p>
-        <p>Index</p>
-      </div>
+    <div class="flex items-center justify-around">
+      <p>Code</p>
+      <p>Start</p>
+      <p>End</p>
+      <p>Index</p>
+    </div>
+    <div class="listbox grid gap-1 max-h-72">
 
       <div v-for="limit in limits" :key="limit.countryCode"
-        class="flex items-center justify-around overflow-hidden gap-2 my-1" 
+        class="flex items-center justify-around gap-2" 
         @dblclick="removeLimit(limit.countryCode)"
       >
         <p class="w-full text-center">{{ limit.countryCode }}</p>
-        <BaseInput v-model="limit.start" @keyup="change(limit.countryCode)" />
-        <BaseInput v-model="limit.end" @keyup="change(limit.countryCode)" />
-        <BaseInput v-model="limit.index" @keyup="change(limit.countryCode)" />
+        <BaseInput type="number" v-model="limit.start" @keyup="change(limit.countryCode)" />
+        <BaseInput type="number" v-model="limit.end" @keyup="change(limit.countryCode)" />
+        <BaseInput type="number" v-model="limit.index" @keyup="change(limit.countryCode)" />
       </div>
     </div>
 
