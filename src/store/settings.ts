@@ -63,8 +63,6 @@ export const useSettingsStore = defineStore("settings", {
       clampLimit(newLimit);
 
       let index = this.limits.findIndex(x => x.countryCode == newLimit.countryCode);
-      console.log("found index", index)
-
       if (index !== -1) {
         this.limits.splice(index, 1, newLimit);        
       } else {
