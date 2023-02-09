@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppRadio from '../AppRadio.vue';
 import { ref, watch } from "vue";
 import { useSettingsStore } from '../../store';
+import BaseRadio from '../Ui/BaseRadio.vue';
 const settingsStore = useSettingsStore();
 
 const gamemode = ref(settingsStore.gamemode);
@@ -17,7 +17,7 @@ watch(gamemode, mode => {
     <h1>Gamemode</h1>
 
     <div class="flex flex-col gap-1">
-      <AppRadio v-for="mode in modes" :label="mode" v-model="gamemode" />
+      <BaseRadio v-for="mode in modes" :label="mode" v-model="gamemode" />
     </div>
   </div>
 </template>

@@ -4,7 +4,7 @@ import { computed, ref, watch } from "vue";
 import { handleBeforeLeave } from "../../animation";
 import { jsonCountries } from "../../utils";
 import { Check, Country as CountryInterface } from "../../types";
-import AppRadio from "../AppRadio.vue";
+import BaseRadio from "../Ui/BaseRadio.vue";
 import BaseInput from "../Ui/BaseInput.vue";
 import Country from "../Country.vue";
 const settingsStore = useSettingsStore();
@@ -34,8 +34,8 @@ watch(check, newCheck => {
 <template>
   <div aria-label="country setting" class="setting relative">
     <div class="flex flex-1 justify-around">
-      <AppRadio :label="Check.Country" v-model="check" />
-      <AppRadio :label="Check.Global" v-model="check" />
+      <BaseRadio :label="Check.Country" v-model="check" />
+      <BaseRadio :label="Check.Global" v-model="check" />
     </div>
 
     <div :class="{ 'opacity-20 pointer-events-none': check != Check.Country }">
