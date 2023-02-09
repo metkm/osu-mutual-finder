@@ -17,6 +17,9 @@ VITE_API_BASE_URL=http://localhost:3001
 npm run tauri dev
 ```
 ### For the server
+database setup
+https://diesel.rs/guides/getting-started 
+
 `.env.development`
 ```
 DATABASE_URL=postgres://user:password@localhost:5432/mutualfinder
