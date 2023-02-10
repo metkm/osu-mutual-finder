@@ -12,7 +12,7 @@ defineProps<{
       flex justify-center items-center relative
       px-4 py-2 rounded text-white
       bg-green-600 hover:bg-green-700
-      disabled:opacity-50 disabled:pointer-events-none
+      disabled:opacity-50 disabled:pointer-events-none select-none
     " :disabled="disabled || isLoading">
     <TransitionGroup name="icon" tag="div" class="grid grid-flow-col items-center gap-2">
       <Spinner v-if="isLoading" key="spinner-icon" />

@@ -40,14 +40,8 @@ export const useSettingsStore = defineStore("settings", {
     uploaded: false
   }),
   actions: {
-    toggleAddBlacklist() {
-      this.addBlacklist = !this.addBlacklist;
-    },
     toggleBlacklistId(userId: number) {
       toggleSetting(this.blacklistIds, userId);
-    },
-    toggleCountry(country: Country) {
-      toggleSetting(this.countries, country)
     },
     updateLimit(newLimit: Limit) {
       clampLimit(newLimit);

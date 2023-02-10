@@ -10,13 +10,13 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
 <template>
   <div id="settings" class="page overflow-y-auto snap-y">
     <div class="flex flex-col gap-2">
-      <SettingsToggle />
-      <SettingsBlacklist />
-      <div class="flex justify-center gap-2">
+      <SettingsToggle class="snap-start" />
+      <SettingsBlacklist class="snap-center" />
+      <div class="flex justify-center gap-2 snap-center">
         <SettingsPageLimit />
         <SettingsMode />
       </div>
-      <SettingsCountries class="snap-end" />
+      <SettingsCountries class="snap-center" />
       <SettingsOther class="snap-end" />
     </div>
   </div>
