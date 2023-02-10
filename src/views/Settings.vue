@@ -8,7 +8,7 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
 </script>
 
 <template>
-  <div id="settings" class="page overflow-y-auto">
+  <div id="settings" class="page overflow-y-auto snap-y">
     <div class="flex flex-col gap-2">
       <SettingsToggle />
       <SettingsBlacklist />
@@ -16,8 +16,8 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
         <SettingsPageLimit />
         <SettingsMode />
       </div>
-      <SettingsCountries />
-      <SettingsOther />
+      <SettingsCountries class="snap-end" />
+      <SettingsOther class="snap-end" />
     </div>
   </div>
 </template>
