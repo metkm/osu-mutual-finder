@@ -31,7 +31,7 @@ export const useSettingsStore = defineStore("settings", {
   state: () => ({
     friends: [] as number[],
     blacklistIds: [] as number[],
-    countries: [] as Country[],
+    countries: [] as WebCountry[],
     limits: [] as Limit[],
     addFriend: false,
     addBlacklist: false,
@@ -49,16 +49,6 @@ export const useSettingsStore = defineStore("settings", {
     toggleCountry(country: Country) {
       toggleSetting(this.countries, country)
     },
-    addLimit(newLimit: Limit) {
-      clampLimit(newLimit);
-      this.limits.push(newLimit);
-    },
-    removeLimit(limitCode: string) {
-      let index = this.limits.findIndex(x => x.countryCode == limitCode);
-      if (index !== -1) {
-        this.limits.splice(index, 1);
-      }
-    },
     updateLimit(newLimit: Limit) {
       clampLimit(newLimit);
 
@@ -66,7 +56,7 @@ export const useSettingsStore = defineStore("settings", {
       if (index !== -1) {
         this.limits.splice(index, 1, newLimit);        
       } else {
-        this.addLimit(newLimit);
+        this.limits.push(newLimit);
       }
     }
   },

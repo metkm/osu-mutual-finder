@@ -42,9 +42,8 @@
 
   .setting {
     @apply rounded-lg border-2 border-neutral-100 dark:border-neutral-900;
-    @apply p-4;
-    @apply gap-2;
-    @apply flex flex-grow flex-col justify-evenly basis-0;
+    @apply p-4 gap-2;
+    @apply flex flex-grow flex-col basis-0;
     @apply transition-all;
   }
 

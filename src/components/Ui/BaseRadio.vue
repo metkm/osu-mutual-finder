@@ -6,9 +6,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="px-4 py-2 relative rounded transition-colors" :class="{ 'bg-green-600 text-white': modelValue === label }">
     <input 
-      class="form-tick" 
+      class="appearance-none absolute inset-0" 
       type="radio"
       :id="label"
       :value="label"

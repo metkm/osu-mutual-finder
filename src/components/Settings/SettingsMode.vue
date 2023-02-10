@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import { useSettingsStore } from '../../store';
+import { storeToRefs } from "pinia";
 import BaseRadio from '../Ui/BaseRadio.vue';
+
 const settingsStore = useSettingsStore();
+const { gamemode } = storeToRefs(settingsStore);
 
-const gamemode = ref(settingsStore.gamemode);
 const modes = ["osu", "taiko", "fruits", "mania"];
-
-watch(gamemode, mode => {
-  settingsStore.gamemode = mode;
-})
 </script>
 
 <template>

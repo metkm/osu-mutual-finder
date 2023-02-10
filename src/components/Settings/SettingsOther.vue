@@ -7,20 +7,17 @@ import BaseButton from '../Ui/BaseButton.vue';
 const userId = ref(0);
 const cooldown = ref(false);
 
-const removeFriendClick = () => {
-  removeFriend(userId.value);
-
+const removeFriendClick = async () => {
   cooldown.value = true;
-  setTimeout(() => {
-    cooldown.value = false;
-  }, 1500)
+  await removeFriend(userId.value);
+  cooldown.value = false;
 }
 </script>
 <template>
   <div aria-label="remove friend setting" class="setting">
     <div class="flex flex-col gap-2 max-w-md">
       <BaseInput type="number" placeholder="User Id" v-model.number="userId" />
-      <BaseButton :disabled="cooldown" @click="removeFriendClick">
+      <BaseButton :isLoading="cooldown" @click="removeFriendClick">
         Remove friend
       </BaseButton>
     </div>
