@@ -29,7 +29,7 @@ const removeBlacklist = (userId: number) => {
           Add to Blacklist
         </BaseButton>
 
-        <BaseButton class="bg-red-500 hover:bg-red-800" @click="settingsStore.blacklistIds = []">
+        <BaseButton @click="settingsStore.blacklistIds = []">
           Clear Blacklist
         </BaseButton>
       </div>
