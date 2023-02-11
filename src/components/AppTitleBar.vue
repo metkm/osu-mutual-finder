@@ -31,7 +31,7 @@ appWindow.onResized(async () => {
       <Back />
     </button>
 
-    <p data-tauri-drag-region class="pl-2 text-center text-neutral-500">Mutual Finder - {{ route.name }}</p>
+    <p data-tauri-drag-region class="pl-2 text-center text-neutral-400">Mutual Finder - {{ route.name }}</p>
 
     <div data-tauri-drag-region class="h-full flex justify-end">
       <button aria-label="minimize window" class="window-control-btn" @click="appWindow.minimize">
