@@ -37,6 +37,8 @@ export const useSettingsStore = defineStore("settings", {
     addBlacklist: false,
     gamemode: Gamemode.osu,
     check: Check.Country,
+    friendAddDelay: 6000,
+    pageSkipDelay: 2500,
     uploaded: false
   }),
   actions: {

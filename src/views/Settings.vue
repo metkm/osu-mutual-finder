@@ -5,6 +5,7 @@ import SettingsPageLimit from "../components/Settings/SettingsPageLimit.vue";
 import SettingsCountries from "../components/Settings/SettingsCountries.vue";
 import SettingsMode from "../components/Settings/SettingsMode.vue";
 import SettingsOther from "../components/Settings/SettingsOther.vue";
+import SettingsDelay from "../components/Settings/SettingsDelay.vue";
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
     <div class="flex flex-col gap-2">
       <SettingsToggle class="snap-start" />
       <SettingsBlacklist class="snap-center" />
+      <SettingsDelay class="snap-center" />
       <div class="flex justify-center gap-2 snap-center">
         <SettingsPageLimit />
         <SettingsMode />

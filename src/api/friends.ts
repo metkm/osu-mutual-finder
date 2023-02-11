@@ -38,8 +38,9 @@ export const getRankingElements = async (page: number, country: string, gamemode
 }
 
 export const addFriend = async (userId: number) => {
-  await sleep(6000);
+  const settingsStore = useSettingsStore();
   const authStore = useAuthStore();
+  await sleep(settingsStore.friendAddDelay);
 
   const response = await http.fetch<UserObjectAdded[]>(`https://osu.ppy.sh/home/friends?target=${userId}`, {
     method: "POST",
@@ -129,6 +130,6 @@ export const startChecking = async (taskId: number, tasks: Tasks, countryCode: s
       index: 0
     })
 
-    await sleep(2500);
+    await sleep(settingsStore.pageSkipDelay);
   }
 }
