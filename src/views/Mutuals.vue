@@ -26,13 +26,13 @@ const mutuals = ref<UserObject[]>([]);
 
 const currentUser = ref(0);
 const currentPage = ref(0);
-const currentCooldown = ref(6);
+const currentCooldown = ref(settingsStore.friendAddDelay / 1000);
 
 const tasks = ref<Tasks>({});
 
 let cooldownId: NodeJS.Timeout;
 const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {
-  currentCooldown.value = 6;
+  currentCooldown.value = settingsStore.friendAddDelay / 1000;
   clearInterval(cooldownId);
 
   cooldownId = setInterval(() => {
