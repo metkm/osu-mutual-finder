@@ -1,10 +1,10 @@
 [package]
 name = "app"
-version = "1.4.1"
+version = "1.4.2"
 description = "A way to find mutuals in osu!"
-authors = ["sibyl666"]
+authors = ["metkm"]
 license = "MIT"
-repository = "https://github.com/sibyl666/osu-mutual-finder"
+repository = "https://github.com/metkm/osu-mutual-finder"
 default-run = "app"
 edition = "2021"
 rust-version = "1.57"
