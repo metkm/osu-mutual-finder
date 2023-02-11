@@ -21,28 +21,3 @@ import SettingsOther from "../components/Settings/SettingsOther.vue";
     </div>
   </div>
 </template>
-
-<style>
-.array-enter-active,
-.array-leave-active {
-  transition: all 150ms ease;
-}
-
-.array-leave-active {
-  position: absolute;
-}
-
-.array-enter-from {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.array-leave-to {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.array-move {
-  transition: all 150ms ease;
-}
-</style>
