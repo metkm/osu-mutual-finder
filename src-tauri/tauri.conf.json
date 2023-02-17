@@ -46,7 +46,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.Mutual Finder.dev",
+      "identifier": "com.metkm.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
