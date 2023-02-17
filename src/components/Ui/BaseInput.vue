@@ -1,6 +1,9 @@
 <script setup lang="ts" generic="T extends any">
-defineProps<{
-  modelValue: T
+const { modelModifiers } = defineProps<{
+  modelValue: T,
+  modelModifiers?: {
+    [key: string]: any
+  }
 }>();
 
 const emit = defineEmits<{
@@ -9,6 +12,12 @@ const emit = defineEmits<{
 
 const updateModelValue = (event: Event) => {
   let target = event.target as HTMLInputElement;
+
+  let min = target.getAttribute('min');
+  if (modelModifiers?.min && min) {
+    target.value = Math.max(parseInt(min), parseInt(target.value)).toString();
+  }
+
   emit('update:modelValue', target.value);
 }
 </script>
