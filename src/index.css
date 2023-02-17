@@ -72,6 +72,7 @@
 
     @apply cursor-default;
     @apply dark:hover:bg-white hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10;
+    @apply dark:fill-black;
   }
 
   .window-control-btn svg {
