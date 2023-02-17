@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Mutual Finder",
-    "version": "1.4.2"
+    "version": "1.4.3"
   },
   "tauri": {
     "allowlist": {
@@ -46,7 +46,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.Sibyl.dev",
+      "identifier": "com.Mutual Finder.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
