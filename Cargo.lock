@@ -43,7 +43,6 @@ name = "app"
 version = "1.4.2"
 dependencies = [
  "serde",
- "serde_json",
  "tauri",
  "tauri-build",
  "window-shadows",
