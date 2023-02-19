@@ -5,7 +5,7 @@ import BaseButton from "../Ui/BaseButton.vue";
 import BaseInput from "../Ui/BaseInput.vue";
 
 const settingsStore = useSettingsStore();
-const userId = ref(null);
+const userId = ref<number | null>(null);
 
 const addToBlacklist = () => {
   if (userId.value) {
@@ -23,7 +23,7 @@ const removeBlacklist = (userId: number) => {
       <div class="flex flex-col gap-2">
         <p>Blacklist</p>
         <p class="text-neutral-500">User IDs to skip automatically</p>
-        <BaseInput type="number" placeholder="User id" v-model="userId" />
+        <BaseInput pattern="[0-9]*" placeholder="User id" v-model="userId" />
         
         <BaseButton @click="addToBlacklist">
           Add to Blacklist

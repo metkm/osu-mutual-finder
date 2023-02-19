@@ -1,9 +1,6 @@
 <script setup lang="ts" generic="T extends any">
-const { modelModifiers } = defineProps<{
+const props = defineProps<{
   modelValue: T,
-  modelModifiers?: {
-    [key: string]: any
-  }
 }>();
 
 const emit = defineEmits<{
@@ -11,14 +8,13 @@ const emit = defineEmits<{
 }>();
 
 const updateModelValue = (event: Event) => {
-  let target = event.target as HTMLInputElement;
-
-  let min = target.getAttribute('min');
-  if (modelModifiers?.min && min) {
-    target.value = Math.max(parseInt(min), parseInt(target.value)).toString();
+  let element = event.target as HTMLInputElement;
+  if (element.validity.patternMismatch) {
+    element.value = props.modelValue as string;
+    return;
   }
 
-  emit('update:modelValue', target.value);
+  emit("update:modelValue", element.value);
 }
 </script>
 

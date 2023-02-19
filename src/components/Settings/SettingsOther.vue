@@ -16,7 +16,7 @@ const removeFriendClick = async () => {
 <template>
   <div aria-label="remove friend setting" class="setting">
     <div class="flex flex-col gap-2 max-w-md">
-      <BaseInput type="number" placeholder="User Id" v-model.number="userId" />
+      <BaseInput pattern="[0-9]*" placeholder="User Id" v-model="userId" />
       <BaseButton :isLoading="cooldown" @click="removeFriendClick">
         Remove friend
       </BaseButton>
