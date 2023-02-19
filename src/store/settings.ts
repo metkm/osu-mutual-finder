@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Check, Country, Gamemode, WebCountry } from "../types";
+import { Check, Gamemode, WebCountry } from "../types";
 import { clampNumber } from "../utils";
 
 interface Limit {

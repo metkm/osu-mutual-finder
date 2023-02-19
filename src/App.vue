@@ -2,11 +2,9 @@
 import { useAuthStore, useSettingsStore } from "./store";
 import { onMounted } from "vue";
 
-import { event } from "@tauri-apps/api";
 import { relaunch } from "@tauri-apps/api/process";
 import { checkUpdate, installUpdate } from "@tauri-apps/api/updater";
 import { notify, notifyRemove } from "./plugin/notification";
-import ky from "ky";
 
 import TitleBar from "./components/AppTitleBar.vue";
 import DevRouter from "./components/DevRouter.vue";
@@ -34,10 +32,6 @@ onMounted(() => {
   })
 });
 
-interface APIRefreshResponse {
-  access_token: string,
-  refresh_token: string
-}
 
 onMounted(async () => {
   const { shouldUpdate, manifest } = await checkUpdate();
@@ -57,36 +51,25 @@ onMounted(async () => {
   }
 
   if (settingsStore.uploaded) {
-    // refresh token access token
-
     try {
-      const response = await ky.patch(`${import.meta.env.VITE_API_BASE_URL}/api/refresh`, {
-        credentials: "include",
-      }).json<APIRefreshResponse>();
-
-      authStore.access_token = response.access_token;
-      authStore.refresh_token = response.refresh_token;
-    } catch (err) {
+      await authStore.refreshTokens();
+    } catch {
       authStore.access_token = "";
       authStore.refresh_token = "";
       settingsStore.uploaded = false;
     }
-  } else {
-    notify("Would you like to upload your friend list to database?", {
-      acceptText: "Yes!",
-      description: "This helps you find mutuals quickly by checking saved mutuals in Mutual Finder's database (Recommended)",
-      acceptCallback: () => {
-        let url = import.meta.env.DEV ? "http://localhost:3001/api/login" : "https://sibylku.xyz/api/login";
-  
-        window.location.href = url;
-      },
-      delay: 10_000,
-    });
-  }
-});
 
-event.listen("tauri://update-status", (res) => {
-  console.log(res);
+    return;
+  }
+
+  notify("Would you like to upload your friend list to database?", {
+    acceptText: "Yes!",
+    description: "This helps you find mutuals quickly by checking saved mutuals in Mutual Finder's database (Recommended)",
+    acceptCallback: () => {
+      window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/login`;
+    },
+    delay: 10_000,
+  });
 });
 </script>
 
