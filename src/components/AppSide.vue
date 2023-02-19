@@ -11,7 +11,7 @@ defineProps<{
       <p class="ml-2 text-sm truncate">{{ title }}</p>
       <p class="text-neutral-400 text-center text-sm truncate">{{ desc }}</p>
 
-      <div class="flex justify-self-end">
+      <div class="flex gap-1 justify-self-end">
         <slot name="buttons"></slot>
       </div>
     </div>
