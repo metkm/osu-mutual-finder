@@ -20,7 +20,7 @@ fn main() {
             window.on_window_event(|event| {
                 match event {
                     WindowEvent::Resized(..) => {
-                        std::thread::sleep(std::time::Duration::from_micros(500)) // 0.5ms
+                        std::thread::sleep(std::time::Duration::from_millis(1))
                     }
                     _ => {}
                 }
