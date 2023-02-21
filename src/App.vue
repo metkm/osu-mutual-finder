@@ -77,25 +77,16 @@ onMounted(async () => {
   <TitleBar />
   <DevRouter v-if="ISDEV" />
 
-  <div class="flex-1 overflow-hidden">
-    <suspense>
-      <template #default>
-        <router-view v-slot="{ Component, route }">
-          <main class="h-full w-full" :aria-label="route.name?.toString()">
-            <KeepAlive>
-              <component 
-                :is="Component" 
-                :key="route.meta.usePathKey ? route.path : undefined" 
-              />
-            </KeepAlive>
-          </main>
-        </router-view>
-      </template>
-      <template #fallback>
-        <p>Loading...</p>
-      </template>
-    </suspense>
-  </div>
+  <router-view v-slot="{ Component, route }">
+    <main class="h-full w-full overflow-hidden relative" :aria-label="route.name?.toString()">
+      <KeepAlive>
+        <component 
+          :is="Component" 
+          :key="route.meta.usePathKey ? route.path : undefined" 
+        />
+      </KeepAlive>
+    </main>
+  </router-view>
 
   <Notification />
 </template>
