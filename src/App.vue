@@ -75,7 +75,7 @@ onMounted(async () => {
 
 <template>
   <TitleBar />
-  <!-- <DevRouter v-if="ISDEV" /> -->
+  <DevRouter v-if="ISDEV" />
 
   <router-view v-slot="{ Component, route }">
     <main class="h-full w-full overflow-hidden relative" :aria-label="route.name?.toString()">
