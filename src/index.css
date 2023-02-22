@@ -16,12 +16,14 @@
   }
 
   ::-webkit-scrollbar {
+    @apply w-2.5;
     @apply bg-neutral-200 dark:bg-neutral-900;
-    @apply w-2;
+    @apply rounded-full;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-300 dark:bg-neutral-800;
+    @apply bg-neutral-400 dark:bg-neutral-800;
+    @apply rounded-full;
   }
 
   .page {
@@ -41,10 +43,8 @@
   }
 
   .setting {
-    @apply rounded-lg border-2 border-neutral-100 dark:border-neutral-900;
-    @apply p-4 gap-2;
     @apply flex flex-grow flex-col basis-0;
-    @apply transition-all;
+    @apply p-4 gap-2;
   }
 
   .listbox {
