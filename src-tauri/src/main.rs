@@ -17,16 +17,12 @@ fn main() {
                 println!("error while adding shadow to main window");
             }
 
-            window.on_window_event(|event| {
-                match event {
-                    WindowEvent::Resized(..) => {
-                        std::thread::sleep(std::time::Duration::from_millis(1))
-                    }
-                    _ => {}
-                }
-            });
-
             Ok(())
+        })
+        .on_window_event(|e| {
+            if let WindowEvent::Resized(_) = e.event() {
+                std::thread::sleep(std::time::Duration::from_millis(1))
+            }
         })
         .invoke_handler(tauri::generate_handler![])
         .run(tauri::generate_context!())
