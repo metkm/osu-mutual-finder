@@ -78,14 +78,10 @@
     "windows": [
       {
         "title": "Mutual Finder",
-        "fullscreen": false,
-        "height": 600,
-        "minHeight": 450,
-        "minWidth": 450,
-        "width": 800,
-        "resizable": true,
-        "decorations": false,
-        "visible": false
+        "minWidth": 400,
+        "minHeight": 400,
+        "visible": false,
+        "decorations": false
       }
     ]
   }

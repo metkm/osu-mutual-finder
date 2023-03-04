@@ -13,9 +13,7 @@ const router = useRouter();
 const isMaximized = ref(false);
 
 onMounted(() => {
-  setTimeout(() => {
-    appWindow.show();
-  }, 80);
+  setTimeout(() => appWindow.show(), 200)
 });
 
 appWindow.onResized(async () => {
