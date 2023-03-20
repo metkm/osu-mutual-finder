@@ -16,13 +16,15 @@
   }
 
   ::-webkit-scrollbar {
-    @apply w-2;
-    @apply bg-neutral-200 dark:bg-neutral-900;
+    @apply w-4;
     @apply rounded-full;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-400 dark:bg-neutral-800;
+    background-clip: padding-box;
+
+    @apply bg-neutral-200 dark:bg-neutral-800;
+    @apply border-5 border-solid border-transparent;
     @apply rounded-full;
   }
 

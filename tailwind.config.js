@@ -3,17 +3,12 @@ module.exports = {
   darkMode: "media", // or 'media' or 'class'
   theme: {
     extend: {
-      boxShadow: {
-        "scroll": "inset 0px 0px 10px 10px"
-      },
       colors: {
         "dark": "#101010"
+      },
+      borderWidth: {
+        "5": "5px"
       }
-    },
-  },
-  variants: {
-    extend: {
-      backgroundSize: ["hover"]
     },
   },
   plugins: [],

@@ -9,17 +9,15 @@ import SettingsDelay from "../components/Settings/SettingsDelay.vue";
 </script>
 
 <template>
-  <div class="h-full overflow-hidden p-2">
-    <div class="h-full overflow-y-auto divide-y-4 dark:divide-neutral-900 pr-2">
-      <SettingsToggle />
-      <SettingsBlacklist />
-      <SettingsDelay />
-      <div class="flex justify-center gap-2 snap-center">
-        <SettingsPageLimit />
-        <SettingsMode />
-      </div>
-      <SettingsCountries />
-      <SettingsOther />
+  <div class="h-full overflow-y-auto divide-y dark:divide-neutral-900">
+    <SettingsToggle />
+    <SettingsBlacklist />
+    <SettingsDelay />
+    <div class="flex justify-center gap-2 snap-center">
+      <SettingsPageLimit />
+      <SettingsMode />
     </div>
+    <SettingsCountries />
+    <SettingsOther />
   </div>
 </template>
