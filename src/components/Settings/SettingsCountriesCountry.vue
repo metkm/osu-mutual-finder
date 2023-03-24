@@ -22,7 +22,7 @@ const queryResults = computed(() => {
 
 <template>
   <div class="grid grid-cols-2 grid-rows-1 gap-2 max-h-96">
-    <section class="grid gap-2">
+    <section class="flex flex-col gap-2">
       <BaseInput v-model="query" placeholder="Query countries" />
 
       <ul class="overflow-y-auto">

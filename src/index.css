@@ -43,31 +43,9 @@
     @apply border dark:border-neutral-800 checked:bg-green-500;
     @apply focus-outline;
   }
-
-  .setting {
-    @apply flex flex-grow flex-col basis-0;
-    @apply p-4 gap-2;
-  }
-
-  .listbox {
-    @apply relative;
-    @apply overflow-y-auto overflow-x-hidden;
-    @apply flex-1 rounded;
-    @apply px-2 py-1;
-  }
-
-  .listbox-item {
-    @apply flex w-full items-center p-1 rounded;
-    @apply hover:bg-neutral-200 dark:hover:bg-neutral-800;
-    @apply focus-outline;
-  }
 }
 
 @layer utilities {
-  .bg-theme {
-    @apply dark:bg-neutral-900;
-  }
-
   .window-control-btn {
     @apply h-full flex items-center justify-center;
     width: 48px;

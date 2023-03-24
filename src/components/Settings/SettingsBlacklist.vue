@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import { useSettingsStore } from "../../store";
 import BaseButton from "../Ui/BaseButton.vue";
 import BaseInput from "../Ui/BaseInput.vue";
+import SettingsBase from "./SettingsBase.vue";
 
 const settingsStore = useSettingsStore();
+const { blacklistIds } = storeToRefs(settingsStore);
+
 const userId = ref<number | null>(null);
 
 const addToBlacklist = () => {
   if (userId.value) {
     settingsStore.toggleBlacklistId(userId.value);
+    userId.value = null;
   }
 };
 const removeBlacklist = (userId: number) => {
@@ -18,27 +23,23 @@ const removeBlacklist = (userId: number) => {
 </script>
 
 <template>
-  <div class="setting">
-    <div class="flex gap-4">
-      <div class="flex flex-col gap-2">
-        <p>Blacklist</p>
-        <p class="text-neutral-500">User IDs to skip automatically</p>
-        <BaseInput pattern="[0-9]*" placeholder="User id" v-model="userId" />
-        
-        <BaseButton @click="addToBlacklist">
-          Add to Blacklist
-        </BaseButton>
+  <SettingsBase class="grid gap-4">
+    <p class="text-neutral-500 text-center">User IDs to skip automatically</p>
 
-        <BaseButton @click="settingsStore.blacklistIds = []">
-          Clear Blacklist
-        </BaseButton>
-      </div>
+    <div class="flex items-center gap-2">
+      <BaseInput pattern="[0-9]*" placeholder="user id" v-model="userId" @keyup.enter="addToBlacklist" />
 
-      <ul aria-label="blacklisted ids" class="listbox select-none max-h-72">
-        <li v-for="id in settingsStore.blacklistIds" :key="id" @dblclick="removeBlacklist(id)" class="listbox-item">
+      <BaseButton @click="addToBlacklist">Add to Blacklist</BaseButton>
+      <BaseButton @click="blacklistIds = []" class="hover:bg-red-500">Clear Blacklist</BaseButton>
+    </div>
+
+    <ul v-if="settingsStore.blacklistIds.length > 0" class="rounded border dark:border-neutral-800 max-h-72 overflow-y-auto">
+      <template v-for="id in blacklistIds" :key="id">
+        <li class="p-2 hover:dark:bg-neutral-800 select-none" 
+          @dblclick="removeBlacklist(id)">
           {{ id }}
         </li>
-      </ul>
-    </div>
-  </div>
+      </template>
+    </ul>
+  </SettingsBase>
 </template>

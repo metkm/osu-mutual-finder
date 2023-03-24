@@ -8,12 +8,13 @@ defineProps<{
 </script>
 
 <template>
-  <button class="
-      flex justify-center items-center relative
-      px-4 py-2 rounded text-white
-      bg-green-600 hover:bg-green-700
-      disabled:opacity-50 disabled:pointer-events-none select-none
-    " :disabled="disabled || isLoading">
+  <button 
+    class="
+      shrink-0 px-4 py-2 rounded border dark:border-neutral-800 bg-neutral-200
+      dark:bg-neutral-800 hover:bg-green-600 transition-colors hover:text-white
+    "
+    :disabled="disabled || isLoading"
+  >
     <TransitionGroup name="icon" tag="div" class="grid grid-flow-col items-center gap-2">
       <Spinner v-if="isLoading" key="spinner-icon" />
       <div v-else-if="$slots.icon" key="user-icon">

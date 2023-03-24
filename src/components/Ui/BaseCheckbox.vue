@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import SettingsBase from '../Settings/SettingsBase.vue';
+
 defineProps<{
   modelValue: boolean,
   label: string,
@@ -16,7 +18,7 @@ const updateModelValue = (event: Event) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-2">
+  <SettingsBase>
     <div class="flex items-center gap-2">
       <div class="w-12 p-1 rounded-full relative bg-neutral-200 dark:bg-neutral-800 transition-colors" :class="{ '!bg-green-600': modelValue }">
         <input
@@ -35,5 +37,5 @@ const updateModelValue = (event: Event) => {
     </div>
 
     <p class="text-neutral-500">{{ description }}</p>
-  </div>
+  </SettingsBase>
 </template>
