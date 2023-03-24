@@ -36,7 +36,7 @@ appWindow.onResized(async () => {
         <Minimize />
       </button>
 
-      <button aria-label="toggle maximize window" class="window-control-btn" @click="appWindow.toggleMaximize">
+      <button aria-label="toggle maximize window" class="window-control-btn stroke-black dark:stroke-white" @click="appWindow.toggleMaximize">
         <UnMaximize v-if="isMaximized" />
         <Maximize v-else />
       </button>
