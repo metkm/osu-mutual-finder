@@ -12,6 +12,8 @@ jobs:
         uses: actions/setup-node@v3
       - name: setup rust
         uses: dtolnay/rust-toolchain@stable
+      - name: cache rust
+        uses: Swatinem/rust-cache@v2
       - name: build frontend
         run: npm install
       - name: build app
