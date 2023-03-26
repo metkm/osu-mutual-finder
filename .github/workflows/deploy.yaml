@@ -24,4 +24,4 @@ jobs:
       - name: Upload files to a GitHub release
         uses: svenstaro/upload-release-action@2.5.0
         with:
-          file: target/release/bundle/Mutual Finder_${{ github.ref_name }}_x64_en-US.msi.zip
+          file: target/release/bundle/msi/Mutual Finder_${{ github.ref_name }}_x64_en-US.msi.zip
