@@ -1,0 +1,25 @@
+name: "deploy"
+on:
+  release:
+    types: "created"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+      - name: setup rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: build frontend
+        run: npm install
+      - name: build app
+        run: npm run tauri build
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@2.5.0
+        with:
+          file: target/release/bundle/Mutual Finder_${{ github.ref }}_x64_en-US.msi.zip
