@@ -46,16 +46,22 @@
 }
 
 @layer utilities {
-  .window-control-btn {
-    @apply h-full flex items-center justify-center;
-    width: 48px;
+  .title-btn {
+    width: 46px;
+    height: 32px;
 
-    @apply cursor-default;
-    @apply dark:hover:bg-white hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10;
-    @apply dark:fill-black;
+    @apply flex justify-center items-center;
   }
 
-  .window-control-btn svg {
+  .title-btn:hover {
+    background: rgba(255, 255, 255, .1);
+  }
+
+  .title-btn.close:hover {
+    background: #e81123;
+  }
+
+  .window-btns svg {
     width: 10px;
     height: 10px;
     @apply fill-black dark:fill-white;

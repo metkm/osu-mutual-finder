@@ -22,26 +22,25 @@ appWindow.onResized(async () => {
 </script>
 
 <template>
-  <nav data-tauri-drag-region id="titlebar" 
-    class="h-8 grid grid-flow-col auto-cols-fr items-center border-b dark:border-neutral-800 select-none text-xs"
-  >
-    <button aria-label="go back" class="window-control-btn" :class="{ 'opacity-30 pointer-events-none': route.name != 'Settings' }" @click="router.back">
+  <nav data-tauri-drag-region class="grid grid-cols-3 items-center text-xs window-btns">
+    <button class="title-btn" @click="router.back"
+      :class="{ 'opacity-30 pointer-events-none': route.name != 'Settings' }">
       <Back />
     </button>
 
-    <p data-tauri-drag-region class="pl-2 text-center text-neutral-400">Mutual Finder - {{ route.name }}</p>
+    <p data-tauri-drag-region class="text-center">Mutual Finder - {{ route.name }}</p>
 
-    <div data-tauri-drag-region class="h-full flex justify-end">
-      <button aria-label="minimize window" class="window-control-btn" @click="appWindow.minimize">
+    <div data-tauri-drag-region class="flex justify-end">
+      <button @click="appWindow.minimize" class="title-btn">
         <Minimize />
       </button>
 
-      <button aria-label="toggle maximize window" class="window-control-btn stroke-black dark:stroke-white" @click="appWindow.toggleMaximize">
+      <button @click="appWindow.toggleMaximize" class="title-btn stroke-black dark:stroke-white">
         <UnMaximize v-if="isMaximized" />
         <Maximize v-else />
       </button>
 
-      <button aria-label="close window" class="window-control-btn hover:bg-[#e81123] group" @click="appWindow.close">
+      <button @click="appWindow.close" class="title-btn close">
         <Close />
       </button>
     </div>
