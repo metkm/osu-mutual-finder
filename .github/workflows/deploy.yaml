@@ -18,7 +18,7 @@ jobs:
       - name: build app
         run: npm run tauri build
         env:
-          TAURI_PRIVATE_KEY: ${{ env.TAURI_PRIVATE_KEY }}
+          TAURI_PRIVATE_KEY: ${{ vars.TAURI_PRIVATE_KEY }}
       - name: Upload files to a GitHub release
         uses: svenstaro/upload-release-action@2.5.0
         with:
