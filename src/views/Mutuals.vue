@@ -36,8 +36,8 @@ const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {
   clearInterval(cooldownId);
 
   cooldownId = setInterval(() => {
-    currentCooldown.value -= 1;
-  }, 1000)
+    currentCooldown.value -= 0.5;
+  }, 500)
 
   const user = await getUser(foundMutual || checkedUser);
   checked.value.push(user);
@@ -82,7 +82,7 @@ onActivated(async () => {
         </div>
       </AppSide>
 
-      <AppSide title="Checked Users" :desc="`Cooldown ${currentCooldown} - Checking ${currentUser} - Page ${currentPage}`">
+      <AppSide title="Checked Users" :desc="`Cooldown ${currentCooldown.toFixed(1)} - Checking ${currentUser} - Page ${currentPage}`">
         <template v-slot:buttons>
           <BaseButtonIcon @click="checked = []">
             <Clear />
