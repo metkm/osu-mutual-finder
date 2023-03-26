@@ -13,8 +13,10 @@ jobs:
         uses: actions/setup-node@v3
       - name: setup rust
         uses: dtolnay/rust-toolchain@stable
+      - name: build frontend
+        run: npm install
       - name: build app
-        run: npm install | npm run tauri build
+        run: npm run tauri build
         env:
           TAURI_PRIVATE_KEY: ${{ env.TAURI_PRIVATE_KEY }}
       - name: Upload files to a GitHub release
