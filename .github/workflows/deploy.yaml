@@ -1,0 +1,20 @@
+name: "deploy"
+on:
+  release:
+    types: "created"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    environment: "Build"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run: npm run install
+      - run: npm run tauri build
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@2.5.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/bundle/Mutual Finder_${{ github.ref }}_x64_en-US.msi.zip
