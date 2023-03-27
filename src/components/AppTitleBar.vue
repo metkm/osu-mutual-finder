@@ -23,24 +23,24 @@ appWindow.onResized(async () => {
 
 <template>
   <nav data-tauri-drag-region class="grid grid-cols-3 items-center text-xs window-btns">
-    <button class="title-btn" @click="router.back"
+    <button class="title-btn fill-black dark:fill-white" @click="router.back"
       :class="{ 'opacity-30 pointer-events-none': route.name != 'Settings' }">
       <Back />
     </button>
 
-    <p data-tauri-drag-region class="text-center">Mutual Finder - {{ route.name }}</p>
+    <p data-tauri-drag-region class="text-center select-none">Mutual Finder - {{ route.name }}</p>
 
     <div data-tauri-drag-region class="flex justify-end">
-      <button @click="appWindow.minimize" class="title-btn">
+      <button @click="appWindow.minimize" class="title-btn fill-black dark:fill-white">
         <Minimize />
       </button>
 
-      <button @click="appWindow.toggleMaximize" class="title-btn stroke-black dark:stroke-white">
+      <button @click="appWindow.toggleMaximize" class="title-btn stroke-black dark:stroke-white fill-black dark:fill-white">
         <UnMaximize v-if="isMaximized" />
         <Maximize v-else />
       </button>
 
-      <button @click="appWindow.close" class="title-btn close">
+      <button @click="appWindow.close" class="title-btn close fill-black dark:fill-white hover:fill-white">
         <Close />
       </button>
     </div>

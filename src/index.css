@@ -51,20 +51,16 @@
     height: 32px;
 
     @apply flex justify-center items-center;
+    @apply hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10;
   }
 
-  .title-btn:hover {
-    background: rgba(255, 255, 255, .1);
-  }
-
-  .title-btn.close:hover {
-    background: #e81123;
+  .title-btn.close {
+    @apply hover:bg-[#e81123];
   }
 
   .window-btns svg {
     width: 10px;
     height: 10px;
-    @apply fill-black dark:fill-white;
   }
 
   .focus-outline {
