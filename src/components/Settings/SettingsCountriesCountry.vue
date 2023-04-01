@@ -37,11 +37,14 @@ const queryResults = computed(() => {
 
     <section class="grid gap-2">
       <ul class="overflow-y-auto">
-        <li v-for="country in countries" class="flex items-center gap-2 p-1 rounded-lg hover:bg-neutral-100 hover:dark:bg-neutral-900">
-          <input type="checkbox" class="form-tick" :id="country.code" :value="country" v-model="countries" />
+        <template v-if="countries.length > 0">
+          <li v-for="country in countries" class="flex items-center gap-2 p-1 rounded-lg hover:bg-neutral-100 hover:dark:bg-neutral-900">
+            <input type="checkbox" class="form-tick" :id="country.code" :value="country" v-model="countries" />
 
-          <label :for="country.code" class="w-full select-none">{{ country.name }}</label>
-        </li>
+            <label :for="country.code" class="w-full select-none">{{ country.name }}</label>
+          </li>
+        </template>
+        <p v-else class="flex h-full items-center justify-center text-neutral-500 text-center px-6">The countries you added will show up here. You can click any country name on the left to start the program.</p>
       </ul>
     </section>
   </div>
