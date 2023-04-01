@@ -29,53 +29,48 @@ events.on("notifyRemove", ({ text }) => {
 </script>
 
 <template>
-  <transition-group tag="div" class="absolute bottom-3 left-3 flex flex-col gap-1 max-w-md" name="notif" appear @before-leave="handleBeforeLeave">
-    <div v-for="notification in notifications" 
-        :key="notification.message" 
-        class="rounded-md overflow-hidden border 
-        dark:border-neutral-800 bg-theme">
-      <div class="p-3">
-        <p>{{ notification.message }}</p>
-        <p v-if="notification.options?.description" class="text-neutral-400 text-sm">{{ notification.options.description }}</p>
+  <TransitionGroup tag="div" name="notif" class="absolute grid gap-3 inset-x-3 bottom-3 max-w-md" @beforeLeave="handleBeforeLeave">
+    <div 
+      v-for="notification in notifications" 
+      :key="notification.message" 
+      class="bg-white dark:bg-dark border dark:border-neutral-800 rounded-lg overflow-hidden"
+    >
+      <div class="p-2">
+        <p class="text-sm mb-1">{{ notification.message }}</p>
+        <p v-if="notification.options?.description" class="text-neutral-400 text-xs">{{ notification.options.description
+        }}</p>
       </div>
       <div v-if="notification.options?.acceptText || notification.options?.rejectText" class="grid grid-flow-col auto-cols-fr">
-        <BaseButton
-          v-if="notification.options?.acceptText"
-          @click="notification.options?.acceptCallback"
-          class="rounded-none"
-        >
+        <BaseButton v-if="notification.options?.acceptText" @click="notification.options?.acceptCallback"
+          class="rounded-none border-x-0 border-b-0">
           {{ notification.options.acceptText }}
         </BaseButton>
 
-        <BaseButton
-          v-if="notification.options.rejectText"
-          @click="notification.options?.rejectCallback"
-          class="rounded-none"
-          :red="true"
-        >
+        <BaseButton v-if="notification.options.rejectText" @click="notification.options?.rejectCallback"
+        class="rounded-none border-x-0 border-b-0 hover:!bg-red-500">
           {{ notification.options.rejectText }}
         </BaseButton>
       </div>
     </div>
-  </transition-group>
+  </TransitionGroup>
 </template>
 
 <style>
 .notif-enter-active,
+.notif-leave-active,
 .notif-move {
-  transition: all 500ms ease;
+  transition: all 350ms ease;
 }
 
 .notif-leave-active {
-  transition: all 500ms ease;
   position: absolute;
 }
 
 .notif-enter-from {
-  transform: translateY(400%);
+  transform: translateY(100%);
 }
 
 .notif-leave-to {
-  transform: translateY(400%);
+  opacity: 0;
 }
 </style>

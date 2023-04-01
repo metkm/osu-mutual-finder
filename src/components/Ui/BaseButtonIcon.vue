@@ -1,10 +1,20 @@
 <template>
-  <button 
+  <!-- <button 
     class="
       flex justify-center items-center
-      bg-neutral-200 dark:bg-neutral-900
+      border dark:border-neutral-800
       hover:bg-green-600 hover:text-white dark:fill-white hover:fill-white transition-colors
-      rounded p-2 h-min">
+      rounded p-2 h-min
+    "
+  > -->
+  <button
+    class="
+      p-2
+      dark:bg-neutral-900
+      shadow-sm rounded-lg border dark:border-neutral-800
+      dark:fill-white hover:bg-green-600 hover:fill-white transition-colors
+    "
+  >
     <slot></slot>
   </button>
 </template>

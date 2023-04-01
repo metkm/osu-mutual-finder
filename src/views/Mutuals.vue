@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onActivated } from "vue";
+import { ref, onActivated, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { UserObject, Tasks, Check, UpdateCallback } from "../types";
@@ -8,11 +8,11 @@ import { useSettingsStore } from "../store";
 import { getUser } from "../api/user";
 import { startChecking } from "../api/friends";
 import { randomNumber } from "../utils";
+import { notify } from "../plugin/notification";
 
 import Clear from "../components/Icons/Clear.vue";
 import SettingsIcon from "../components/Icons/Settings.vue";
 import BaseButtonIcon from "../components/Ui/BaseButtonIcon.vue";
-
 import User from "../components/User.vue";
 import AppSide from "../components/AppSide.vue";
 
@@ -29,6 +29,15 @@ const currentPage = ref(0);
 const currentCooldown = ref(settingsStore.friendAddDelay / 1000);
 
 const tasks = ref<Tasks>({});
+
+onMounted(() => {
+  if (settingsStore.countries.length === 0) {
+    notify("No countries found in settings", {
+      description: "It looks like you don't have any countries in your checklist for the program to start checking. You can go to settings and add some countries for the program to start.",
+      delay: 15_000
+    })
+  }
+})
 
 let cooldownId: NodeJS.Timeout;
 const updateLists: UpdateCallback = async (checkedUser, foundMutual) => {

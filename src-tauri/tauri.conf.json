@@ -78,8 +78,8 @@
     "windows": [
       {
         "title": "Mutual Finder",
-        "minWidth": 400,
-        "minHeight": 400,
+        "minWidth": 500,
+        "minHeight": 500,
         "visible": false,
         "decorations": false
       }

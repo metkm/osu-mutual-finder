@@ -5,7 +5,7 @@ const settingsStore = useSettingsStore();
 </script>
 
 <template>
-  <div class="flex gap-4">
+  <div class="flex gap-2">
     <BaseCheckbox :label="'Add Friend'" v-model="settingsStore.addFriend"
       :description="'When a mutual is found, keep it as friend or remove it.'" />
     <BaseCheckbox :label="'Add To Blacklist'" v-model="settingsStore.addBlacklist"

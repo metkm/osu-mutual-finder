@@ -8,7 +8,7 @@ import BaseSuspense from "../components/Ui/BaseSuspense.vue";
 import BaseButton from "../components/Ui/BaseButton.vue";
 import BaseInput from "../components/Ui/BaseInput.vue";
 import IconLogin from "../components/Icons/Login.vue";
-import LoginMutuals from "../components/login/LoginMutuals.vue";
+import LoginMutuals from "../components/Login/LoginMutuals.vue";
 
 const username = ref("");
 const password = ref("");

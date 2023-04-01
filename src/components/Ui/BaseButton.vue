@@ -10,14 +10,20 @@ defineProps<{
 <template>
   <button 
     class="
-      shrink-0 px-4 py-2 rounded border dark:border-neutral-800 bg-neutral-200
-      dark:bg-neutral-800 hover:bg-green-600 transition-colors hover:text-white
+      group text-sm
+      px-4 py-2 shrink-0
+      rounded-lg shadow-sm border dark:border-neutral-800
+      hover:text-white hover:bg-green-600 transition-colors
+      dark:bg-neutral-900
     "
     :disabled="disabled || isLoading"
   >
     <TransitionGroup name="icon" tag="div" class="grid grid-flow-col items-center gap-2">
       <Spinner v-if="isLoading" key="spinner-icon" />
-      <div v-else-if="$slots.icon" key="user-icon">
+      <div v-else-if="$slots.icon" 
+        key="user-icon" 
+        class="dark:fill-white group-hover:fill-white transition-colors"
+      >
         <slot name="icon"></slot>
       </div>
 

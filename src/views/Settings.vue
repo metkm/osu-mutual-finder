@@ -10,11 +10,11 @@ import SettingsDelay from "../components/Settings/SettingsDelay.vue";
 
 <template>
   <div class="h-full overflow-y-auto">
-    <div class="max-w-6xl mx-auto p-4 flex flex-col gap-4">
+    <div class="max-w-6xl mx-auto p-2 flex flex-col gap-2">
       <SettingsToggle />
       <SettingsBlacklist />
       <SettingsDelay />
-      <div class="flex gap-4 flex-wrap">
+      <div class="flex gap-2 flex-wrap">
         <SettingsPageLimit />
         <SettingsMode />
       </div>
