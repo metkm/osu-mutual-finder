@@ -12,7 +12,7 @@
       p-2
       dark:bg-neutral-900
       shadow-sm rounded-lg border dark:border-neutral-800
-      dark:fill-white hover:bg-green-600 hover:fill-white transition-colors
+      dark:fill-white hover:bg-green-600 hover:fill-white hover:text-white transition-colors
     "
   >
     <slot></slot>
