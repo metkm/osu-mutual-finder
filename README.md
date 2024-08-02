@@ -1,3 +1,8 @@
+# Important
+![image](https://github.com/user-attachments/assets/718d6142-d6c0-47fb-8049-390d4edb466f)
+This is the reason why the app is broken right now. So you can assume the app will be broken from now on.
+
+
 Be sure to add countries to check from settings. You can double click to country name to add it.
 
 It doesn't store your passwords in any way. If you are still can't trust it what you can do is since it's already open source you can read the code and build the app yourself.
